@@ -23,7 +23,7 @@ class Vendor(models.Model):
     facebook = models.URLField()
     instagram = models.URLField()
     youtube = models.URLField()
-
+    youtube2 = models.URLField()
 
     def __str__(self):
         return self.name
