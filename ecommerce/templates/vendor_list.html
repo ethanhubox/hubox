@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block meta_description %}{% endblock %}
+{% block author %}{% endblock %}
+
+{% block og_url %}{% endblock %}
+{% block og_title %}{% endblock %}
+{% block og_description %}{% endblock %}
+{% block og_image %}{% endblock %}
+
+{% block title %}{% endblock %}
+
+
+{% block cover_page %}
+
+<!-- page cover -->
+<div class="content-wrap">
+  <div class="allv-page-cover-div">
+      <div class="allv-page-cover-image-holder">
+          <img src="{% static 'img/vendor_cover.jpg' %}" />
+      </div>
+      <div class="allv-page-cover-caption">
+          <h1>Vendors</h1>
+      </div>
+  </div>
+
+<!-- page cover -->
+
+{% endblock %}
+
+{% block content %}
+
+
+
+<div class="allv-page-content-div">
+  <div class="allv-page-vendor-cards-container">
+    {% for vendor in vendors %}
+    <div class="allv-page-vendor-card">
+      <div class="allv-page-profile-row">
+        <a href="{{ vendor.get_absolute_url }}">
+          <div class="allv-page-vendor-card-image">
+            <img src="{{ vendor.logo.url }}" />
+          </div>
+        </a>
+        <a href="{{ vendor.get_absolute_url }}">
+            <div class="allv-page-vendor-card-title">
+                <h1>{{ vendor.name }}</h1>
+                <p>{{ vendor.catagory }}</p>
+                <div class="allv-page-vendor-card-social-holder">
+                    <a href="{{ vendor.facebook }}"><i class="fa fa-facebook-official" aria-hidden="true"></i></a>
+                    <a href="{{ vendor.instagram }}"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+                    <a href="{{ vendor.youtube }}"><i class="fa fa-youtube" aria-hidden="true"></i></a>
+                </div>
+            </div>
+        </a>
+      </div>
+      <div class="allv-page-statistic-holder">
+        <div class="allv-page-statistic-course">
+            <div class="allv-page-statistic-course-number">
+                {{ vendor.course_set.all|length }}
+            </div>
+            <div class="allv-page-statistic-course-label">
+                <span>學習體驗</span>
+            </div>
+        </div>
+        <div class="allv-page-statistic-follow">
+            <div class="allv-page-statistic-follow-number">
+                1,234
+            </div>
+            <div class="allv-page-statistic-follow-label">
+                <span>追蹤</span>
+            </div>
+        </div>
+        <div class="allv-page-statistic-comment">
+            <div class="allv-page-statistic-comment-number">
+                4
+            </div>
+            <div class="allv-page-statistic-comment-label">
+                <span>粉絲評鑑</span>
+            </div>
+        </div>
+    </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}

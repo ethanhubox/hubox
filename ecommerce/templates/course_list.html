@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block meta_description %}{% endblock %}
+{% block author %}{% endblock %}
+
+{% block og_url %}{% endblock %}
+{% block og_title %}{% endblock %}
+{% block og_description %}{% endblock %}
+{% block og_image %}{% endblock %}
+
+{% block title %}所有學習{% endblock %}
+
+
+{% block cover_page %}
+
+<!-- cover div -->
+<div class="allc-page-cover-div">
+  <div class="allc-page-cover-image-holder">
+    <img src="{% static "img/allc-cover.jpg" %}" />
+  </div>
+  <div class="allc-page-cover-caption">
+    <h1>Courses</h1>
+  </div>
+</div>
+<!-- cover div end -->
+
+
+{% endblock %}
+
+{% block content %}
+
+  <div class="allc-page-content-div">
+    <!-- catagory carousel -->
+    <div class="customNav"></div>
+    <div class="allc-page-tab-nav-container  owl-carousel">
+      {% for catagory in catagory %}
+      <a href="#{{ catagory.slug }}" aria-controls="home" role="tab" data-toggle="tab">
+        <div role="presentation" class="allc-page-tab-nav-item-holder">
+          <img src="{{ catagory.logo.url }}" /><span>{{ catagory.name }}</span>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+    <!-- catagory carousel end -->
+
+    <!-- course list -->
+    <div class="tab-content allc-page-tab-container">
+      {% for catagory in catagory %}
+        <div role="tabpanel" class="tab-pane fade active in" id="{{ catagory.slug }}">
+          <div class="allc-page-tabpanel-title-holder">
+            <div class="allc-page-tabpanel-title">
+              <h1>{{ catagory.name }}</h1>
+            </div>
+            <div class="course-container">
+              {% for course in catagory.course_set.all %}
+                <div class="allc-page-tab-row">
+                    <div class="allc-page-tab-image">
+                        <a href="{{ course.get_absolute_url }}"><img src="{{ course.coursemedia_set.all.0.file.url }}" /></a>
+                    </div>
+                    <div class="allc-page-tab-info">
+                        <a href="{{ course.get_absolute_url }}">
+                            <div class="allc-page-tab-info-title">
+                                {{ course.name }}
+                            </div>
+                        </a>
+                        <div class="allc-page-tab-info-vendor">
+                            <div class="allc-page-tab-info-vendor-logo">
+                                <a href="{{ course.vendor.get_absolute_url }}">
+                                    <img src="{{ course.vendor.logo.url }}" />
+                                </a>
+                            </div>
+                            <div class="allc-page-tab-info-vendor-name">
+                                <a href="{{ course.vendor.get_absolute_url }}">
+                                    <h2>{{ course.vendor.name }}</h2>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+    <!-- course list end -->
+  </div>
+
+
+{% endblock %}
+
+{% block js %}
+<script>
+    $('.owl-carousel').owlCarousel({
+        center: false,
+        items: 3.5,
+        loop: true,
+        margin: 0,
+        nav: true,
+        navContainer: '.customNav',
+        dots: false,
+        responsive: {
+            600: {
+                items: 5
+            },
+            900: {
+                items: 6,
+            }
+
+        }
+    });
+</script>
+
+{% endblock %}

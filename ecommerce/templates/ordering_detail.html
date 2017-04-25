@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block meta_description %}{% endblock %}
+{% block author %}{% endblock %}
+
+{% block og_url %}{% endblock %}
+{% block og_title %}{% endblock %}
+{% block og_description %}{% endblock %}
+{% block og_image %}{% endblock %}
+
+{% block title %}{% endblock %}
+
+
+{% block cover_page %}
+
+<!-- cover div -->
+<div class="allv-page-cover-div">
+    <div class="allv-page-cover-image-holder">
+        <img src="{% static 'img/vendor_cover.jpg' %}" />
+    </div>
+    <div class="allv-page-cover-caption">
+        <h1>Ordering</h1>
+    </div>
+</div>
+<!-- cover div end -->
+
+{% endblock %}
+
+{% block content %}
+
+
+
+<p>user:{{ ordering.user }}</p>
+<p>vendor:{{ ordering.vendor }}</p>
+<p>course:{{ ordering.course }}</p>
+<p>material:{{ ordering.material }}</p>
+<p>available_time:{{ ordering.available_time }}</p>
+<p>participants_number:{{ ordering.participants_number }}</p>
+<p>total_amount:{{ ordering.total_amount }}</p>
+
+{% endblock %}

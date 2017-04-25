@@ -1,0 +1,452 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block meta_description %}{% endblock %}
+{% block author %}{% endblock %}
+
+{% block og_url %}{% endblock %}
+{% block og_title %}{% endblock %}
+{% block og_description %}{% endblock %}
+{% block og_image %}{% endblock %}
+
+{% block title %}{% endblock %}
+
+{% block css %}
+<!-- date picker css -->
+<link href="{% static "css/bootstrap-datepicker.min.css" %}" rel="stylesheet">
+
+<!-- form css -->
+<link rel="stylesheet" href="{% static "css/bootstrap-select.css" %}">
+{% endblock %}
+
+{% block cover_page %}
+
+{% endblock %}
+
+{% block content %}
+
+  <!-- cover div -->
+  <div class="course-page-cover-div">
+    <ul id="lightSliderThumbnailCover">
+      {% for course_media in course.coursemedia_set.all  %}
+        <li data-thumb="{{ course_media.file.url }}">
+            <img src="{{ course_media.file.url }}" />
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+  <!-- cover div end -->
+
+  <div class="blank-div"></div>
+  <div class="course-page-content-div">
+    <div class="course-page-content-container">
+      <div class="course-page-statistic-container-r">
+        <div class="course-page-statistic-title-r">
+          <h1>{{ course.name }}</h1>
+        </div>
+        <div class="stars">
+            <form action="">
+                <input class="star star-5" id="star-5" type="radio" name="star" />
+                <label class="star star-5" for="star-5"></label>
+                <input class="star star-4" id="star-4" type="radio" name="star" />
+                <label class="star star-4" for="star-4"></label>
+                <input class="star star-3" id="star-3" type="radio" name="star" />
+                <label class="star star-3" for="star-3"></label>
+                <input class="star star-2" id="star-2" type="radio" name="star" />
+                <label class="star star-2" for="star-2"></label>
+                <input class="star star-1" id="star-1" type="radio" name="star" />
+                <label class="star star-1" for="star-1"></label>
+            </form>
+        </div>
+        <div class="course-page-statistic-vendor-holder-r">
+            <div class="course-page-statistic-vendor-name">
+                <h2><i class="fa fa-book" aria-hidden="true"></i>{{ course.catagory.name }}</h2>
+                <a href="{{ course.vendor.get_absolute_url }}"><h1>學習商：Where's Flower**</h1></a>
+            </div>
+            <a href="{{ course.vendor.get_absolute_url }}">
+                <div class="course-page-statistic-vendor-image">
+                    <img src="{{ course.vendor.logo.url }}" />
+                </div>
+            </a>
+        </div>
+        <div class="course-page-statistic-pt-holder-r">
+            <div class="course-page-statistic-price-r">
+                <div class="course-page-statistic-price-icon-r">
+                    <i class="fa fa-credit-card fa-4x" aria-hidden="true"></i>
+                </div>
+                <div class="course-page-statistic-price-label-r">
+                    <span>NTD {{ course.price }}</span>
+                </div>
+            </div>
+            <div class="course-page-statistic-time-r">
+                <div class="course-page-statistic-time-icon-r">
+                    <i class="fa fa-clock-o fa-4x" aria-hidden="true"></i>
+                </div>
+                <div class="course-page-statistic-time-label-r">
+                    <span>{{ course.course_durations }}小時</span>
+                </div>
+            </div>
+            <a href="#" data-toggle="modal" data-target="#ModalMap">
+                <div class="course-page-statistic-place-r">
+                    <div class="course-page-statistic-place-icon-r">
+                        <i class="fa fa-map-marker fa-4x" aria-hidden="true"></i>
+                    </div>
+                    <div class="course-page-statistic-place-label-r">
+                        <span>查看地圖</span>
+                    </div>
+                </div>
+            </a>
+            <a href="#">
+                <div class="course-page-statistic-share-r">
+                    <div class="course-page-statistic-share-icon-r">
+                        <i class="fa fa-facebook-official fa-4x" aria-hidden="true"></i>
+                    </div>
+                    <div class="course-page-statistic-share-label-r">
+                        <span>分享學習</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="course-page-statistic-date-r" role="button" data-toggle="collapse" href="#collapse" aria-expanded="false" aria-controls="collapseExample">
+            <div class="course-page-statistic-date-icon-r">
+                <i class="fa fa-calendar fa-fw" aria-hidden="true"></i>
+            </div>
+            <div class="course-page-statistic-date-label-r">
+                <p>查看學習日期</p>
+            </div>
+        </div>
+        <div class="collapse" id="collapse">
+            <div class="course-page-statistic-date-dropdown-container">
+              {% for available_time in course.availabletime_set.all %}
+              <div class="course-page-statistic-date-dropdown-item"><span class="glyphicon glyphicon-bookmark"></span>{{ available_time.date|date:"m月j日（D）" }} {{ available_time.start_time|date:"H:i" }}~{{ available_time.end_time|date:"H:i" }}<span class="date-dropdown-remain">剩餘{{ available_time.quota }}人</span></div>
+              {% endfor %}
+              <div class="course-page-statistic-date-dropdown-item">
+                <a class="date-dropdown-item-readmore" href="#" type="button" data-toggle="modal" data-target="#ModalBuy">查看更多日期<i class="fa fa-chevron-circle-down" aria-hidden="true"></i></a>
+              </div>
+            </div>
+        </div>
+        <div class="course-page-buy-container-r">
+            <a href="#" type="button" data-toggle="modal" data-target="#ModalBuy">
+                <div class="course-page-buy-btn-r">
+                    <h3>馬上購買</h3>
+                </div>
+            </a>
+        </div>
+      </div>
+      <div class="course-page-tab-container">
+        <!-- Tab nav starts here-->
+        <div class="course-page-tab-nav-container">
+            <ul class="nav nav-tabs" id="myTabs" role="tablist">
+                <li role="presentation" class="active">
+                    <a href="#intro" aria-controls="intro" role="tab" data-toggle="tab">學習介紹</a>
+                </li>
+                <li role="presentation">
+                    <a href="#info" aria-controls="others" role="tab" data-toggle="tab">學習包含</a>
+                </li>
+                <li role="presentation">
+                    <a href="#others" aria-controls="others" role="tab" data-toggle="tab">其他學習</a>
+                </li>
+                <li role="presentation">
+                    <a href="#comments" aria-controls="comments" role="tab" data-toggle="tab">評論</a>
+                </li>
+            </ul>
+        </div>
+        <!-- Tab nav ends here-->
+        <!-- Tab panes starts here-->
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="intro">
+                <div class="course-page-intro-container">
+                    <h2>{{ course.vendor }}</h2>
+                    <p>{{ course.introduce|linebreaks }}</p>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="info">
+                <div class="course-page-info-container">
+                    <h2>本學習包含</h2>
+                    <p>{{ course.content|linebreaks }}</p>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="others">
+                <div class="course-page-course-tab-container-r">
+                  <!-- Vendor-page-r course starts here-->
+                  {% for other_course in course.vendor.course_set.all %}
+                    {% if other_course.name != course.name %}
+                    <div class="allc-page-tab-row">
+                        <div class="allc-page-tab-image">
+                            <a href="{{ other_course.get_absolute_url }}"><img src="{{ other_course.coursemedia_set.all.0.file.url }}" /></a>
+                        </div>
+                        <div class="allc-page-tab-info">
+                            <a href="{{ other_course.get_absolute_url }}">
+                                <div class="allc-page-tab-info-title">
+                                  {{ other_course.name }}
+                                </div>
+                            </a>
+                            <div class="allc-page-tab-info-vendor">
+                                <div class="allc-page-tab-info-vendor-logo">
+                                    <a href="{{ other_course.vendor.get_absolute_url }}">
+                                        <img src="{{ other_course.vendor.logo.url }}" />
+                                    </a>
+                                </div>
+                                <div class="allc-page-tab-info-vendor-name">
+                                    <a href="{{ other_course.vendor.get_absolute_url }}">
+                                        <h2>{{ other_course.vendor.name }}</h2>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="allc-page-tab-price">
+                            NTD {{ other_course.price }}
+                        </div>
+                    </div>
+                    <!-- Vendor-page-r course ends here-->
+                    {% endif %}
+                    {% endfor %}
+
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="comments">
+                <div class="course-page-comment-tab-container">
+                    <div class="comment-row">
+                        <div class="comment-profile-image">
+                            <img src="{% static "img/icon1.jpg" %}" />
+                        </div>
+                        <div class="comment-bubble">
+                            <div class="comment-bubble-name-date">
+                                <div class="comment-bubble-name">Simba</div>
+                                <div class="comment-bubble-date"><span>Feb 8 2017</span><span>,3:40PM</span></div>
+                            </div>
+                            <div class="comment-bubble-content">課程很棒喔，加油！！希望能再多出一點種類的課程等等等等.... 課程很棒喔，加油！！希望能再多出一點種類的課程等等等等....課程很棒喔，加油！！希望能再多出一點種類的課程等等等等.... 課程很棒喔，加油！！希望能再多出一點種類的課程等等等等....課程很棒喔，加油！！希望能再多出一點種類的課程等等等等.... 課程很棒喔，加油！！
+                            </div>
+                            <div class="comment-stars">
+                                <form action="">
+                                    <input class="comment-star comment-star-5" id="comment-star-5" type="radio" name="comment-star" />
+                                    <label class="comment-star comment-star-5" for="comment-star-5"></label>
+                                    <input class="comment-star comment-star-4" id="comment-star-4" type="radio" name="comment-star" />
+                                    <label class="comment-star comment-star-4" for="comment-star-4"></label>
+                                    <input class="comment-star comment-star-3" id="comment-star-3" type="radio" name="comment-star" />
+                                    <label class="comment-star comment-star-3" for="comment-star-3"></label>
+                                    <input class="comment-star comment-star-2" id="comment-star-2" type="radio" name="comment-star" />
+                                    <label class="comment-star comment-star-2" for="comment-star-2"></label>
+                                    <input class="comment-star comment-star-1" id="comment-star-1" type="radio" name="comment-star" />
+                                    <label class="comment-star comment-star-1" for="comment-star-1"></label>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Tab panes ends here-->
+        </div>
+      </div>
+    </div>
+    <div class=" course-page-related-div">
+        <div class="course-page-related-title">
+            <h1>為您推薦</h1>
+        </div>
+        <div class="course-page-related-container">
+            <div id="lightSliderRelated">
+              {% for recommendation in course.catagory.course_set.all %}
+              {% if not recommendation.name == course.name %}
+                <div class="course-tab-row">
+                    <div class="course-tab-image">
+                        <a href="{{ recommendation.get_absolute_url }}"><img src="{{ recommendation.coursemedia_set.all.0.file.url }}" /></a>
+                    </div>
+                    <div class="course-tab-info">
+                        <a href="#">
+                            <div class="course-tab-info-title">
+                                {{ recommendation.name }}
+                            </div>
+                        </a>
+                        <div class="course-tab-info-vendor">
+                            <div class="course-tab-info-vendor-logo">
+                                <a href="{{ recommendation.vendor.get_absolute_url }}">
+                                    <img src="{{ recommendation.vendor.logo.url }}" />
+                                </a>
+                            </div>
+                            <div class="course-tab-info-vendor-name">
+                                <a href="{{ recommendation.vendor.get_absolute_url }}">
+                                    <h2>{{ recommendation.vendor.name }}</h2>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="course-tab-price">
+                        NTD {{ recommendation.price }}
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+
+            </div>
+        </div>
+
+
+    </div>
+
+  </div>
+
+{% endblock %}
+
+{% block modal %}
+<div class="modal fade" id="ModalBuy" tabindex="-1" role="dialog" aria-labelledby="ModalBuy" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-header-logo"><img src="{% static "img/logo.png" %}"></div>
+                <div class="modal-title modal-header-price" id="Modal">
+                    <h2><span>最低價：TWD</span> {{ course.price }}</h2></div>
+            </div>
+            <div class="modal-body">
+                <div class="course-page-date-collapse-container">
+                    <div class="datePicker"><input class="date-input" type="hidden" value=""></div>
+                    <form class="ordering-form" action="" method="post">
+
+                      {% csrf_token %}
+                      {{ form.non_field_errors }}
+                      {% for field in form %}
+                      {{ field.errors }}
+                      {{ field }}
+                      {% endfor %}
+
+
+                </div>
+            </div>
+            <div class="modal-total-price">
+                <h2>總金額：<span>TWD</span> {{ course.price }}**</h2>
+            </div>
+            <div class="modal-footer">
+                <input type="submit" value="結帳去" class="btn btn-primary btn-lg">
+            </div>
+                    </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ModalMap" tabindex="-1" role="dialog" aria-labelledby="ModalMap" aria-hidden="true">
+    <div class="modal-dialog google-map-container" role="document">
+        <img src="https://maps.googleapis.com/maps/api/staticmap?center=25.0526640,121.5240700&zoom=18&size=640x640&scale=2&maptype=roadmap
+      &markers=color:red%7Clabel:S%7C25.0526640,121.5240700&key=AIzaSyCVgLbHgkazd9-30vxLlAZhF2TC2LTnors" />
+        <div class="transport-info-container">
+            <div class="address">台北市中正區忠孝東路一段152號12樓之5</div>
+            <div class="other-transport-info-holder">
+                <div class="other-transport-info-mrt">
+                    <i class="fa fa-subway" aria-hidden="true">捷運東門站：8號出口</i>
+                </div>
+                <div class="other-transport-info-bus">
+                    <i class="fa fa-bus" aria-hidden="true">306號公車：台北小巨蛋站</i>
+                </div>
+                <div></div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+
+{% block js %}
+
+<!-- form js -->
+<script src="{% static "js/bootstrap-select.js" %}"></script>
+
+<!-- date picker -->
+<script src="{% static "js/bootstrap-datepicker.min.js" %}"></script>
+<script src="{% static "js/bootstrap-datepicker.zh-TW.min.js" %}"></script>
+
+<script type="text/javascript">
+      $('#lightSliderThumbnailCover').lightSlider({
+          gallery: true,
+          item: 1,
+          loop: true,
+          speed: 400,
+          freeMove: false,
+          slideMargin: 0,
+          galleryMargin: 2,
+          thumbItem: 6,
+          thumbMargin: 2,
+          responsive: [{
+              breakpoint: 800,
+              settings: {
+                  thumbItem: 4,
+                  slideMove: 1,
+              }
+          }],
+      });
+      $('#lightSliderRelated').lightSlider({
+          gallery: false,
+          item: 4,
+          loop: true,
+          pager: false,
+          speed: 400,
+          freeMove: false,
+          pause: 3000,
+          slideMargin: 10,
+          responsive: [{
+              breakpoint: 1100,
+              settings: {
+                  item: 3.5,
+                  slideMove: 1,
+              }
+          }, {
+              breakpoint: 900,
+              settings: {
+                  item: 2.5,
+                  slideMove: 1,
+              }
+          }, {
+              breakpoint: 800,
+              settings: {
+                  item: 2.2,
+                  slideMove: 1,
+              }
+          }, {
+              breakpoint: 450,
+              settings: {
+                  item: 1.5,
+                  slideMove: 1
+              }
+          }],
+      });
+  </script>
+
+  <script type="text/javascript">
+  var availableTime = []
+  {% for available_time in course.availabletime_set.all %}
+  availableTime.push("{{ available_time.date|date:"Y/n/j" }}")
+  {% endfor %}
+
+
+  $('.datePicker').datepicker({
+    language: "zh-TW",
+
+    format: "mm月dd日",
+
+    beforeShowDay: function (date) {
+      var date = date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate()
+      if (availableTime.includes(date)) {
+        return {enabled: true}
+      } else {
+        return {enabled: false}
+      }
+
+
+
+    }
+  });
+
+
+  $('.date-input').change(function(){
+    var filter = $(this).val();
+    $('li').each(function(){
+      if ($(this).val().startsWith(filter)) {
+        $(this).show();
+      } else {
+        $(this).hide();
+      }
+    })
+  })
+
+
+  </script>
+
+  {% endblock %}

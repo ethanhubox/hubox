@@ -1,0 +1,239 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block meta_description %}{% endblock %}
+{% block author %}{% endblock %}
+
+{% block og_url %}{% endblock %}
+{% block og_title %}{% endblock %}
+{% block og_description %}{% endblock %}
+{% block og_image %}{% endblock %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+<body data-hijacking="off" data-animation="fixed">
+  {% block nav_bar %}
+  <!-- Navigation starts here-->
+  <nav class="m-nav-container">
+      <div class="nav-toggle-container" id="open-button" type="button">
+          <i class="fa fa-bars"></i>
+          </span>
+      </div>
+
+      <div class="nav-logo">
+          <a href="{% url "vendor_list" %}"><img src="{% static "img/logo.png" %}" /></a>
+      </div>
+      <div class="top-menu">
+        {% if user.is_authenticated %}
+        <a href="{% url "course_list" %}"><i class="fa fa-fw fa-star-o"></i><span>所有學習</span></a>
+        <a href="{% url "vendor_list" %}"><i class="fa fa-fw fa-bell-o"></i><span>學習工作坊一覽</span></a>
+        <a href="{% url "account_logout" %}"><i class="fa fa-fw fa-sign-in" aria-hidden="true"></i><span>登出</span></a>
+        <a href="#">
+            <div class="nav-member-profile-holder">
+                <div class="nav-member-profile-image"><img src="{% static "img/profile.jpg" %}" /></div>
+            </div>
+        </a>
+        {% else %}
+        <a href="{% url "course_list" %}"><i class="fa fa-fw fa-star-o"></i><span>所有學習</span></a>
+        <a href="{% url "vendor_list" %}"><i class="fa fa-fw fa-bell-o"></i><span>學習工作坊一覽</span></a>
+        <a href="{% url "account_signup" %}"><i class="fa fa-fw fa-user-circle-o" aria-hidden="true"></i><span>註冊</span></a>
+        <a href="{% url "account_login" %}"><i class="fa fa-fw fa-sign-in" aria-hidden="true"></i><span>登入</span></a>
+        {% endif %}
+
+      </div>
+  </nav>
+  <div class="menu-wrap">
+      <nav class="menu">
+          <div class="icon-list">
+              <a href="http://www.hubox.life/demo/index.html">
+                  <div class="side-nav-logo"><img src="{% static "img/logo.png" %}" /></div>
+              </a>
+              {% if user.is_authenticated %}
+              <a href="#">
+                  <div class="nav-member-profile-holder">
+                      <div class="nav-member-profile-image"><img src="{% static "img/profile.jpg" %}" /></div>
+                      <div class="nav-member-profile-caption">Ethan,歡迎回來</div>
+                  </div>
+              </a>
+              {% endif %}
+              <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                  <i class="fa fa-fw fa-star-o"></i><span>所有學習</span>
+              </a>
+              <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                  <a href="http://www.hubox.life/demo/allc.html">
+                      <div class="nav-dropdown-icon-holder"><img src="{% static "img/icon2.jpg" %}" /></div><span>手作學習</span></a>
+                  <a href="http://www.hubox.life/demo/allc.html">
+                      <div class="nav-dropdown-icon-holder"><img src="{% static "img/icon2.jpg" %}" /></div><span>花藝學習</span></a>
+                  <a href="http://www.hubox.life/demo/allc.html">
+                      <div class="nav-dropdown-icon-holder"><img src="{% static "img/icon2.jpg" %}" /></div><span>烘焙學習</span></a>
+                  <a href="http://www.hubox.life/demo/allc.html">
+                      <div class="nav-dropdown-icon-holder"><img src="{% static "img/icon2.jpg" %}" /></div><span>職人學習</span></a>
+              </div>
+              <a href="{% url "vendor_list" %}"><i class="fa fa-fw fa-bell-o"></i><span>學習工作坊一覽</span></a>
+              {% if user.is_authenticated %}
+              <a href="{% url "account_logout" %}"><i class="fa fa-fw fa-sign-in" aria-hidden="true"></i><span>登出</span></a>
+              {% else %}
+              <a href="#"><i class="fa fa-fw fa-user-circle-o" aria-hidden="true"></i><span>註冊</span></a>
+              <a href="#"><i class="fa fa-fw fa-sign-in" aria-hidden="true"></i><span>登入</span></a>
+              {% endif %}
+          </div>
+      </nav>
+      <button class="close-button" id="close-button"></button>
+  </div>
+  <!-- navigation ends here -->
+  {% endblock %}
+    <!-- body starts here -->
+    <div class="content-wrap">
+        <section class="join-cover-section parallax-window" data-parallax="scroll" data-image-src="{% static 'img/join-us.jpg' %}">
+            <div class="join-cover-caption-holder">
+                <div class="join-cover-caption-top">
+                    <h1>JOIN</h1>
+                </div>
+                <div class="join-cover-caption-bottom">
+                    <img src="{% static 'img/logo-big.png' %}" />
+                </div>
+                <div class="join-cover-caption-btn-holder">
+                    <a href="#" type="button" class="btn btn-warning btn-block">馬上成為合作夥伴</a>
+                </div>
+            </div>
+        </section>
+        <section class="about-content-section">
+            <div class="about-section-container">
+                <div class="video-section-title-holder">
+                    <h1>Work with us</h1>
+                    <p>Hubox相信除非大家都贏，不然沒有人贏</p>
+                    <span>"No one wins until everyone wins"</span>
+                </div>
+                <div class="about-section-content-row">
+                    <div class="join-section-content-card-1 fadeInBlock">
+                        <div class="join-section-content-info-holder">
+                            <div class="join-section-content-info-title">
+                                <h1>無需自行上架</h1></div>
+                            <div class="about-section-content-info-content">學習不再只是書本上的枯燥乏味，走過路過，所有你曾經感興趣的都可以是一種學習。</div>
+                        </div>
+                    </div>
+                    <div class="join-section-content-card-2 fadeInBlock">
+                        <div class="join-section-content-info-holder">
+                            <div class="join-section-content-info-title">
+                                <h1>數位整合行銷</h1></div>
+                            <div class="about-section-content-info-content">不再因為無聊而煩惱，想不到行程而爭吵;透過Hubox你可以增進朋友間的情誼、培養個人興趣甚至發現第二專長。</div>
+                        </div>
+                    </div>
+                    <div class="join-section-content-card-3 fadeInBlock">
+                        <div class="join-section-content-info-holder">
+                            <div class="join-section-content-info-title">
+                                <h1>專屬客服</h1></div>
+                            <div class="about-section-content-info-content">無論身在何處，無論位於何時，加入Hubox讓生活更精彩吧!</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="about-content-section">
+            <div class="about-section-container">
+                <div class="video-section-title-holder">
+                    <h1>Play with us</h1>
+                    <p>Hubox不只是平台，更是您的專屬品牌顧問</p>
+                    <span>"Brand is the only way out"</span>
+                </div>
+                <div class="about-section-content-row">
+                    <div class="join-section-content-card-4 fadeInBlock">
+                        <div class="join-section-content-info-holder">
+                            <div class="join-section-content-info-title">
+                                <h1>點擊加入</h1></div>
+                            <div class="about-section-content-info-content">馬上點擊成為合作夥伴鈕</div>
+                        </div>
+                    </div>
+                    <div class="join-section-content-card-5 fadeInBlock">
+                        <div class="join-section-content-info-holder">
+                            <div class="join-section-content-info-title">
+                                <h1>填寫申請表</h1></div>
+                            <div class="about-section-content-info-content">請詳細填寫表單內容，並留下您的聯絡方式</div>
+                        </div>
+                    </div>
+                    <div class="join-section-content-card-6 fadeInBlock">
+                        <div class="join-section-content-info-holder">
+                            <div class="join-section-content-info-title">
+                                <h1>專員與您聯繫</h1></div>
+                            <div class="about-section-content-info-content">在收到您的申請後，Hubox專員會儘速與您聯繫</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="join-bottom-section parallax-window" data-parallax="scroll" data-image-src="{% static 'img/join-us-2.jpg' %}">
+            <div class="join-bottom-section-caption-holder">
+                <div class="join-bottom-section-caption">
+                    Hubox很期待每一次的合作與溝通，無論您的專業是什麼，我們都希望能與您一起提供更多優質且多元的學習體驗
+                </div>
+                <div class="join-bottom-section-btn-holder">
+                    <a href="#" type="button" class="btn btn-warning btn-lg">成為合作夥伴</a>
+                </div>
+                <div class="join-bottom-section-btn-holder">
+                    <a href="#" type="button" class="btn btn-info btn-lg">下載企劃書</a>
+                </div>
+            </div>
+        </section>
+      </div>
+
+{% endblock %}
+
+{% block js %}
+
+
+<script src="{% static "js/parallax.min.js" %}"></script>
+
+<script>
+    $(function() {
+        $(window).scroll(function() {
+
+
+            $('.fadeInBlock').each(function(i) {
+
+                var bottom_of_object = $(this).position().top + $(this).outerHeight();
+                var bottom_of_window = $(window).scrollTop() + $(window).height();
+
+                /* Adjust the "200" to either have a delay or that the content starts fading a bit before you reach it  */
+                bottom_of_window = bottom_of_window + 200;
+
+                if (bottom_of_window > bottom_of_object) {
+
+                    $(this).animate({
+                        'opacity': '1'
+                    }, 500);
+
+                }
+            });
+
+        });
+    });
+</script>
+
+<script>
+    $('.parallax-window').parallax({
+        naturalWidth: 1280,
+        naturalHeight: 720,
+        bleed: 100
+    });
+</script>
+
+<script>
+    function init() {
+        window.addEventListener('scroll', function(e) {
+            var distanceY = window.pageYOffset || document.documentElement.scrollTop,
+                shrinkOn = 300,
+                header = document.querySelector(".m-nav-container");
+            if (distanceY > shrinkOn) {
+                classie.add(header, "m-nav-container-onscroll");
+            } else {
+                if (classie.has(header, "m-nav-container-onscroll")) {
+                    classie.remove(header, "m-nav-container-onscroll");
+                }
+            }
+        });
+    }
+    window.onload = init();
+</script>
+{% endblock %}

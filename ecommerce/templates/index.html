@@ -1,0 +1,652 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block meta_description %}{% endblock %}
+{% block author %}{% endblock %}
+
+{% block og_url %}{% endblock %}
+{% block og_title %}{% endblock %}
+{% block og_description %}{% endblock %}
+{% block og_image %}{% endblock %}
+
+{% block title %}{% endblock %}
+
+{% block css %}
+
+    <!-- icon -->
+    <link rel="icon" href="img/H.png" type="image/x-icon" />
+
+    <!-- Customized CSS -->
+    <link href="css/style-m.css" rel="stylesheet">
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/animate.min.css" rel="stylesheet">
+
+    <!-- resposive css -->
+    <link href="css/responsive-m.css" rel="stylesheet">
+
+    <!-- font awesome css -->
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">
+
+    <!-- side-toggle-nav css -->
+    <link rel="stylesheet" type="text/css" href="css/demo.css" />
+    <link rel="stylesheet" type="text/css" href="css/sideslide.css" />
+
+    <!-- touch-carousel css -->
+    <link rel="stylesheet" href="css/owl.carousel.min.css">
+    <link rel="stylesheet" href="css/owl.theme.default.min.css">
+
+    <link rel="stylesheet" href="css/lightslider.css">
+
+    <!-- form css -->
+    <link rel="stylesheet" href="css/bootstrap-select.css">
+
+    <!-- about-video-player css -->
+    <link href="css/mediaelementplayer.css" rel="stylesheet">
+
+    <!-- vendor-video-player css -->
+    <link rel="stylesheet" href="css/plyr.css">
+
+    <!-- google font css -->
+    <link href="https://fonts.googleapis.com/css?family=Lora:400,400italic,700%7CMontserrat:400,700" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Kaushan+Script" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Alfa+Slab+One" rel="stylesheet">
+
+    <!-- jQuery -->
+    <script src="js/jquery-2.1.4.min.js"></script>
+
+    <!-- owl-carousel  js -->
+    <script src="js/owl.carousel.min.js"></script>
+{% endblock %}
+
+{% block cover_page %}{% endblock %}
+
+{% block content %}
+  <!-- slider-div starts here-->
+  <div class="slider-div">
+      <div id="lightSliderSingleCover">
+          <div class="slider-div-img-holder-1">
+            <a href="https://www.hubox.life">
+              <div class="slider-caption-holder">
+                  <div class="slider-caption-title-holder">
+                      <div class="slider-caption-title-1">Learn</div>
+                  </div>
+                  <div class="slider-caption-text-holder">
+                      <div class="slider-caption-text-line-1">學習</div>
+                      <div class="slider-caption-text-line-2">就是這麼有趣</div>
+                  </div>
+              </div>
+            </a>
+          </div>
+          <div class="slider-div-img-holder-2">
+              <div class="slider-caption-holder">
+                  <div class="slider-caption-title-holder">
+                      <div class="slider-caption-title-2">Taste</div>
+                  </div>
+                  <div class="slider-caption-text-holder">
+                      <div class="slider-caption-text-line-1">品味</div>
+                      <div class="slider-caption-text-line-2">屬於自己的調調</div>
+                  </div>
+              </div>
+          </div>
+          <div class="slider-div-img-holder-3">
+              <div class="slider-caption-holder">
+                  <div class="slider-caption-title-holder">
+                      <div class="slider-caption-title-3">Life</div>
+                  </div>
+                  <div class="slider-caption-text-holder">
+                      <div class="slider-caption-text-line-1">生活</div>
+                      <div class="slider-caption-text-line-2">可以這麼好玩</div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <!-- slider-div ends here -->
+  <section class="blank-section"></section>
+  <!-- focus-course-div starts here -->
+    <div class="focus-course-div">
+        <div class="focus-course-container">
+            <div class="focus-course-image-holder">
+                <img src="{{ index.photo.url }}" />
+            </div>
+            <div class="focus-course-info-holder">
+                <div class="focus-course-info-title">
+                    <h1>{{ index.title }}</h1>
+                </div>
+                <div class="focs-course-info-content">
+                    {{ index.content }}
+                </div>
+                <div class="focus-course-info-btn">
+                    <button type="button" class="btn btn-info">馬上了解</button>
+                </div>
+            </div>
+        </div>
+    </div>
+  <!-- focus-course-div ends here -->
+
+  <section class="blank-section"></section>
+  <!-- course-div starts here -->
+  {% for catagory in catagory %}
+  <div class="course-div">
+    <div class="course-header">
+        <div class="course-header-logo"><img src="{% static 'img/logo.png' %}" /></div>
+        <h2>{{ catagory.name }}</h2>
+        <div class="course-header-btn-holder">
+            <a href="#" type="button" class="btn btn-info">了解更多</a>
+        </div>
+    </div>
+    <div class="course-container">
+      <div id="lightSliderCourse1">
+        {% for course in catagory.course_set.all %}
+        <div class="course-tab-row">
+            <div class="course-tab-image">
+                <a href="http://www.hubox.life/demo/course.html"><img src="{{ course.coursemedia_set.all.0.file.url }}" /></a>
+            </div>
+            <div class="course-tab-info">
+                <a href="#">
+                    <div class="course-tab-info-title">
+                        {{ course.name }}
+                    </div>
+                </a>
+                <div class="course-tab-info-vendor">
+                    <div class="course-tab-info-vendor-logo">
+                        <a href="http://www.hubox.life/demo/vendor.html">
+                            <img src="{{ course.vendor.logo.url }}" />
+                        </a>
+                    </div>
+                    <div class="course-tab-info-vendor-name">
+                        <a href="{{ course.vendor.get_absolute_url }}">
+                            <h2>{{ course.vendor.name }}</h2>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="course-tab-price">
+                NTD {{ course.price }}
+            </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  <!-- course-div ends here -->
+  <div class="vendor-div">
+    <div class="vendor-header">
+        <h2>工作坊推薦</h2>
+        <div class="vendor-header-btn-holder">
+            <a href="#" type="button" class="btn btn-info">了解更多</a>
+        </div>
+    </div>
+
+    <div class="vendor-container">
+        <div id="lightSliderVendor">
+          <!-- Vendor card No.1 starts here-->
+          {% for vendor in vendor %}
+          <div class="allv-page-vendor-card">
+              <div class="allv-page-profile-row">
+                  <a href="http://www.hubox.life/demo/vendor.html">
+                      <div class="allv-page-vendor-card-image">
+                          <img src="{{ vendor.logo.url }}" />
+                      </div>
+                  </a>
+                  <a href="http://www.hubox.life/demo/vendor.html">
+                      <div class="allv-page-vendor-card-title">
+                          <h1>{{ vendor.name }}</h1>
+                          <p>{{ vendor.catagory }}</p>
+                          <div class="allv-page-vendor-card-social-holder">
+                              <a href="{{ vendor.facebook }}"><i class="fa fa-facebook-official" aria-hidden="true"></i></a>
+                              <a href="{{ vendor.instagram }}"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+                              <a href="{{ vendor.youtube }}"><i class="fa fa-youtube" aria-hidden="true"></i></a>
+                          </div>
+                      </div>
+                  </a>
+              </div>
+              <div class="allv-page-statistic-holder">
+                  <div class="allv-page-statistic-course">
+                      <div class="allv-page-statistic-course-number">
+                          {{ vendor.course_set.all|length }}
+                      </div>
+                      <div class="allv-page-statistic-course-label">
+                          <span>學習體驗</span>
+                      </div>
+                  </div>
+                  <div class="allv-page-statistic-follow">
+                      <div class="allv-page-statistic-follow-number">
+                          1,234
+                      </div>
+                      <div class="allv-page-statistic-follow-label">
+                          <span>追蹤</span>
+                      </div>
+                  </div>
+                  <div class="allv-page-statistic-comment">
+                      <div class="allv-page-statistic-comment-number">
+                          4
+                      </div>
+                      <div class="allv-page-statistic-comment-label">
+                          <span>粉絲評鑑</span>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          {% endfor %}
+
+        </div>
+    </div>
+
+  </div>
+  <!-- Corporate-srction starts here -->
+  <div class="corporate-div">
+      <div class="corporate-container">
+          <div class="corporate-info-holder">
+              <div class="corporate-info-title">
+                  <h1>揪團來學</h1>
+              </div>
+              <div class="corporate-info-content">
+                  親朋好友一起來，揪團加入Hubox;請點擊下方聯絡我們按鈕並留下表單，Hubox的專員會馬上與您聯絡，為您及您的單量身規劃最適合你們的學習體驗。
+              </div>
+              <div class="corporate-info-btn">
+                  <a href="#" type="button" class="btn btn-info" data-toggle="modal" data-target="#Modal">聯絡我們</a>
+              </div>
+          </div>
+      </div>
+  </div>
+  <!-- Corporate-srction ends here -->
+
+</div>
+
+
+
+{% for catagory in catagory %}
+  <p>{{ catagory.name }}</p>
+  {% for course in catagory.course_set.all %}
+    {{ course }}／
+  {% endfor %}
+{% endfor %}
+
+<p>
+{% for vendor in vendor %}
+  {{ vendor }}/
+{% endfor %}
+
+
+<p>{{ index }}</p>
+
+
+{% endblock %}
+
+{% block modal %}
+<div class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="Modal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-header-logo"><img src="img/logo.png"></div>
+            </div>
+            <div class="modal-body">
+                <div class="corporate-form-container">
+                    <form>
+                        <div class="form-group">
+                            <label for="name">聯絡人姓名</label>
+                            <input type="text" class="form-control" placeholder="請輸入您的姓名" id="name" required>
+                            <p class="help-block text-danger"></p>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">電子郵件</label>
+                            <input type="email" class="form-control" placeholder="請輸入您的電子郵件" id="email" required>
+                            <p class="help-block text-danger"></p>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">聯絡電話</label>
+                            <input type="tel" class="form-control" placeholder="請輸入您的聯絡電話" id="phone" required>
+                            <p class="help-block text-danger"></p>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">您的需求</label>
+                            <textarea rows="4" class="form-control" placeholder="請輸入您的需求" id="message"></textarea>
+                            <p class="help-block text-danger"></p>
+                        </div>
+                        <div class="corporate-submit-btn-holder">
+                            <button type="submit" class="btn btn-primary btn-block">完成送出</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+
+
+<!-- side-toggle-nav js -->
+<script src="js/classie.js"></script>
+<script src="js/main.js"></script>
+
+<!-- sticky js -->
+<script src="js/sticky.js"></script>
+
+<!-- nav scroll js -->
+<!-- <script src="js/scroll.js"></script> -->
+
+<!-- lightSlider js -->
+<script src="js/lightSlider.js"></script>
+
+<!-- form js -->
+<script src="js/bootstrap-select.js"></script>
+
+<!-- about-video-player js -->
+<script src="js/mediaelement-and-player.js"></script>
+
+<!-- vendor-video-player js -->
+<script src="js/plyr.js"></script>
+
+<!-- parallax js -->
+<script src="js/parallax.min.js"></script>
+
+
+<!-- lightSlider initiate -->
+<script>
+    $('#lightSliderSingleCover').lightSlider({
+        gallery: false,
+        item: 1,
+        loop: true,
+        speed: 400,
+        freeMove:false,
+        pause: 3000,
+        auto: true,
+        slideMargin: 0,
+    });
+    $('#lightSliderCourse1').lightSlider({
+        gallery: false,
+        item: 4,
+        loop: true,
+        pager: false,
+        speed: 400,
+        freeMove: false,
+        pause: 3000,
+        slideMargin: 10,
+        responsive: [{
+            breakpoint: 1100,
+            settings: {
+                item: 3.5,
+                slideMove: 1,
+            }
+        }, {
+            breakpoint: 900,
+            settings: {
+                item: 2.5,
+                slideMove: 1,
+            }
+        }, {
+            breakpoint: 800,
+            settings: {
+                item: 2.2,
+                slideMove: 1,
+            }
+        }, {
+            breakpoint: 450,
+            settings: {
+                item: 1.5,
+                slideMove: 1
+            }
+        }]
+    });
+    $('#lightSliderCourse2').lightSlider({
+        gallery: false,
+        item: 4,
+        loop: true,
+        pager: false,
+        speed: 400,
+        freeMove: false,
+        pause: 3000,
+        slideMargin: 10,
+        responsive: [{
+            breakpoint: 1100,
+            settings: {
+                item: 3.5,
+                slideMove: 1,
+            }
+        }, {
+            breakpoint: 900,
+            settings: {
+                item: 2.5,
+                slideMove: 1,
+            }
+        }, {
+            breakpoint: 800,
+            settings: {
+                item: 2.2,
+                slideMove: 1,
+            }
+        }, {
+            breakpoint: 450,
+            settings: {
+                item: 1.5,
+                slideMove: 1
+            }
+        }]
+    });
+    $('#lightSliderCourse3').lightSlider({
+        gallery: false,
+        item: 4,
+        loop: true,
+        pager: false,
+        speed: 400,
+        freeMove: false,
+        pause: 3000,
+        slideMargin: 10,
+        responsive: [{
+            breakpoint: 1100,
+            settings: {
+                item: 3.5,
+                slideMove: 1,
+            }
+        }, {
+            breakpoint: 900,
+            settings: {
+                item: 2.5,
+                slideMove: 1,
+            }
+        }, {
+            breakpoint: 800,
+            settings: {
+                item: 2.2,
+                slideMove: 1,
+            }
+        }, {
+            breakpoint: 450,
+            settings: {
+                item: 1.5,
+                slideMove: 1
+            }
+        }]
+    });
+    $('#lightSliderVendor').lightSlider({
+        gallery: false,
+        item: 4.5,
+        loop: true,
+        speed: 400,
+        freeMove: false,
+        pause: 3000,
+        slideMargin: 15,
+        responsive: [{
+            breakpoint: 1400,
+            settings: {
+                item: 4,
+                slideMove: 1,
+            }
+        }, {
+            breakpoint: 1100,
+            settings: {
+                item: 3.5,
+                slideMove: 1,
+            }
+        }, {
+            breakpoint: 930,
+            settings: {
+                item: 3.1,
+                slideMove: 1,
+            }
+        }, {
+            breakpoint: 800,
+            settings: {
+                item: 2.5,
+                slideMove: 1,
+            }
+        }, {
+            breakpoint: 600,
+            settings: {
+                item: 1.5,
+                slideMove: 1
+            }
+        }, {
+            breakpoint: 500,
+            settings: {
+                item: 1.4,
+                slideMove: 1,
+            }
+        }, {
+            breakpoint: 350,
+            settings: {
+                item: 1.3,
+                slideMove: 1,
+            }
+        }, ]
+    });
+    $('#lightSliderThumbnailCover').lightSlider({
+        gallery: true,
+        item: 1,
+        loop: true,
+        speed: 400,
+        freeMove: false,
+        slideMargin: 0,
+        galleryMargin: 2,
+        thumbItem: 6,
+        thumbMargin: 2,
+        responsive: [{
+            breakpoint: 800,
+            settings: {
+                thumbItem: 4,
+                slideMove: 1,
+            }
+        }],
+    });
+    $('#lightSliderRelated').lightSlider({
+        gallery: false,
+        item: 4,
+        loop: true,
+        pager: false,
+        speed: 400,
+        freeMove: false,
+        pause: 3000,
+        slideMargin: 10,
+        responsive: [{
+            breakpoint: 1100,
+            settings: {
+                item: 3.5,
+                slideMove: 1,
+            }
+        }, {
+            breakpoint: 900,
+            settings: {
+                item: 2.5,
+                slideMove: 1,
+            }
+        }, {
+            breakpoint: 800,
+            settings: {
+                item: 2.2,
+                slideMove: 1,
+            }
+        }, {
+            breakpoint: 450,
+            settings: {
+                item: 1.5,
+                slideMove: 1
+            }
+        }],
+    });
+</script>
+<!-- owl-carousel initiate -->
+<script>
+    $('.owl-carousel').owlCarousel({
+        center: false,
+        items: 3.5,
+        loop: true,
+        margin: 0,
+        nav: true,
+        navContainer: '.customNav',
+        dots: false,
+        responsive: {
+            600: {
+                items: 5
+            },
+            900: {
+                items: 6,
+            }
+
+        }
+    });
+</script>
+<!-- nav-scroll effect initiate -->
+<script>
+    function init() {
+        window.addEventListener('scroll', function(e) {
+            var distanceY = window.pageYOffset || document.documentElement.scrollTop,
+                shrinkOn = 300,
+                header = document.querySelector(".m-nav-container");
+            if (distanceY > shrinkOn) {
+                classie.add(header, "m-nav-container-onscroll");
+            } else {
+                if (classie.has(header, "m-nav-container-onscroll")) {
+                    classie.remove(header, "m-nav-container-onscroll");
+                }
+            }
+        });
+    }
+    window.onload = init();
+</script>
+<!-- parallax effect initiate -->
+<script>
+    $('.parallax-window').parallax({
+        naturalWidth: 1280,
+        naturalHeight: 720,
+        bleed: 100
+    });
+</script>
+<!-- fade-in effect initiate -->
+<script>
+    $(function() {
+        $(window).scroll(function() {
+
+
+            $('.fadeInBlock').each(function(i) {
+
+                var bottom_of_object = $(this).position().top + $(this).outerHeight();
+                var bottom_of_window = $(window).scrollTop() + $(window).height();
+
+                /* Adjust the "200" to either have a delay or that the content starts fading a bit before you reach it  */
+                bottom_of_window = bottom_of_window + 200;
+
+                if (bottom_of_window > bottom_of_object) {
+
+                    $(this).animate({
+                        'opacity': '1'
+                    }, 500);
+
+                }
+            });
+
+        });
+    });
+</script>
+<!-- vendor-video-player initiate -->
+<script>
+    plyr.setup();
+</script>
+{% endblock %}
