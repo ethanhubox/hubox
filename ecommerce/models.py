@@ -23,7 +23,7 @@ class Vendor(models.Model):
     facebook = models.URLField()
     instagram = models.URLField()
     youtube = models.URLField()
-    youtube2 = models.URLField()
+
 
     def __str__(self):
         return self.name
@@ -140,7 +140,7 @@ def ordering_post_save_receiver(sender, instance, *args, **kwargs):
     available_time.quota -= instance.participants_number
     available_time.save()
 
-    
+
     # message = "感謝您購買" + instance.course.name + "課程<br>您選擇的素材為：" + instance.material.name + "<br>上課時間為：" + str(instance.available_time)
     # send_mail("hi", "miwooro@hotmail.com", ["miwooro@hotmail.com"], html_message=message)
 
