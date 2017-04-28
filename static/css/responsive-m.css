@@ -1,11 +1,11 @@
     /*index-page resposive m starts here*/
 
     @media screen and (min-width:1368px) {
-        .vendor-section {
+        .vendor-div {
             width: 85%;
             margin: auto;
         }
-        .course-section {
+        .course-div {
             width: 85%;
             margin: auto;
         }
@@ -71,11 +71,11 @@
     }
 
     @media screen and (min-width:1024px) and (max-width: 1367px) {
-        .vendor-section {
+        .vendor-div {
             width: 1100px;
             margin: auto;
         }
-        .focus-course-section {
+        .focus-course-div {
             width: 1100px;
         }
         .focus-course-image-holder {
@@ -87,7 +87,7 @@
         .focs-course-info-content {
             font-size: 18px;
         }
-        .course-section {
+        .course-div {
             width: 1100px;
             margin: auto;
         }
@@ -163,13 +163,13 @@
         .slider-section {
             margin-top: 62px;
         }
-        .vendor-section {
+        .vendor-div {
             width: 100%;
         }
-        .course-section {
+        .course-div {
             width: 100%;
         }
-        .focus-course-section {
+        .focus-course-div {
             width: 100%;
         }
         .focus-course-image-holder {
@@ -222,7 +222,7 @@
     }
 
     @media screen and (max-width: 900px) {
-        .focus-course-section {
+        .focus-course-div {
             width: 100%;
         }
         .focus-course-container {
@@ -392,7 +392,7 @@
         .focus-course-info-title h1, h2, h3, h4, h5 {
             font-size: 25px;
         }
-        .course-section {
+        .course-div {
             width: 410px;
             margin: auto;
             padding: 0px;
@@ -466,7 +466,7 @@
             width: 100%;
             margin: auto;
         }
-        .vendor-section {
+        .vendor-div {
             width: 100%;
             padding: 0px;
         }
@@ -494,7 +494,7 @@
         .focus-course-image-holder {
             height: 200px;
         }
-        .course-section {
+        .course-div {
             width: 100%;
             margin: auto;
             padding: 0px;
@@ -566,12 +566,12 @@
             width: 100%;
             margin: auto;
         }
-        .vendor-section {
+        .vendor-div {
             width: 100%;
             margin: 0px;
             padding: 0px;
         }
-        .vendor-section .allv-page-statistic-course, .vendor-section .allv-page-statistic-follow, .vendor-section .allv-page-statistic-comment{
+        .vendor-div .allv-page-statistic-course, .vendor-div .allv-page-statistic-follow, .vendor-div .allv-page-statistic-comment{
             width: 31%;
         }
         .vendor-container .allv-page-statistic-course-label, .vendor-container .allv-page-statistic-follow-label, .vendor-container .allv-page-statistic-comment-label{
@@ -616,7 +616,7 @@
         .focus-course-info-btn>.btn {
             font-size: 12px;
         }
-        .course-section {
+        .course-div {
             width: 100%;
             margin: 0px;
         }

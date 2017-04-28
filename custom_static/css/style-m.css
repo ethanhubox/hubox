@@ -95,11 +95,11 @@ a:focus, a:hover{
 }
 
 /*lightSlider remodal*/
-.course-section .lSSlideOuter{
+.course-div .lSSlideOuter{
   margin: 5px 0px;
 }
 
-.vendor-section .lSSlideOuter{
+.vendor-div .lSSlideOuter{
   margin: 5px 0px;
 }
 
@@ -425,9 +425,9 @@ ul li {
 }
 
 
-/*vendor-section*/
+/*vendor-div*/
 
-.vendor-section {
+.vendor-div {
     background-color: #fff;
     height: auto !important;
     width: 100%;
@@ -551,9 +551,9 @@ ul li {
 }
 
 
-/*focus-course-section starts here*/
+/*focus-course-div starts here*/
 
-.focus-course-section {
+.focus-course-div {
     width: 1200px;
     margin: auto;
 }
@@ -608,15 +608,15 @@ ul li {
 }
 
 
-/*course-section*/
+/*course-div*/
 
-.course-section {
+.course-div {
     width: 100%;
     margin: auto;
     height: auto;
     background-color: #fff;
 }
-.course-section .course-tab-row{
+.course-div .course-tab-row{
   margin: 0px;
 }
 
