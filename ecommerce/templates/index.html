@@ -104,7 +104,6 @@
   <div class="slider-div">
       <div id="lightSliderSingleCover">
           <div class="slider-div-img-holder-1">
-            <a href="https://www.hubox.life">
               <div class="slider-caption-holder">
                   <div class="slider-caption-title-holder">
                       <div class="slider-caption-title-1">Learn</div>
@@ -175,10 +174,10 @@
         </div>
     </div>
     <div class="course-container">
-      <div id="lightSliderCourse">
+      <div class="lightSliderCourse">
         {% if role.mode == "指定分類" %}
-        {% for course in role.vendor.course_set.all %}
-        <!-- 第一個課程 -->
+        {% for course in role.vendor.course_set.all|slice:":6" %}
+        <!-- 課程 -->
         <div class="course-tab-row">
           <div class="course-tab-image">
               <a href="{{ course.get_absolute_url }}"><img src="{{ course.coursemedia_set.all.0.file.url }}" /></a>
@@ -203,7 +202,65 @@
               </div>
           </div>
         </div>
-        <!-- 第一個課程 -->
+        <!-- 課程 -->
+        {% endfor %}
+        {% elif role.mode == "隨機" %}
+        {% for course in course|slice:":6" %}
+        <!-- 課程 -->
+        <div class="course-tab-row">
+          <div class="course-tab-image">
+              <a href="{{ course.get_absolute_url }}"><img src="{{ course.coursemedia_set.all.0.file.url }}" /></a>
+          </div>
+          <div class="course-tab-info">
+              <a href="{{ course.get_absolute_url }}">
+                  <div class="course-tab-info-title">
+                      {{ course.name }}
+                  </div>
+              </a>
+              <div class="course-tab-info-vendor">
+                  <div class="course-tab-info-vendor-logo">
+                      <a href="{{ course.vendor.get_absolute_url }}">
+                          <img src="{{ course.vendor.logo.url }}" />
+                      </a>
+                  </div>
+                  <div class="course-tab-info-vendor-name">
+                      <a href="{{ course.vendor.get_absolute_url }}">
+                          <h2>{{ course.vendor.name }}</h2>
+                      </a>
+                  </div>
+              </div>
+          </div>
+        </div>
+        <!-- 課程 -->
+        {% endfor %}
+        {% elif role.mode == "特定課程" %}
+        {% for course in role.course.all|slice:":6" %}
+        <!-- 課程 -->
+        <div class="course-tab-row">
+          <div class="course-tab-image">
+              <a href="{{ course.get_absolute_url }}"><img src="{{ course.coursemedia_set.all.0.file.url }}" /></a>
+          </div>
+          <div class="course-tab-info">
+              <a href="{{ course.get_absolute_url }}">
+                  <div class="course-tab-info-title">
+                      {{ course.name }}
+                  </div>
+              </a>
+              <div class="course-tab-info-vendor">
+                  <div class="course-tab-info-vendor-logo">
+                      <a href="{{ course.vendor.get_absolute_url }}">
+                          <img src="{{ course.vendor.logo.url }}" />
+                      </a>
+                  </div>
+                  <div class="course-tab-info-vendor-name">
+                      <a href="{{ course.vendor.get_absolute_url }}">
+                          <h2>{{ course.vendor.name }}</h2>
+                      </a>
+                  </div>
+              </div>
+          </div>
+        </div>
+        <!-- 課程 -->
         {% endfor %}
         {% endif %}
       </div>
@@ -220,7 +277,7 @@
     </div>
 
     <div class="vendor-container">
-        <div id="lightSliderVendor">
+        <div class="lightSliderVendor">
           <!-- Vendor card No.1 starts here-->
           {% for vendor in vendor %}
           <div class="allv-page-vendor-card">
@@ -381,7 +438,7 @@
     });
 
 
-    $('#lightSliderCourse').lightSlider({
+    $('.lightSliderCourse').lightSlider({
         gallery: false,
         item: 4,
         loop: true,
@@ -417,7 +474,7 @@
         }]
     });
 
-    $('#lightSliderVendor').lightSlider({
+    $('.lightSliderVendor').lightSlider({
         gallery: false,
         item: 4.5,
         loop: true,
