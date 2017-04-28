@@ -60,6 +60,41 @@
 
     <!-- owl-carousel  js -->
     <script src="js/owl.carousel.min.js"></script>
+
+
+<style type="text/css">
+
+    .slider-div-img-holder-1{
+     background-image:url({% static "img/main-cover-1.jpg" %});
+     background-size: cover;
+     background-position: center;
+    }
+    .slider-div-img-holder-2{
+      background-image:url({% static "img/main-cover-2.jpg" %});
+      background-size: cover;
+      background-position: center;
+    }
+    .slider-div-img-holder-3{
+      background-image:url({% static "img/main-cover-3.jpg" %});
+      background-size: cover;
+      background-position: center;
+    }
+    .slider-div-img-holder-4{
+      background-image:url({% static "img/cover01.jpg" %});
+      background-size: cover;
+      background-position: center;
+    }
+
+    .corporate-div {
+        width: 100%;
+        margin: 10px 0px auto;
+        height: 500px;
+        background-image: url({% static "img/corporate.jpg" %});
+        background-size: cover;
+    }
+
+</style>
+
 {% endblock %}
 
 {% block cover_page %}{% endblock %}
@@ -130,50 +165,51 @@
 
   <section class="blank-section"></section>
   <!-- course-div starts here -->
-  {% for catagory in catagory %}
-  <div class="course-div">
+<div class="course-div">
+  {% for role in index.indexrole_set.all %}
     <div class="course-header">
         <div class="course-header-logo"><img src="{% static 'img/logo.png' %}" /></div>
-        <h2>{{ catagory.name }}</h2>
+        <h2>{{ role.name }}</h2>
         <div class="course-header-btn-holder">
             <a href="#" type="button" class="btn btn-info">了解更多</a>
         </div>
     </div>
     <div class="course-container">
-      <div id="lightSliderCourse1">
-        {% for course in catagory.course_set.all %}
+      <div id="lightSliderCourse">
+        {% if role.mode == "指定分類" %}
+        {% for course in role.vendor.course_set.all %}
+        <!-- 第一個課程 -->
         <div class="course-tab-row">
-            <div class="course-tab-image">
-                <a href="http://www.hubox.life/demo/course.html"><img src="{{ course.coursemedia_set.all.0.file.url }}" /></a>
-            </div>
-            <div class="course-tab-info">
-                <a href="#">
-                    <div class="course-tab-info-title">
-                        {{ course.name }}
-                    </div>
-                </a>
-                <div class="course-tab-info-vendor">
-                    <div class="course-tab-info-vendor-logo">
-                        <a href="http://www.hubox.life/demo/vendor.html">
-                            <img src="{{ course.vendor.logo.url }}" />
-                        </a>
-                    </div>
-                    <div class="course-tab-info-vendor-name">
-                        <a href="{{ course.vendor.get_absolute_url }}">
-                            <h2>{{ course.vendor.name }}</h2>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="course-tab-price">
-                NTD {{ course.price }}
-            </div>
+          <div class="course-tab-image">
+              <a href="{{ course.get_absolute_url }}"><img src="{{ course.coursemedia_set.all.0.file.url }}" /></a>
+          </div>
+          <div class="course-tab-info">
+              <a href="{{ course.get_absolute_url }}">
+                  <div class="course-tab-info-title">
+                      {{ course.name }}
+                  </div>
+              </a>
+              <div class="course-tab-info-vendor">
+                  <div class="course-tab-info-vendor-logo">
+                      <a href="{{ course.vendor.get_absolute_url }}">
+                          <img src="{{ course.vendor.logo.url }}" />
+                      </a>
+                  </div>
+                  <div class="course-tab-info-vendor-name">
+                      <a href="{{ course.vendor.get_absolute_url }}">
+                          <h2>{{ course.vendor.name }}</h2>
+                      </a>
+                  </div>
+              </div>
+          </div>
         </div>
+        <!-- 第一個課程 -->
         {% endfor %}
+        {% endif %}
       </div>
     </div>
-    {% endfor %}
-  </div>
+  {% endfor %}
+</div>
   <!-- course-div ends here -->
   <div class="vendor-div">
     <div class="vendor-header">
@@ -259,24 +295,6 @@
 
 </div>
 
-
-
-{% for catagory in catagory %}
-  <p>{{ catagory.name }}</p>
-  {% for course in catagory.course_set.all %}
-    {{ course }}／
-  {% endfor %}
-{% endfor %}
-
-<p>
-{% for vendor in vendor %}
-  {{ vendor }}/
-{% endfor %}
-
-
-<p>{{ index }}</p>
-
-
 {% endblock %}
 
 {% block modal %}
@@ -361,7 +379,9 @@
         auto: true,
         slideMargin: 0,
     });
-    $('#lightSliderCourse1').lightSlider({
+
+
+    $('#lightSliderCourse').lightSlider({
         gallery: false,
         item: 4,
         loop: true,
@@ -396,76 +416,7 @@
             }
         }]
     });
-    $('#lightSliderCourse2').lightSlider({
-        gallery: false,
-        item: 4,
-        loop: true,
-        pager: false,
-        speed: 400,
-        freeMove: false,
-        pause: 3000,
-        slideMargin: 10,
-        responsive: [{
-            breakpoint: 1100,
-            settings: {
-                item: 3.5,
-                slideMove: 1,
-            }
-        }, {
-            breakpoint: 900,
-            settings: {
-                item: 2.5,
-                slideMove: 1,
-            }
-        }, {
-            breakpoint: 800,
-            settings: {
-                item: 2.2,
-                slideMove: 1,
-            }
-        }, {
-            breakpoint: 450,
-            settings: {
-                item: 1.5,
-                slideMove: 1
-            }
-        }]
-    });
-    $('#lightSliderCourse3').lightSlider({
-        gallery: false,
-        item: 4,
-        loop: true,
-        pager: false,
-        speed: 400,
-        freeMove: false,
-        pause: 3000,
-        slideMargin: 10,
-        responsive: [{
-            breakpoint: 1100,
-            settings: {
-                item: 3.5,
-                slideMove: 1,
-            }
-        }, {
-            breakpoint: 900,
-            settings: {
-                item: 2.5,
-                slideMove: 1,
-            }
-        }, {
-            breakpoint: 800,
-            settings: {
-                item: 2.2,
-                slideMove: 1,
-            }
-        }, {
-            breakpoint: 450,
-            settings: {
-                item: 1.5,
-                slideMove: 1
-            }
-        }]
-    });
+
     $('#lightSliderVendor').lightSlider({
         gallery: false,
         item: 4.5,
