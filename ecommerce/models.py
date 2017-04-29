@@ -20,10 +20,10 @@ class Vendor(models.Model):
     logo = models.ImageField(upload_to=vendor_logo)
     banner = models.ImageField(upload_to=vendor_banner)
     video = models.CharField(max_length=200)
-    facebook = models.URLField()
-    instagram = models.URLField()
-    youtube = models.URLField()
-    youtube2 = models.URLField()
+    facebook = models.URLField(null=True, blank=True)
+    instagram = models.URLField(null=True, blank=True)
+    youtube = models.URLField(null=True, blank=True)
+
 
     def __str__(self):
         return self.name
@@ -76,6 +76,8 @@ class Course(models.Model):
     course_durations = models.CharField(max_length=50)
     price = models.PositiveIntegerField()
     address = models.CharField(max_length=100)
+    bus = models.CharField(max_length=100)
+    mrt = models.CharField(max_length=100)
     minmum_number = models.IntegerField()
     rate = models.IntegerField(default=0)
 
@@ -160,18 +162,20 @@ class UserProfile(models.Model):
     address = models.CharField(max_length=200)
 
     def __str__(self):
-        return str(self.user)
+        return self.address
 
 def index_media(instance, filename):
     return "index/{}".format(filename)
 
 class IndexEdit(models.Model):
-    title = models.CharField(max_length=50)
+    name = models.CharField(max_length=50)
     photo = models.FileField(upload_to=index_media)
     content = models.TextField()
+    more = models.URLField()
+    vendor_more = models.URLField()
 
     def __str__(self):
-        return self.title
+        return self.name
 
 MODE_CHOICE = (
     ('隨機', '隨機'),
@@ -184,11 +188,23 @@ class IndexRole(models.Model):
     order = models.IntegerField(unique=True)
     name = models.CharField(max_length=50, blank=True)
     mode = models.CharField(max_length=20, choices=MODE_CHOICE)
-    vendor = models.ForeignKey(Vendor, blank=True, null=True)
+    catagory = models.ForeignKey(Catagory, blank=True, null=True)
     course = models.ManyToManyField(Course, blank=True)
+    more = models.URLField()
 
     def __str__(self):
         return str(self.order)
+
+    class Meta:
+        ordering = ('order',)
+
+class IndexVendor(models.Model):
+    index_edit = models.ForeignKey(IndexEdit)
+    order = models.IntegerField(unique=True)
+    vendor = models.ForeignKey(Vendor)
+
+    def __str__(self):
+        return self.vendor.name
 
     class Meta:
         ordering = ('order',)

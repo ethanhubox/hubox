@@ -155,7 +155,7 @@
                     {{ index.content }}
                 </div>
                 <div class="focus-course-info-btn">
-                    <button type="button" class="btn btn-info">馬上了解</button>
+                    <a href="{{ index.more }}" type="button" class="btn btn-info">馬上了解</a>
                 </div>
             </div>
         </div>
@@ -170,13 +170,13 @@
         <div class="course-header-logo"><img src="{% static 'img/logo.png' %}" /></div>
         <h2>{{ role.name }}</h2>
         <div class="course-header-btn-holder">
-            <a href="#" type="button" class="btn btn-info">了解更多</a>
+            <a href="{{ role.more }}" type="button" class="btn btn-info">了解更多</a>
         </div>
     </div>
     <div class="course-container">
       <div class="lightSliderCourse">
         {% if role.mode == "指定分類" %}
-        {% for course in role.vendor.course_set.all|slice:":6" %}
+        {% for course in role.catagory.course_set.all|slice:":6" %}
         <!-- 課程 -->
         <div class="course-tab-row">
           <div class="course-tab-image">
@@ -272,29 +272,29 @@
     <div class="vendor-header">
         <h2>工作坊推薦</h2>
         <div class="vendor-header-btn-holder">
-            <a href="#" type="button" class="btn btn-info">了解更多</a>
+            <a href="{{ index.vendor_more }}" type="button" class="btn btn-info">了解更多</a>
         </div>
     </div>
 
     <div class="vendor-container">
         <div class="lightSliderVendor">
           <!-- Vendor card No.1 starts here-->
-          {% for vendor in vendor %}
+          {% for index in index.indexvendor_set.all %}
           <div class="allv-page-vendor-card">
               <div class="allv-page-profile-row">
-                  <a href="http://www.hubox.life/demo/vendor.html">
+                  <a href="{{ index.vendor.get_absolute_url }}">
                       <div class="allv-page-vendor-card-image">
-                          <img src="{{ vendor.logo.url }}" />
+                          <img src="{{ index.vendor.logo.url }}" />
                       </div>
                   </a>
-                  <a href="http://www.hubox.life/demo/vendor.html">
+                  <a href="{{ vendor.get_absolute_url }}">
                       <div class="allv-page-vendor-card-title">
-                          <h1>{{ vendor.name }}</h1>
-                          <p>{{ vendor.catagory }}</p>
+                          <h1>{{ index.vendor.name }}</h1>
+                          <p>{{ index.vendor.catagory }}</p>
                           <div class="allv-page-vendor-card-social-holder">
-                              <a href="{{ vendor.facebook }}"><i class="fa fa-facebook-official" aria-hidden="true"></i></a>
-                              <a href="{{ vendor.instagram }}"><i class="fa fa-instagram" aria-hidden="true"></i></a>
-                              <a href="{{ vendor.youtube }}"><i class="fa fa-youtube" aria-hidden="true"></i></a>
+                              <a href="{{ index.vendor.facebook }}"><i class="fa fa-facebook-official" aria-hidden="true"></i></a>
+                              <a href="{{ index.vendor.instagram }}"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+                              <a href="{{ index.vendor.youtube }}"><i class="fa fa-youtube" aria-hidden="true"></i></a>
                           </div>
                       </div>
                   </a>
@@ -302,7 +302,7 @@
               <div class="allv-page-statistic-holder">
                   <div class="allv-page-statistic-course">
                       <div class="allv-page-statistic-course-number">
-                          {{ vendor.course_set.all|length }}
+                          {{ index.vendor.course_set.all|length }}
                       </div>
                       <div class="allv-page-statistic-course-label">
                           <span>學習體驗</span>

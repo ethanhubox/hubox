@@ -2,11 +2,11 @@ from django.contrib import admin
 from django.db import models
 from ghoster.admin import GhosterAdmin
 from markdownx.widgets import AdminMarkdownxWidget
-from .models import Vendor, Catagory, Course, AvailableTime, VendorMedia, CourseMedia, Material, Ordering, UserProfile, IndexEdit, IndexRole
+from .models import Vendor, Catagory, Course, AvailableTime, VendorMedia, CourseMedia, Material, Ordering, UserProfile, IndexEdit, IndexRole, IndexVendor
 # Register your models here.
 
 
-class CourseInline(admin.TabularInline):
+class CourseInline(admin.StackedInline):
     model = Course
 
 class AvailibleTimeInline(admin.TabularInline):
@@ -20,6 +20,9 @@ class CourseMediaInline(admin.TabularInline):
 
 class IndexRoleInline(admin.TabularInline):
     model = IndexRole
+
+class IndexVendorInline(admin.StackedInline):
+    model = IndexVendor
 
 
 
@@ -70,11 +73,14 @@ class UserProfileAdmin(admin.ModelAdmin):
     list_display = ('user', 'gender', 'phone', 'address')
 
 class IndexEditAdmin(admin.ModelAdmin):
-    inlines = [IndexRoleInline, ]
-    list_display = ('title', 'photo', 'content',)
+    inlines = [IndexRoleInline, IndexVendorInline]
+    list_display = ('name', 'photo', 'content',)
 
 class IndexRoleAdmin(admin.ModelAdmin):
     list_display = ('order', 'mode',)
+
+class IndexVendorAdmin(admin.ModelAdmin):
+    list_display = ('order', 'vendor', )
 
 admin.site.register(Vendor, VendorAdmin)
 admin.site.register(Catagory, CatagoryAdmin)
@@ -87,3 +93,4 @@ admin.site.register(Ordering, OderingAdmin)
 admin.site.register(UserProfile, UserProfileAdmin)
 admin.site.register(IndexEdit, IndexEditAdmin)
 admin.site.register(IndexRole, IndexRoleAdmin)
+admin.site.register(IndexVendor, IndexVendorAdmin)

@@ -4,6 +4,7 @@ from .forms import OrderingForm
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.core.mail import EmailMessage
+import os
 # Create your views here.
 
 def index(request):
@@ -63,6 +64,7 @@ def course_detail(request, pk):
     course_media = course.coursemedia_set.all()
     available_time = course.availabletime_set.all()
     materials = course.material_set.all()
+    googlemap_api_key = os.environ["GOOGLE_API_KEY"]
 
     form = OrderingForm()
     form.fields['material'].queryset = materials
@@ -91,6 +93,7 @@ def course_detail(request, pk):
     'available_time':available_time,
     'materials':materials,
     'form':form,
+    'googlemap_api_key': googlemap_api_key,
     }
 
     return render(request, 'course_detail.html', context)
@@ -98,8 +101,9 @@ def course_detail(request, pk):
 def ordering_detail(request, pk):
     ordering = get_object_or_404(Ordering, pk=pk)
 
+
     context = {
-    'ordering': ordering
+    'ordering': ordering,
     }
 
     return render(request, 'ordering_detail.html', context)

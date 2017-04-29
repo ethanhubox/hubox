@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% load static %}
+
 {% load markdown_deux_tags %}
 
 {% block meta_description %}{% endblock %}
@@ -19,6 +20,7 @@
 
 <!-- form css -->
 <link rel="stylesheet" href="{% static "css/bootstrap-select.css" %}">
+
 {% endblock %}
 
 {% block cover_page %}
@@ -63,7 +65,7 @@
         <div class="course-page-statistic-vendor-holder-r">
             <div class="course-page-statistic-vendor-name">
                 <h2><i class="fa fa-book" aria-hidden="true"></i>{{ course.catagory.name }}</h2>
-                <a href="{{ course.vendor.get_absolute_url }}"><h1>學習商：Where's Flower**</h1></a>
+                <a href="{{ course.vendor.get_absolute_url }}"><h1>學習商：{{ course.vendor.name }}</h1></a>
             </div>
             <a href="{{ course.vendor.get_absolute_url }}">
                 <div class="course-page-statistic-vendor-image">
@@ -158,14 +160,12 @@
         <div class="tab-content">
             <div role="tabpanel" class="tab-pane fade active in" id="intro">
                 <div class="course-page-intro-container">
-                    <h2>{{ course.vendor }}</h2>
-                    <p>{{ course.introduce|markdown }}</p>
+                    {{ course.introduce|markdown }}
                 </div>
             </div>
             <div role="tabpanel" class="tab-pane fade" id="info">
                 <div class="course-page-info-container">
-                    <h2>本學習包含</h2>
-                    <p>{{ course.content|markdown }}</p>
+                    {{ course.content|markdown }}
                 </div>
             </div>
             <div role="tabpanel" class="tab-pane fade" id="others">
@@ -325,16 +325,16 @@
 </div>
 <div class="modal fade" id="ModalMap" tabindex="-1" role="dialog" aria-labelledby="ModalMap" aria-hidden="true">
     <div class="modal-dialog google-map-container" role="document">
-        <img src="https://maps.googleapis.com/maps/api/staticmap?center=25.0526640,121.5240700&zoom=18&size=640x640&scale=2&maptype=roadmap
-      &markers=color:red%7Clabel:S%7C25.0526640,121.5240700&key=AIzaSyCVgLbHgkazd9-30vxLlAZhF2TC2LTnors" />
+        <img src="https://maps.googleapis.com/maps/api/staticmap?center={{ course.address }}&zoom=18&size=640x640&scale=2&maptype=roadmap
+      &markers=color:red%7Clabel:S%7C{{ course.address }}&key={{ googlemap_api_key }}" />
         <div class="transport-info-container">
-            <div class="address">台北市中正區忠孝東路一段152號12樓之5</div>
+            <div class="address">{{ course.address }}</div>
             <div class="other-transport-info-holder">
                 <div class="other-transport-info-mrt">
-                    <i class="fa fa-subway" aria-hidden="true">捷運東門站：8號出口</i>
+                    <i class="fa fa-subway" aria-hidden="true">{{ course.mrt }}</i>
                 </div>
                 <div class="other-transport-info-bus">
-                    <i class="fa fa-bus" aria-hidden="true">306號公車：台北小巨蛋站</i>
+                    <i class="fa fa-bus" aria-hidden="true">{{ course.bus }}</i>
                 </div>
                 <div></div>
             </div>

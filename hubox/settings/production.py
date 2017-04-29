@@ -186,3 +186,5 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'yichenlinebot@gmail.com'
 DEFAULT_FROM_EMAIL = 'yichenlinebot@gmail.com'
 EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
+
+ADMINS = [('miwooro', 'miwooro@hotmail.com'), ]
