@@ -2,6 +2,8 @@
 
 {% load static %}
 
+{% load markdown_deux_tags %}
+
 {% block meta_description %}{% endblock %}
 {% block author %}{% endblock %}
 
@@ -149,10 +151,10 @@
             </div>
             <div class="focus-course-info-holder">
                 <div class="focus-course-info-title">
-                    <h1>{{ index.title }}</h1>
+                    <h1>{{ index.name }}</h1>
                 </div>
                 <div class="focs-course-info-content">
-                    {{ index.content }}
+                    {{ index.content|markdown }}
                 </div>
                 <div class="focus-course-info-btn">
                     <a href="{{ index.more }}" type="button" class="btn btn-info">馬上了解</a>

@@ -73,6 +73,9 @@ class UserProfileAdmin(admin.ModelAdmin):
     list_display = ('user', 'gender', 'phone', 'address')
 
 class IndexEditAdmin(admin.ModelAdmin):
+    formfield_overrides = {
+        models.TextField: {'widget': AdminMarkdownxWidget},
+    }
     inlines = [IndexRoleInline, IndexVendorInline]
     list_display = ('name', 'photo', 'content',)
 

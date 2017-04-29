@@ -57,9 +57,6 @@ def course_list(request):
     return render(request, 'course_list.html', context)
 
 def course_detail(request, pk):
-    print (settings.BASE_DIR)
-    print (settings.STATIC_ROOT)
-
     course = get_object_or_404(Course, pk=pk)
     course_media = course.coursemedia_set.all()
     available_time = course.availabletime_set.all()
