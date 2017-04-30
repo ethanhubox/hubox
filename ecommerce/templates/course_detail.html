@@ -121,8 +121,8 @@
         </div>
         <div class="collapse" id="collapse">
             <div class="course-page-statistic-date-dropdown-container">
-              {% for available_time in course.availabletime_set.all %}
-              <div class="course-page-statistic-date-dropdown-item"><span class="glyphicon glyphicon-bookmark"></span>{{ available_time.date|date:"m月j日（D）" }} {{ available_time.start_time|date:"H:i" }}~{{ available_time.end_time|date:"H:i" }}<span class="date-dropdown-remain">剩餘{{ available_time.quota }}人</span></div>
+              {% for gte_date in gte_date %}
+              <div class="course-page-statistic-date-dropdown-item"><span class="glyphicon glyphicon-bookmark"></span>{{ gte_date.date|date:"m月j日（D）" }} {{ gte_date.start_time|date:"H:i" }}~{{ gte_date.end_time|date:"H:i" }}<span class="date-dropdown-remain">剩餘{{ gte_date.quota }}人</span></div>
               {% endfor %}
               <div class="course-page-statistic-date-dropdown-item">
                 <a class="date-dropdown-item-readmore" href="#" type="button" data-toggle="modal" data-target="#ModalBuy">查看更多日期<i class="fa fa-chevron-circle-down" aria-hidden="true"></i></a>
@@ -300,8 +300,8 @@
             </div>
             <div class="modal-body">
                 <div class="course-page-date-collapse-container">
-                    <div class="datePicker"><input class="date-input" type="hidden" value=""></div>
-                    <form class="ordering-form" action="" method="post">
+                    <div class="datePicker"><input class="date-input" type="hidden" value=""/></div>
+                    <form class="ordering-form" id="submit-form" action="" method="post">
 
                       {% csrf_token %}
                       {{ form.non_field_errors }}
@@ -311,10 +311,11 @@
                       {% endfor %}
 
 
+
                 </div>
             </div>
             <div class="modal-total-price">
-                <h2>總金額：<span>TWD</span> {{ course.price }}**</h2>
+                <h2>總金額：<span>TWD</span> {{ course.price }}</h2>
             </div>
             <div class="modal-footer">
                 <input type="submit" value="結帳去" class="btn btn-primary btn-lg">
@@ -412,7 +413,7 @@
 
   <script type="text/javascript">
   var availableTime = []
-  {% for available_time in course.availabletime_set.all %}
+  {% for available_time in gte_date %}
   availableTime.push("{{ available_time.date|date:"Y/n/j" }}")
   {% endfor %}
 
@@ -429,20 +430,37 @@
       } else {
         return {enabled: false}
       }
-
-
-
     }
   });
 
+  $('.select-availabel-time').find('option').hide();
 
-  $('.date-input').change(function(){
-    var filter = $(this).val();
-    $('li').each(function(){
-      if ($(this).val().startsWith(filter)) {
-        $(this).show();
-      } else {
-        $(this).hide();
+  $( '.date-input' ).change(function() {
+    var dateData = $(this).val()
+    $('.select-availabel-time').find('option').remove();
+    $('.select-availabel-time').append($('<option value="">選擇時間</option>'));
+    {% for value, text in form.available_time.field.choices %}
+    if ("{{ text }}".startsWith(dateData)) {
+      $('.select-availabel-time').append($('<option value="{{ value }}">{{ text }}</option>'));
+    }
+
+     {% endfor %}
+   $('.selectpicker').selectpicker('refresh');
+    $('.select-availabel-time').find('option').hide();
+  });
+
+  $('.select-material').on('change', function() {
+    var material = $(this).find("option:selected").text()
+    var price = "{{ course.price }}"
+    $.ajax({
+      type: "GET",
+      url: "{{ course.get_absolute_url }}",
+      data: {"material": material, "price": price},
+      success: function(data) {
+        $('.modal-total-price').html('<h2>總金額：<span>TWD</span> ' + data['total'] + '</h2>')
+      },
+      error: function(data) {
+        console.log(data)
       }
     })
   })

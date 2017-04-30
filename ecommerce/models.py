@@ -50,7 +50,7 @@ class VendorMedia(models.Model):
         return str(self.file)
 
     class Meta:
-        ordering = ('vendor', 'position')
+        ordering = ['vendor', 'position']
 
 
 def catagory_upload(instance, filename):
@@ -88,7 +88,7 @@ class Course(models.Model):
         return reverse('course_detail', kwargs={'pk':self.pk})
 
     class Meta:
-        ordering = ('vendor',)
+        ordering = ['vendor',]
 
 def course_media(instance, filename):
     return "{}/media/{}".format(instance.course.name, filename)
@@ -100,7 +100,7 @@ class CourseMedia(models.Model):
     def __str__(self):
         return str(self.file)
     class Meta:
-        ordering = ('course',)
+        ordering = ['course',]
 
 class Material(models.Model):
     course = models.ForeignKey(Course)
@@ -108,7 +108,7 @@ class Material(models.Model):
     price = models.PositiveIntegerField()
 
     def __str__(self):
-        return self.name + "+TWD " + str(self.price)
+        return self.name + " +TWD " + str(self.price)
 
 
 class AvailableTime(models.Model):
@@ -117,9 +117,18 @@ class AvailableTime(models.Model):
     start_time = models.TimeField()
     end_time = models.TimeField()
     quota = models.IntegerField()
+    format_date = models.CharField(max_length=200, blank=True)
 
     def __str__(self):
         return self.date.strftime("%m月%d日（%a.）") + self.start_time.strftime("%H:%M～") + self.end_time.strftime("%H:%M") + " 剩餘 " + str(self.quota) + "人"
+
+    class Meta:
+        ordering = ['course', 'date', 'start_time']
+
+def available_time_pre_save_receiver(sender, instance, *args, **kwargs):
+    instance.format_date = instance.date.strftime("%m月%d日")
+
+pre_save.connect(available_time_pre_save_receiver, sender=AvailableTime)
 
 
 class Ordering(models.Model):
@@ -196,7 +205,7 @@ class IndexRole(models.Model):
         return str(self.order)
 
     class Meta:
-        ordering = ('order',)
+        ordering = ['order',]
 
 class IndexVendor(models.Model):
     index_edit = models.ForeignKey(IndexEdit)
@@ -207,4 +216,4 @@ class IndexVendor(models.Model):
         return self.vendor.name
 
     class Meta:
-        ordering = ('order',)
+        ordering = ['order',]

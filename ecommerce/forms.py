@@ -6,16 +6,16 @@ class OrderingForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(OrderingForm, self).__init__(*args, **kwargs)
-        self.fields['available_time'].empty_label = "選擇時間"
+        self.fields['available_time'].empty_label = "請先選擇日期"
         self.fields['available_time'].widget.attrs = {
-        'class': 'selectpicker show-tick',
+        'class': 'selectpicker show-tick select-availabel-time',
         # 'multiple title': '選擇時間',
         'data-width': '85%',
         }
 
         self.fields['material'].empty_label = "選擇製作素材(總價依素材變動)"
         self.fields['material'].widget.attrs = {
-        'class': 'selectpicker show-tick',
+        'class': 'selectpicker show-tick select-material',
         # 'multiple title': '選擇製作素材(總價依素材變動)',
         'data-width': '85%',
         }
@@ -23,7 +23,7 @@ class OrderingForm(forms.ModelForm):
 
 
         self.fields['participants_number'].widget.attrs = {
-        'class': 'selectpicker show-tick',
+        'class': 'selectpicker show-tick select-parnum',
         # 'multiple title': '選擇參加人數',
         'data-width': '85%',
         }

@@ -1,9 +1,12 @@
 from django.shortcuts import render, get_object_or_404, HttpResponseRedirect
-from .models import Vendor, Course, Catagory, Ordering, IndexEdit
+from django.http import JsonResponse
+from .models import Vendor, Course, Catagory, Ordering, IndexEdit, AvailableTime
 from .forms import OrderingForm
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.core.mail import EmailMessage
+from datetime import datetime
+from itertools import chain
 import os
 # Create your views here.
 
@@ -58,14 +61,31 @@ def course_list(request):
 
 def course_detail(request, pk):
     course = get_object_or_404(Course, pk=pk)
+    all_available_time = course.availabletime_set.all()
     course_media = course.coursemedia_set.all()
-    available_time = course.availabletime_set.all()
     materials = course.material_set.all()
     googlemap_api_key = os.environ["GOOGLE_API_KEY"]
 
+
+    gte_date = course.availabletime_set.filter(date__gte=datetime.now())[:5]
+
+
+
     form = OrderingForm()
     form.fields['material'].queryset = materials
-    form.fields['available_time'].queryset = available_time
+    form.fields['available_time'].queryset = gte_date
+
+    if request.method == "GET" and request.is_ajax():
+        material_data = request.GET.get('material', '').split(" ")[0]
+        material_price = materials.filter(name=material_data)[0].price
+
+        price = request.GET.get('price', '')
+
+        total = int(price) + int(material_price)
+
+        return JsonResponse({'total':total})
+
+
 
     if request.method == "POST":
         form = OrderingForm(request.POST)
@@ -82,18 +102,28 @@ def course_detail(request, pk):
         else:
             form = OrderingForm(request.POST)
             form.fields['material'].queryset = materials
-            form.fields['available_time'].queryset = available_time
+            form.fields['available_time'].queryset = gte_date
 
     context = {
     'course':course,
     'course_media':course_media,
-    'available_time':available_time,
+    'gte_date':gte_date,
     'materials':materials,
     'form':form,
     'googlemap_api_key': googlemap_api_key,
     }
 
     return render(request, 'course_detail.html', context)
+
+def datepicker_ajax(request):
+    if request.is_ajax() and request.method == "GET":
+        pk = request.GET.get('pk', '')
+        data = request.GET.get('date', '')
+        course = get_object_or_404(Course, pk=pk)
+        available_time = list(course.availabletime_set.filter(format_date=data))
+        print(available_time)
+
+    return JsonResponse({"d": 'df'})
 
 def ordering_detail(request, pk):
     ordering = get_object_or_404(Ordering, pk=pk)
