@@ -35,9 +35,6 @@
     <div class="login-box">
       <div class="login-box-header"><h4>會員登入</h4></div>
 
-
-
-
         <form class="login" method="POST" action="{% url 'account_login' %}">
           {% csrf_token %}
           {% if redirect_field_value %}
