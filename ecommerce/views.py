@@ -45,6 +45,10 @@ def vendor_detail(request, pk):
             subscribe = UserSubscribe.objects.get(user=request.user.userprofile, vendor=vendor)
         except:
             subscribe = False
+        # except UserSubscribe.DoesNotExist:
+        #     subscribe = False
+        # except RelatedObjectDoesNotExist:
+        #     pass
     else:
         subscribe = False
 
