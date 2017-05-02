@@ -17,14 +17,14 @@
 
 <!-- page cover -->
 <div class="content-wrap">
-  <div class="allv-page-cover-div">
+  <section class="allv-page-cover-section">
       <div class="allv-page-cover-image-holder">
           <img src="{% static 'img/vendor_cover.jpg' %}" />
       </div>
       <div class="allv-page-cover-caption">
           <h1>Vendors</h1>
       </div>
-  </div>
+  </section>
 
 <!-- page cover -->
 
@@ -34,7 +34,7 @@
 
 
 
-<div class="allv-page-content-div">
+<section class="allv-page-content-section">
   <div class="allv-page-vendor-cards-container">
     {% for vendor in vendors %}
     <div class="allv-page-vendor-card">
@@ -85,7 +85,7 @@
       </div>
       {% endfor %}
     </div>
-  </div>
+  </section>
 </div>
 
 

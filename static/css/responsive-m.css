@@ -1,11 +1,11 @@
     /*index-page resposive m starts here*/
 
     @media screen and (min-width:1368px) {
-        .vendor-div {
+        .vendor-section {
             width: 85%;
             margin: auto;
         }
-        .course-div {
+        .course-section {
             width: 85%;
             margin: auto;
         }
@@ -71,11 +71,11 @@
     }
 
     @media screen and (min-width:1024px) and (max-width: 1367px) {
-        .vendor-div {
+        .vendor-section {
             width: 1100px;
             margin: auto;
         }
-        .focus-course-div {
+        .focus-course-section {
             width: 1100px;
         }
         .focus-course-image-holder {
@@ -87,7 +87,7 @@
         .focs-course-info-content {
             font-size: 18px;
         }
-        .course-div {
+        .course-section {
             width: 1100px;
             margin: auto;
         }
@@ -163,13 +163,13 @@
         .slider-section {
             margin-top: 62px;
         }
-        .vendor-div {
+        .vendor-section {
             width: 100%;
         }
-        .course-div {
+        .course-section {
             width: 100%;
         }
-        .focus-course-div {
+        .focus-course-section {
             width: 100%;
         }
         .focus-course-image-holder {
@@ -222,7 +222,7 @@
     }
 
     @media screen and (max-width: 900px) {
-        .focus-course-div {
+        .focus-course-section {
             width: 100%;
         }
         .focus-course-container {
@@ -346,7 +346,7 @@
         .slider-section {
             height: 500px;
         }
-        .blank-div {
+        .blank-section {
             padding: 0px;
             height: 10px;
         }
@@ -392,7 +392,7 @@
         .focus-course-info-title h1, h2, h3, h4, h5 {
             font-size: 25px;
         }
-        .course-div {
+        .course-section {
             width: 410px;
             margin: auto;
             padding: 0px;
@@ -466,7 +466,7 @@
             width: 100%;
             margin: auto;
         }
-        .vendor-div {
+        .vendor-section {
             width: 100%;
             padding: 0px;
         }
@@ -494,7 +494,7 @@
         .focus-course-image-holder {
             height: 200px;
         }
-        .course-div {
+        .course-section {
             width: 100%;
             margin: auto;
             padding: 0px;
@@ -559,19 +559,19 @@
         .slider-section {
             height: 435px;
         }
-        .blank-div {
+        .blank-section {
             height: 10px;
         }
         .navbar-custom {
             width: 100%;
             margin: auto;
         }
-        .vendor-div {
+        .vendor-section {
             width: 100%;
             margin: 0px;
             padding: 0px;
         }
-        .vendor-div .allv-page-statistic-course, .vendor-div .allv-page-statistic-follow, .vendor-div .allv-page-statistic-comment{
+        .vendor-section .allv-page-statistic-course, .vendor-section .allv-page-statistic-follow, .vendor-section .allv-page-statistic-comment{
             width: 31%;
         }
         .vendor-container .allv-page-statistic-course-label, .vendor-container .allv-page-statistic-follow-label, .vendor-container .allv-page-statistic-comment-label{
@@ -616,7 +616,7 @@
         .focus-course-info-btn>.btn {
             font-size: 12px;
         }
-        .course-div {
+        .course-section {
             width: 100%;
             margin: 0px;
         }
@@ -700,7 +700,7 @@
     /*course-page responsive m starts here*/
 
     @media screen and (min-width:1300px) {
-        .course-page-content-div {
+        .course-page-content-section {
             width: 1300px;
         }
         .course-page-statistic-container-r {
@@ -715,7 +715,7 @@
         .course-page-tab-container {
             width: 60%;
         }
-        .course-page-cover-div {
+        .course-page-cover-section {
             height: 720px;
         }
         .course-page-date-collapse-container {
@@ -775,13 +775,13 @@
     }
 
     @media screen and (min-width:1024px) and (max-width: 1300px) {
-        .course-page-cover-div {
+        .course-page-cover-section {
             height: 720px;
         }
-        .course-page-cover-div>.lSSlideOuter>.lSSlideWrapper {
+        .course-page-cover-section>.lSSlideOuter>.lSSlideWrapper {
             height: 80%;
         }
-        .course-page-cover-div>.lSSlideOuter>.lSGallery {
+        .course-page-cover-section>.lSSlideOuter>.lSGallery {
             height: 20%;
         }
         .course-page-statistic-container-r {
@@ -861,14 +861,14 @@
     }
 
     @media screen and (min-width:937px) and (max-width: 1024px) {
-        .course-page-cover-div {
+        .course-page-cover-section {
             height: 650px;
             margin-top: 62px;
         }
-        .course-page-cover-div>.lSSlideOuter>.lSSlideWrapper {
+        .course-page-cover-section>.lSSlideOuter>.lSSlideWrapper {
             height: 83%;
         }
-        .course-page-cover-div>.lSSlideOuter>.lSGallery {
+        .course-page-cover-section>.lSSlideOuter>.lSGallery {
             height: 17%;
         }
         .course-page-tab-nav-container>.nav-tabs>li>a {
@@ -880,14 +880,14 @@
     }
 
     @media screen and (min-width:837px) and (max-width: 937px) {
-        .course-page-cover-div {
+        .course-page-cover-section {
             height: 600px;
             margin-top: 62px;
         }
-        .course-page-cover-div>.lSSlideOuter>.lSSlideWrapper {
+        .course-page-cover-section>.lSSlideOuter>.lSSlideWrapper {
             height: 80%;
         }
-        .course-page-cover-div>.lSSlideOuter>.lSGallery {
+        .course-page-cover-section>.lSSlideOuter>.lSGallery {
             height: 20%;
         }
         .course-page-tab-nav-container>.nav-tabs>li>a {
@@ -896,26 +896,26 @@
     }
 
     @media screen and (min-width:737px) and (max-width: 837px) {
-        .course-page-cover-div {
+        .course-page-cover-section {
             height: 550px;
             margin-top: 62px;
         }
-        .course-page-cover-div>.lSSlideOuter>.lSSlideWrapper {
+        .course-page-cover-section>.lSSlideOuter>.lSSlideWrapper {
             height: 80%;
         }
-        .course-page-cover-div>.lSSlideOuter>.lSGallery {
+        .course-page-cover-section>.lSSlideOuter>.lSGallery {
             height: 20%;
         }
     }
 
     @media screen and (max-width:737px) {
-        .course-page-cover-div {
+        .course-page-cover-section {
             margin-top: 62px;
         }
-        .course-page-cover-div>.lSSlideOuter>.lSSlideWrapper {
+        .course-page-cover-section>.lSSlideOuter>.lSSlideWrapper {
             height: 76%;
         }
-        .course-page-cover-div>.lSSlideOuter>.lSGallery {
+        .course-page-cover-section>.lSSlideOuter>.lSGallery {
             height: 24%;
         }
         .course-page-tab-nav-container>.nav-tabs>li>a {
@@ -936,7 +936,7 @@
         .course-page-tab-nav-container>.nav-tabs>li>a {
             padding: 10px 25px;
         }
-        .course-page-cover-div {
+        .course-page-cover-section {
             height: 420px;
         }
         .allc-page-tab-row {
@@ -968,7 +968,7 @@
         .course-page-course-tab-rate-r>.rate_row>.rate_star {
             font-size: 40px;
         }
-        .course-page-cover-div {
+        .course-page-cover-section {
             height: 380px;
         }
     }
@@ -977,7 +977,7 @@
         .course-page-tab-nav-container>.nav-tabs>li>a {
             padding: 10px 15px;
         }
-        .course-page-cover-div {
+        .course-page-cover-section {
             height: 330px;
         }
         .comment-bubble {
@@ -986,7 +986,7 @@
     }
 
     @media screen and (max-width:415px) {
-        .course-page-cover-div {
+        .course-page-cover-section {
             height: 290px;
         }
         .course-page-statistic-title-r>h1 {
@@ -1101,7 +1101,7 @@
     }
 
     @media screen and (max-width:376px) {
-        .course-page-cover-div {
+        .course-page-cover-section {
             height: 250px;
         }
         .course-page-tab-container>.nav>li>a {
@@ -1140,7 +1140,7 @@
     }
 
     @media screen and (max-width:321px) {
-        .course-page-cover-div {
+        .course-page-cover-section {
             height: 210px;
         }
         .course-page-related-container>.course-card>.course-card-profile {
@@ -1195,7 +1195,7 @@
     /*vendor page responsive starts here*/
 
     @media screen and (min-width:1300px) {
-        .vendor-page-content-div {
+        .vendor-page-content-section {
             width: 85%;
         }
         .vendor-page-statistic-container-r {
@@ -1209,7 +1209,7 @@
         .vendor-page-tab-container {
             width: 60%;
         }
-        .vendor-page-cover-div {
+        .vendor-page-cover-section {
             height: 400px;
         }
         .vendor-page-date-collapse-container {
@@ -1262,13 +1262,13 @@
     }
 
     @media screen and (min-width:1024px) and (max-width: 1300px) {
-        .vendor-page-cover-div {
+        .vendor-page-cover-section {
             height: 400px;
         }
-        .vendor-page-cover-div>.lSSlideOuter>.lSSlideWrapper {
+        .vendor-page-cover-section>.lSSlideOuter>.lSSlideWrapper {
             height: 80%;
         }
-        .vendor-page-cover-div>.lSSlideOuter>.lSGallery {
+        .vendor-page-cover-section>.lSSlideOuter>.lSGallery {
             height: 20%;
         }
         .vendor-page-statistic-container-r {
@@ -1341,7 +1341,7 @@
     }
 
     @media screen and (min-width:937px) and (max-width: 1024px) {
-        .vendor-page-cover-div {
+        .vendor-page-cover-section {
             height: 650px;
             margin-top: 62px;
         }
@@ -1366,7 +1366,7 @@
     }
 
     @media screen and (min-width:837px) and (max-width: 937px) {
-        .vendor-page-cover-div {
+        .vendor-page-cover-section {
             height: 650px;
             margin-top: 62px;
         }
@@ -1385,14 +1385,14 @@
     }
 
     @media screen and (min-width:737px) and (max-width: 837px) {
-        .vendor-page-cover-div {
+        .vendor-page-cover-section {
             height: 650px;
             margin-top: 62px;
         }
-        .vendor-page-cover-div>.lSSlideOuter>.lSSlideWrapper {
+        .vendor-page-cover-section>.lSSlideOuter>.lSSlideWrapper {
             height: 82%;
         }
-        .vendor-page-cover-div>.lSSlideOuter>.lSGallery {
+        .vendor-page-cover-section>.lSSlideOuter>.lSGallery {
             height: 18%;
         }
         .vendor-page-statistic-container-r {
@@ -1407,13 +1407,13 @@
     }
 
     @media screen and (max-width:737px) {
-        .vendor-page-cover-div {
+        .vendor-page-cover-section {
             margin-top: 62px;
         }
-        .vendor-page-cover-div>.lSSlideOuter>.lSSlideWrapper {
+        .vendor-page-cover-section>.lSSlideOuter>.lSSlideWrapper {
             height: 84%;
         }
-        .vendor-page-cover-div>.lSSlideOuter>.lSGallery {
+        .vendor-page-cover-section>.lSSlideOuter>.lSGallery {
             height: 16%;
         }
         .vendor-page-tab-nav-container>.nav-tabs>li>a {
@@ -1449,7 +1449,7 @@
         .vendor-page-tab-nav-container>.nav-tabs>li>a {
             padding: 10px 20px;
         }
-        .vendor-page-cover-div {
+        .vendor-page-cover-section {
             height: 650px;
         }
         .allc-page-tab-row {
@@ -1478,7 +1478,7 @@
         .vendor-page-course-tab-rate-r>.rate_row>.rate_star {
             font-size: 40px;
         }
-        .vendor-page-cover-div {
+        .vendor-page-cover-section {
             height: 650px;
         }
         .vendor-page-statistic-container-r{
@@ -1502,7 +1502,7 @@
             padding: 10px 10px;
             font-size: 16px;
         }
-        .vendor-page-cover-div {
+        .vendor-page-cover-section {
             height: 650px;
         }
         .vendor-page-statistic-container-r {
@@ -1516,7 +1516,7 @@
     }
 
     @media screen and (max-width:415px) {
-        .vendor-page-cover-div {
+        .vendor-page-cover-section {
             height: 600px;
         }
         .vendor-page-statistic-container-r {
@@ -1591,7 +1591,7 @@
     }
 
     @media screen and (max-width:376px) {
-        .vendor-page-cover-div {
+        .vendor-page-cover-section {
             height: 550px;
         }
         .vendor-page-statistic-container-r {
@@ -1641,7 +1641,7 @@
     }
 
     @media screen and (max-width:321px) {
-        .vendor-page-cover-div {
+        .vendor-page-cover-section {
             height: 450px;
         }
         .vendor-page-statistic-container-r {
@@ -1688,45 +1688,45 @@
 
     /*allc page responsive starts here*/
     @media screen and (min-width:1440px){
-      .allc-page-content-div>.tab-content{
+      .allc-page-content-section>.tab-content{
         width: 85%;
       }
       .customNav {
         width: 57%;
         left: 21.5%;
       }
-      .allc-page-content-div>.tab-content .allc-page-tab-row{
+      .allc-page-content-section>.tab-content .allc-page-tab-row{
         width: 32%;
         margin: 5px 3px 15px 3px;
         display: inline-block;
         height: 350px;
       }
-      .allc-page-content-div>.owl-carousel{
+      .allc-page-content-section>.owl-carousel{
         width: 55%;
         margin: 20px auto 0px auto;
       }
-      .allc-page-content-div .allc-page-tab-info-title{
+      .allc-page-content-section .allc-page-tab-info-title{
         font-size: 25px;
         padding: 0px 5px 0px 10px;
       }
-      .allc-page-content-div .allc-page-tab-info-vendor{
+      .allc-page-content-section .allc-page-tab-info-vendor{
         padding: 1px 5px 5px 10px;
       }
-      .allc-page-content-div .allc-page-tab-info-vendor-logo{
+      .allc-page-content-section .allc-page-tab-info-vendor-logo{
         height: 30px;
         width: 30px;
       }
-      .allc-page-content-div .allc-page-tab-info-vendor-name>a>h2{
+      .allc-page-content-section .allc-page-tab-info-vendor-name>a>h2{
         font-size: 15px;
       }
-      .allc-page-content-div .allc-page-tab-price{
+      .allc-page-content-section .allc-page-tab-price{
         font-size: 20px;
         margin: 19px;
       }
     }
 
     @media screen and (min-width:1370px) and (max-width:1440px){
-      .allc-page-content-div>.tab-content{
+      .allc-page-content-section>.tab-content{
         width: 90%;
         margin-top: 10px;
       }
@@ -1734,31 +1734,31 @@
         width: 57%;
         left: 21.5%;
       }
-      .allc-page-content-div>.tab-content .allc-page-tab-row{
+      .allc-page-content-section>.tab-content .allc-page-tab-row{
         width: 32%;
         margin: 5px 3px 15px 3px;
         display: inline-block;
         height: 350px;
       }
-      .allc-page-content-div>.owl-carousel{
+      .allc-page-content-section>.owl-carousel{
         width: 55%;
         margin: 20px auto 0px auto;
       }
-      .allc-page-content-div .allc-page-tab-info-title{
+      .allc-page-content-section .allc-page-tab-info-title{
         font-size: 25px;
         padding: 0px 5px 0px 10px;
       }
-      .allc-page-content-div .allc-page-tab-info-vendor{
+      .allc-page-content-section .allc-page-tab-info-vendor{
         padding: 1px 5px 5px 10px;
       }
-      .allc-page-content-div .allc-page-tab-info-vendor-logo{
+      .allc-page-content-section .allc-page-tab-info-vendor-logo{
         height: 30px;
         width: 30px;
       }
-      .allc-page-content-div .allc-page-tab-info-vendor-name>a>h2{
+      .allc-page-content-section .allc-page-tab-info-vendor-name>a>h2{
         font-size: 15px;
       }
-      .allc-page-content-div .allc-page-tab-price{
+      .allc-page-content-section .allc-page-tab-price{
         font-size: 20px;
         margin: 19px;
       }
@@ -1769,35 +1769,35 @@
         width: 67%;
         left: 16.5%;
       }
-      .allc-page-content-div>.tab-content{
+      .allc-page-content-section>.tab-content{
         width: 90%;
         margin-top: 10px;
       }
-      .allc-page-content-div>.tab-content .allc-page-tab-row{
+      .allc-page-content-section>.tab-content .allc-page-tab-row{
         width: 32%;
         margin: 5px 3px 15px 3px;
         display: inline-block;
         height: 240px;
       }
-      .allc-page-content-div>.owl-carousel{
+      .allc-page-content-section>.owl-carousel{
         width: 65%;
         margin: 20px auto 0px auto;
       }
-      .allc-page-content-div .allc-page-tab-info-title{
+      .allc-page-content-section .allc-page-tab-info-title{
         font-size: 18px;
         padding: 0px 5px 0px 10px;
       }
-      .allc-page-content-div .allc-page-tab-info-vendor{
+      .allc-page-content-section .allc-page-tab-info-vendor{
         padding: 1px 5px 5px 10px;
       }
-      .allc-page-content-div .allc-page-tab-info-vendor-logo{
+      .allc-page-content-section .allc-page-tab-info-vendor-logo{
         height: 20px;
         width: 20px;
       }
-      .allc-page-content-div .allc-page-tab-info-vendor-name>a>h2{
+      .allc-page-content-section .allc-page-tab-info-vendor-name>a>h2{
         font-size: 13px;
       }
-      .allc-page-content-div .allc-page-tab-price{
+      .allc-page-content-section .allc-page-tab-price{
         font-size: 15px;
         margin: 10px;
       }
@@ -1808,35 +1808,35 @@
         width: 70%;
         left: 15%;
       }
-      .allc-page-content-div>.tab-content{
+      .allc-page-content-section>.tab-content{
         width: 90%;
         margin-top: 10px;
       }
-      .allc-page-content-div>.tab-content .allc-page-tab-row{
+      .allc-page-content-section>.tab-content .allc-page-tab-row{
         width: 32%;
         margin: 5px 3px 15px 3px;
         display: inline-block;
         height: 240px;
       }
-      .allc-page-content-div>.owl-carousel{
+      .allc-page-content-section>.owl-carousel{
         width: 65%;
         margin: 20px auto 0px auto;
       }
-      .allc-page-content-div .allc-page-tab-info-title{
+      .allc-page-content-section .allc-page-tab-info-title{
         font-size: 18px;
         padding: 0px 5px 0px 10px;
       }
-      .allc-page-content-div .allc-page-tab-info-vendor{
+      .allc-page-content-section .allc-page-tab-info-vendor{
         padding: 1px 5px 5px 10px;
       }
-      .allc-page-content-div .allc-page-tab-info-vendor-logo{
+      .allc-page-content-section .allc-page-tab-info-vendor-logo{
         height: 20px;
         width: 20px;
       }
-      .allc-page-content-div .allc-page-tab-info-vendor-name>a>h2{
+      .allc-page-content-section .allc-page-tab-info-vendor-name>a>h2{
         font-size: 13px;
       }
-      .allc-page-content-div .allc-page-tab-price{
+      .allc-page-content-section .allc-page-tab-price{
         font-size: 15px;
         margin: 10px;
       }
@@ -1854,10 +1854,10 @@
        width: 100%;
        left: 0%;
       }
-      .allc-page-content-div>.tab-content .allc-page-tab-row{
+      .allc-page-content-section>.tab-content .allc-page-tab-row{
         height: 530px;
       }
-      .allc-page-content-div>.owl-carousel{
+      .allc-page-content-section>.owl-carousel{
         width: 100%;
         margin: 20px auto 0px auto;
       }
@@ -1871,7 +1871,7 @@
         .allc-page-tab-info-intro {
             font-size: 17px;
         }
-        .allc-page-content-div>.owl-carousel{
+        .allc-page-content-section>.owl-carousel{
           width: 100%;
           margin: 20px auto 0px auto;
         }

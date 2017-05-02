@@ -36,12 +36,3 @@ class OrderingForm(forms.ModelForm):
         'material',
         'participants_number'
         ]
-
-
-class SignupForm(forms.Form):
-    gender = forms.CharField(max_length=20)
-    phone = forms.IntegerField()
-    address = forms.CharField(max_length=200)
-
-    def signup(self, request, user):
-        user_profile = UserProfile.objects.create(user=user, gender=self.cleaned_data['gender'], phone=self.cleaned_data['phone'], address=self.cleaned_data['address'])

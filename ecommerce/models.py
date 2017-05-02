@@ -23,6 +23,7 @@ class Vendor(models.Model):
     facebook = models.URLField(null=True, blank=True)
     instagram = models.URLField(null=True, blank=True)
     youtube = models.URLField(null=True, blank=True)
+    subscribe_number = models.PositiveIntegerField()
 
 
     def __str__(self):
@@ -43,6 +44,7 @@ def vendor_media(instance, filename):
 
 class VendorMedia(models.Model):
     vendor = models.ForeignKey(Vendor)
+    order = models.IntegerField()
     position = models.CharField(max_length=50, choices=VENDOE_POSITION_CHOISES)
     file = models.FileField(upload_to=vendor_media)
 
@@ -50,7 +52,7 @@ class VendorMedia(models.Model):
         return str(self.file)
 
     class Meta:
-        ordering = ['vendor', 'position']
+        ordering = ['vendor', 'position', 'order']
 
 
 def catagory_upload(instance, filename):
@@ -95,12 +97,13 @@ def course_media(instance, filename):
 
 class CourseMedia(models.Model):
     course = models.ForeignKey(Course)
+    order = models.IntegerField()
     file = models.FileField(upload_to=course_media)
 
     def __str__(self):
         return str(self.file)
     class Meta:
-        ordering = ['course',]
+        ordering = ['course', 'order']
 
 class Material(models.Model):
     course = models.ForeignKey(Course)
@@ -164,14 +167,30 @@ def ordering_post_delete_receiver(sender, instance, *args, **kwargs):
 
 post_delete.connect(ordering_post_delete_receiver, sender=Ordering)
 
+
+GENDER_CHOICE = (
+    ('男', '男'),
+    ('女', '女'),
+    ('不願透露', '不願透露'),
+)
+
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    gender = models.CharField(max_length=20)
-    phone = models.IntegerField()
+    gender = models.CharField(max_length=20, choices=GENDER_CHOICE)
+    phone = models.CharField(max_length=30)
     address = models.CharField(max_length=200)
 
     def __str__(self):
-        return self.address
+        return str(self.user)
+
+
+class UserSubscribe(models.Model):
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    vendor = models.ForeignKey(Vendor)
+
+    def __str__(self):
+        return str(self.user)
+
 
 def index_media(instance, filename):
     return "index/{}".format(filename)

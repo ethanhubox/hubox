@@ -2,27 +2,39 @@ from django.contrib import admin
 from django.db import models
 from ghoster.admin import GhosterAdmin
 from markdownx.widgets import AdminMarkdownxWidget
-from .models import Vendor, Catagory, Course, AvailableTime, VendorMedia, CourseMedia, Material, Ordering, UserProfile, IndexEdit, IndexRole, IndexVendor
+from .models import Vendor, Catagory, Course, AvailableTime, VendorMedia, CourseMedia, Material, Ordering, UserProfile, UserSubscribe, IndexEdit, IndexRole, IndexVendor
 # Register your models here.
 
 
 class CourseInline(admin.StackedInline):
     model = Course
+    extra = 0
 
 class AvailibleTimeInline(admin.TabularInline):
     model = AvailableTime
+    extra = 0
 
 class VendorMediaInline(admin.TabularInline):
     model = VendorMedia
+    extra = 0
 
 class CourseMediaInline(admin.TabularInline):
     model = CourseMedia
+    extra = 0
 
 class IndexRoleInline(admin.TabularInline):
     model = IndexRole
+    extra = 0
 
 class IndexVendorInline(admin.StackedInline):
     model = IndexVendor
+    extra = 0
+
+class UserSubscribeInline(admin.TabularInline):
+    model = UserSubscribe
+    extra = 0
+
+
 
 
 
@@ -70,7 +82,12 @@ class OderingAdmin(admin.ModelAdmin):
     list_display = ('user', 'course', 'total_amount')
 
 class UserProfileAdmin(admin.ModelAdmin):
+    inlines = [UserSubscribeInline, ]
     list_display = ('user', 'gender', 'phone', 'address')
+
+class UserSubscribeAdmin(admin.ModelAdmin):
+    list_display = ('user', 'vendor')
+
 
 class IndexEditAdmin(admin.ModelAdmin):
     formfield_overrides = {
@@ -94,6 +111,7 @@ admin.site.register(CourseMedia, CourseMediaAdmin)
 admin.site.register(Material, MaterialAdmin)
 admin.site.register(Ordering, OderingAdmin)
 admin.site.register(UserProfile, UserProfileAdmin)
+admin.site.register(UserSubscribe, UserSubscribeAdmin)
 admin.site.register(IndexEdit, IndexEditAdmin)
 admin.site.register(IndexRole, IndexRoleAdmin)
 admin.site.register(IndexVendor, IndexVendorAdmin)

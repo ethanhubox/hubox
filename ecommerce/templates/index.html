@@ -16,78 +16,33 @@
 
 {% block css %}
 
-    <!-- icon -->
-    <link rel="icon" href="img/H.png" type="image/x-icon" />
-
-    <!-- Customized CSS -->
-    <link href="css/style-m.css" rel="stylesheet">
-
-    <!-- Bootstrap Core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/animate.min.css" rel="stylesheet">
-
-    <!-- resposive css -->
-    <link href="css/responsive-m.css" rel="stylesheet">
-
-    <!-- font awesome css -->
-    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">
-
-    <!-- side-toggle-nav css -->
-    <link rel="stylesheet" type="text/css" href="css/demo.css" />
-    <link rel="stylesheet" type="text/css" href="css/sideslide.css" />
-
-    <!-- touch-carousel css -->
-    <link rel="stylesheet" href="css/owl.carousel.min.css">
-    <link rel="stylesheet" href="css/owl.theme.default.min.css">
-
-    <link rel="stylesheet" href="css/lightslider.css">
-
-    <!-- form css -->
-    <link rel="stylesheet" href="css/bootstrap-select.css">
-
-    <!-- about-video-player css -->
-    <link href="css/mediaelementplayer.css" rel="stylesheet">
-
-    <!-- vendor-video-player css -->
-    <link rel="stylesheet" href="css/plyr.css">
-
-    <!-- google font css -->
-    <link href="https://fonts.googleapis.com/css?family=Lora:400,400italic,700%7CMontserrat:400,700" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Kaushan+Script" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Alfa+Slab+One" rel="stylesheet">
-
-    <!-- jQuery -->
-    <script src="js/jquery-2.1.4.min.js"></script>
-
-    <!-- owl-carousel  js -->
-    <script src="js/owl.carousel.min.js"></script>
-
+<!-- vendor-video-player css -->
+<link rel="stylesheet" href="{% static "css/plyr.css" %}">
 
 <style type="text/css">
 
-    .slider-div-img-holder-1{
+    .slider-section-img-holder-1{
      background-image:url({% static "img/main-cover-1.jpg" %});
      background-size: cover;
      background-position: center;
     }
-    .slider-div-img-holder-2{
+    .slider-section-img-holder-2{
       background-image:url({% static "img/main-cover-2.jpg" %});
       background-size: cover;
       background-position: center;
     }
-    .slider-div-img-holder-3{
+    .slider-section-img-holder-3{
       background-image:url({% static "img/main-cover-3.jpg" %});
       background-size: cover;
       background-position: center;
     }
-    .slider-div-img-holder-4{
+    .slider-section-img-holder-4{
       background-image:url({% static "img/cover01.jpg" %});
       background-size: cover;
       background-position: center;
     }
 
-    .corporate-div {
+    .corporate-section {
         width: 100%;
         margin: 10px 0px auto;
         height: 500px;
@@ -102,10 +57,10 @@
 {% block cover_page %}{% endblock %}
 
 {% block content %}
-  <!-- slider-div starts here-->
-  <div class="slider-div">
+  <!-- slider-section starts here-->
+  <section class="slider-section">
       <div id="lightSliderSingleCover">
-          <div class="slider-div-img-holder-1">
+          <div class="slider-section-img-holder-1">
               <div class="slider-caption-holder">
                   <div class="slider-caption-title-holder">
                       <div class="slider-caption-title-1">Learn</div>
@@ -117,7 +72,7 @@
               </div>
             </a>
           </div>
-          <div class="slider-div-img-holder-2">
+          <div class="slider-section-img-holder-2">
               <div class="slider-caption-holder">
                   <div class="slider-caption-title-holder">
                       <div class="slider-caption-title-2">Taste</div>
@@ -128,7 +83,7 @@
                   </div>
               </div>
           </div>
-          <div class="slider-div-img-holder-3">
+          <div class="slider-section-img-holder-3">
               <div class="slider-caption-holder">
                   <div class="slider-caption-title-holder">
                       <div class="slider-caption-title-3">Life</div>
@@ -140,11 +95,11 @@
               </div>
           </div>
       </div>
-  </div>
-  <!-- slider-div ends here -->
+  </section>
+  <!-- slider-section ends here -->
   <section class="blank-section"></section>
-  <!-- focus-course-div starts here -->
-    <div class="focus-course-div">
+  <!-- focus-course-section starts here -->
+    <section class="focus-course-section">
         <div class="focus-course-container">
             <div class="focus-course-image-holder">
                 <img src="{{ index.photo.url }}" />
@@ -161,12 +116,12 @@
                 </div>
             </div>
         </div>
-    </div>
-  <!-- focus-course-div ends here -->
+    </section>
+  <!-- focus-course-section ends here -->
 
   <section class="blank-section"></section>
-  <!-- course-div starts here -->
-<div class="course-div">
+  <!-- course-section starts here -->
+<section class="course-section">
   {% for role in index.indexrole_set.all %}
     <div class="course-header">
         <div class="course-header-logo"><img src="{% static 'img/logo.png' %}" /></div>
@@ -268,16 +223,15 @@
       </div>
     </div>
   {% endfor %}
-</div>
-  <!-- course-div ends here -->
-  <div class="vendor-div">
+</section>
+  <!-- course-section ends here -->
+  <section class="vendor-section">
     <div class="vendor-header">
         <h2>工作坊推薦</h2>
         <div class="vendor-header-btn-holder">
             <a href="{{ index.vendor_more }}" type="button" class="btn btn-info">了解更多</a>
         </div>
     </div>
-
     <div class="vendor-container">
         <div class="lightSliderVendor">
           <!-- Vendor card No.1 starts here-->
@@ -289,7 +243,7 @@
                           <img src="{{ index.vendor.logo.url }}" />
                       </div>
                   </a>
-                  <a href="{{ vendor.get_absolute_url }}">
+                  <a href="{{ index.vendor.get_absolute_url }}">
                       <div class="allv-page-vendor-card-title">
                           <h1>{{ index.vendor.name }}</h1>
                           <p>{{ index.vendor.catagory }}</p>
@@ -312,7 +266,7 @@
                   </div>
                   <div class="allv-page-statistic-follow">
                       <div class="allv-page-statistic-follow-number">
-                          1,234
+                        {{ index.vendor.subscribe_number }}
                       </div>
                       <div class="allv-page-statistic-follow-label">
                           <span>追蹤</span>
@@ -333,9 +287,9 @@
         </div>
     </div>
 
-  </div>
+  </section>
   <!-- Corporate-srction starts here -->
-  <div class="corporate-div">
+  <section class="corporate-section">
       <div class="corporate-container">
           <div class="corporate-info-holder">
               <div class="corporate-info-title">
@@ -349,7 +303,7 @@
               </div>
           </div>
       </div>
-  </div>
+  </section>
   <!-- Corporate-srction ends here -->
 
 </div>
@@ -361,7 +315,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <div class="modal-header-logo"><img src="img/logo.png"></div>
+                <div class="modal-header-logo"><img src="{% static "img/logo.png" %}"></div>
             </div>
             <div class="modal-body">
                 <div class="corporate-form-container">
@@ -400,30 +354,11 @@
 {% block js %}
 
 
-<!-- side-toggle-nav js -->
-<script src="js/classie.js"></script>
-<script src="js/main.js"></script>
-
-<!-- sticky js -->
-<script src="js/sticky.js"></script>
-
-<!-- nav scroll js -->
-<!-- <script src="js/scroll.js"></script> -->
-
-<!-- lightSlider js -->
-<script src="js/lightSlider.js"></script>
-
-<!-- form js -->
-<script src="js/bootstrap-select.js"></script>
-
-<!-- about-video-player js -->
-<script src="js/mediaelement-and-player.js"></script>
-
 <!-- vendor-video-player js -->
-<script src="js/plyr.js"></script>
+<script src="{% static "js/plyr.js" %}"></script>
 
 <!-- parallax js -->
-<script src="js/parallax.min.js"></script>
+<script src="{% static "js/parallax.min.js" %}"></script>
 
 
 <!-- lightSlider initiate -->

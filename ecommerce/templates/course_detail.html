@@ -30,7 +30,7 @@
 {% block content %}
 
   <!-- cover div -->
-  <div class="course-page-cover-div">
+  <section class="course-page-cover-section">
     <ul id="lightSliderThumbnailCover">
       {% for course_media in course.coursemedia_set.all  %}
         <li data-thumb="{{ course_media.file.url }}">
@@ -38,11 +38,11 @@
         </li>
       {% endfor %}
     </ul>
-  </div>
+  </section>
   <!-- cover div end -->
 
-  <div class="blank-div"></div>
-  <div class="course-page-content-div">
+  <section class="blank-section"></section>
+  <section class="course-page-content-section">
     <div class="course-page-content-container">
       <div class="course-page-statistic-container-r">
         <div class="course-page-statistic-title-r">
@@ -285,7 +285,7 @@
 
     </div>
 
-  </div>
+  </section>
 
 {% endblock %}
 

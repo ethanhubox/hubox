@@ -21,7 +21,7 @@
     <link rel="icon" href="{% static "img/H.png" %}" type="image/x-icon"/>
 
     <!-- Customized CSS -->
-    <link href="{% static "css/style-m.css" %}" rel="stylesheet">
+    <link href="{% static "css/style.css" %}" rel="stylesheet">
 
     <!-- Bootstrap Core CSS -->
     <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
@@ -49,6 +49,12 @@
     <link href="https://fonts.googleapis.com/css?family=Kaushan+Script" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Alfa+Slab+One" rel="stylesheet">
+
+
+    <!-- member page css -->
+    <link href="{% static "css/member.css" %}" rel="stylesheet">
+
+
     {% block css %}{% endblock %}
 
     <!-- jQuery -->
@@ -129,15 +135,7 @@
     </div>
     <!-- navigation ends here -->
 <div class="content-wrap">
-  {% block cover_page %}
-
-    <div class="vendor-page-cover-div">
-        <div class="vendor-page-cover-image-holder">
-            <img src="{% static 'img/vendor_cover.jpg' %}" />
-        </div>
-    </div>
-
-  {% endblock %}
+  {% block cover_page %}{% endblock %}
 
   {% block content %}{% endblock %}
 </div>

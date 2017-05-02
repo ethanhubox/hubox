@@ -178,6 +178,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 LOGIN_REDIRECT_URL = "/vendor/list"
 ACCOUNT_LOGOUT_REDIRECT_URL = "/vendor/list"
-ACCOUNT_SIGNUP_FORM_CLASS = 'ecommerce.forms.SignupForm'
-SOCIALACCOUNT_AUTO_SIGNUP = False
 ACCOUNT_EMAIL_REQUIRED = True

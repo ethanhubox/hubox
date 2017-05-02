@@ -14,82 +14,69 @@
 
 
 {% block cover_page %}
-
-<!-- cover div -->
-<div class="allc-page-cover-div">
-  <div class="allc-page-cover-image-holder">
-    <img src="{% static "img/allc-cover.jpg" %}" />
-  </div>
-  <div class="allc-page-cover-caption">
-    <h1>Courses</h1>
-  </div>
-</div>
-<!-- cover div end -->
-
+<section class="allc-page-cover-section">
+    <div class="allc-page-cover-image-holder">
+        <img src="{% static "img/allc-cover.jpg" %}" />
+    </div>
+    <div class="allc-page-cover-caption">
+        <h1>Courses</h1>
+    </div>
+</section>
 
 {% endblock %}
-
 {% block content %}
-
-  <div class="allc-page-content-div">
-    <!-- catagory carousel -->
-    <div class="customNav"></div>
-    <div class="allc-page-tab-nav-container  owl-carousel">
-      {% for catagory in catagory %}
-      <a href="#{{ catagory.slug }}" aria-controls="home" role="tab" data-toggle="tab">
-        <div role="presentation" class="allc-page-tab-nav-item-holder">
-          <img src="{{ catagory.logo.url }}" /><span>{{ catagory.name }}</span>
-        </div>
-      </a>
-      {% endfor %}
-    </div>
-    <!-- catagory carousel end -->
-
-    <!-- course list -->
-    <div class="tab-content allc-page-tab-container">
-      {% for catagory in catagory %}
-        <div role="tabpanel" class="tab-pane fade active in" id="{{ catagory.slug }}">
-          <div class="allc-page-tabpanel-title-holder">
-            <div class="allc-page-tabpanel-title">
-              <h1>{{ catagory.name }}</h1>
-            </div>
-            <div class="course-container">
-              {% for course in catagory.course_set.all %}
-                <div class="allc-page-tab-row">
-                    <div class="allc-page-tab-image">
-                        <a href="{{ course.get_absolute_url }}"><img src="{{ course.coursemedia_set.all.0.file.url }}" /></a>
-                    </div>
-                    <div class="allc-page-tab-info">
-                        <a href="{{ course.get_absolute_url }}">
-                            <div class="allc-page-tab-info-title">
-                                {{ course.name }}
-                            </div>
-                        </a>
-                        <div class="allc-page-tab-info-vendor">
-                            <div class="allc-page-tab-info-vendor-logo">
-                                <a href="{{ course.vendor.get_absolute_url }}">
-                                    <img src="{{ course.vendor.logo.url }}" />
-                                </a>
-                            </div>
-                            <div class="allc-page-tab-info-vendor-name">
-                                <a href="{{ course.vendor.get_absolute_url }}">
-                                    <h2>{{ course.vendor.name }}</h2>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-              {% endfor %}
-            </div>
-          </div>
-        </div>
-      {% endfor %}
-    </div>
-    <!-- course list end -->
+<section class="allc-page-content-section">
+  <div class="customNav"></div>
+  <div class="allc-page-tab-nav-container  owl-carousel">
+    {% for catagory in catagory %}
+    <a href="#{{ catagory.slug }}" aria-controls="home" role="tab" data-toggle="tab">
+      <div role="presentation" class="allc-page-tab-nav-item-holder">
+        <img src="{{ catagory.logo.url }}" /><span>{{ catagory.name }}</span>
+      </div>
+    </a>
+    {% endfor %}
   </div>
 
-
+  <div class="tab-content allc-page-tab-container">
+    {% for catagory in catagory %}
+    <div role="tabpanel" class="tab-pane fade active in" id="{{ catagory.slug }}">
+      <div class="allc-page-tabpanel-title-holder">
+        <div class="allc-page-tabpanel-title">
+          <h1>{{ catagory.name }}</h1>
+        </div>
+        <div class="course-container">
+          {% for course in catagory.course_set.all %}
+          <div class="allc-page-tab-row">
+            <div class="allc-page-tab-image">
+                <a href="{{ course.get_absolute_url }}"><img src="{{ course.coursemedia_set.all.0.file.url }}" /></a>
+            </div>
+            <div class="allc-page-tab-info">
+              <a href="{{ course.get_absolute_url }}">
+                  <div class="allc-page-tab-info-title">
+                      {{ course.name }}
+                  </div>
+              </a>
+              <div class="allc-page-tab-info-vendor">
+                  <div class="allc-page-tab-info-vendor-logo">
+                      <a href="{{ course.vendor.get_absolute_url }}">
+                          <img src="{{ course.vendor.logo.url }}" />
+                      </a>
+                  </div>
+                  <div class="allc-page-tab-info-vendor-name">
+                      <a href="{{ course.vendor.get_absolute_url }}">
+                          <h2>{{ course.vendor.name }}</h2>
+                      </a>
+                  </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
 {% endblock %}
 
 {% block js %}

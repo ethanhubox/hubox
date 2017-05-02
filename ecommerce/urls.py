@@ -8,5 +8,5 @@ urlpatterns = [
     url(r'^course/list$', views.course_list, name='course_list'),
     url(r'^course/(?P<pk>\d+)/$', views.course_detail, name='course_detail'),
     url(r'^ordering/(?P<pk>\d+)/$', views.ordering_detail, name='ordering_detail'),
-    url(r'^datepicker_ajax/$', views.datepicker_ajax, name='datepicker_ajax'),
+    url(r'^subscribe_ajax/$', views.subscribe_ajax, name='subscribe_ajax'),
 ]

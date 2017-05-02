@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, HttpResponseRedirect
 from django.http import JsonResponse
-from .models import Vendor, Course, Catagory, Ordering, IndexEdit, AvailableTime
+from .models import Vendor, Course, Catagory, Ordering, IndexEdit, AvailableTime, UserSubscribe, UserProfile
 from .forms import OrderingForm
 from django.conf import settings
 from django.core.urlresolvers import reverse
@@ -40,15 +40,43 @@ def vendor_detail(request, pk):
     vendor_medias = vendor.vendormedia_set.all()
     courses = vendor.course_set.all()
 
+    if request.user.is_authenticated():
+        try:
+            subscribe = UserSubscribe.objects.get(user=request.user.userprofile, vendor=vendor)
+        except UserSubscribe.DoesNotExist:
+            subscribe = False
+    else:
+        subscribe = False
+
 
     context = {
     'vendor':vendor,
     'vendor_medias':vendor_medias,
     'courses':courses,
+    'subscribe': subscribe,
 
     }
 
     return render(request, 'vendor_detail.html', context)
+
+def subscribe_ajax(request):
+    vendor = get_object_or_404(Vendor, pk=request.POST.get("vendor", ''))
+    if request.user.is_authenticated():
+        user = get_object_or_404(UserProfile, user=request.user)
+        if request.method == "POST" and request.is_ajax():
+            subscribe, created = UserSubscribe.objects.get_or_create(user=user, vendor=vendor)
+            if created == False:
+                subscribe.delete()
+                subscribe = "加入追蹤"
+                vendor.subscribe_number -= 1
+                vendor.save()
+            else:
+                subscribe = "已追蹤"
+                vendor.subscribe_number += 20
+                vendor.save()
+    else:
+        subscribe = "尚未登入"
+    return JsonResponse({'subscribe': subscribe})
 
 def course_list(request):
     catagory = Catagory.objects.all()
@@ -80,12 +108,9 @@ def course_detail(request, pk):
         material_price = materials.filter(name=material_data)[0].price
 
         price = request.GET.get('price', '')
-
         total = int(price) + int(material_price)
 
         return JsonResponse({'total':total})
-
-
 
     if request.method == "POST":
         form = OrderingForm(request.POST)
@@ -115,15 +140,6 @@ def course_detail(request, pk):
 
     return render(request, 'course_detail.html', context)
 
-def datepicker_ajax(request):
-    if request.is_ajax() and request.method == "GET":
-        pk = request.GET.get('pk', '')
-        data = request.GET.get('date', '')
-        course = get_object_or_404(Course, pk=pk)
-        available_time = list(course.availabletime_set.filter(format_date=data))
-        print(available_time)
-
-    return JsonResponse({"d": 'df'})
 
 def ordering_detail(request, pk):
     ordering = get_object_or_404(Ordering, pk=pk)
