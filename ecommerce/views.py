@@ -43,7 +43,7 @@ def vendor_detail(request, pk):
     if request.user.is_authenticated():
         try:
             subscribe = UserSubscribe.objects.get(user=request.user.userprofile, vendor=vendor)
-        except UserSubscribe.DoesNotExist:
+        except:
             subscribe = False
     else:
         subscribe = False
