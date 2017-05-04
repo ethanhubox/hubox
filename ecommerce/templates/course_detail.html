@@ -4,15 +4,15 @@
 
 {% load markdown_deux_tags %}
 
-{% block meta_description %}{% endblock %}
+{% block meta_description %}{{ course.name }}{% endblock %}
 {% block author %}{% endblock %}
 
-{% block og_url %}{% endblock %}
-{% block og_title %}{% endblock %}
-{% block og_description %}{% endblock %}
-{% block og_image %}{% endblock %}
+{% block og_url %}{{ course.get_absolute_url }}{% endblock %}
+{% block og_title %}{{ course.name }}{% endblock %}
+{% block og_description %}{{ course.introduce }}{% endblock %}
+{% block og_image %}{{ course.coursemedia_set.all.0.file.url }}{% endblock %}
 
-{% block title %}{% endblock %}
+{% block title %}{{ course.name }}{% endblock %}
 
 {% block css %}
 <!-- date picker css -->
@@ -20,6 +20,22 @@
 
 <!-- form css -->
 <link rel="stylesheet" href="{% static "css/bootstrap-select.css" %}">
+
+<style>
+.datepicker-inline {
+    width: 85% !important;
+    margin: auto;
+}
+.datepicker table{
+   width: 100%;
+}
+.datepicker table{
+  font-size: 16px !important;
+}
+
+
+
+</style>
 
 {% endblock %}
 
@@ -413,7 +429,7 @@
 
   <script type="text/javascript">
   var availableTime = []
-  {% for available_time in gte_date %}
+  {% for available_time in all_available_time %}
   availableTime.push("{{ available_time.date|date:"Y/n/j" }}")
   {% endfor %}
 

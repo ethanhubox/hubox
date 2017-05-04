@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block meta_description %}{% endblock %}
+{% block author %}{% endblock %}
+
+{% block og_url %}{% endblock %}
+{% block og_title %}{% endblock %}
+{% block og_description %}{% endblock %}
+{% block og_image %}{% endblock %}
+
+{% block title %}{% endblock %}
+
+{% block css %}{% endblock %}
+
+{% block cover_page %}
+  <section class="allc-page-cover-section">
+      <div class="allc-page-cover-image-holder">
+          <img src="{% static "img/allc-cover.jpg" %}" />
+      </div>
+      <div class="allc-page-cover-caption">
+          <h1>add_merchant</h1>
+      </div>
+  </section>
+{% endblock %}
+
+{% block content %}
+<form class="add-merchant-form" action="" method="post">
+{% csrf_token %}
+{{ form.as_p }}
+<input type="submit" name="add-merchant-submit" value="送出">
+</form>
+
+{% endblock %}
+
+{% block modal %}{% endblock %}
+
+{% block js %}{% endblock %}

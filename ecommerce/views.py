@@ -42,7 +42,7 @@ def vendor_detail(request, pk):
 
     if request.user.is_authenticated():
         try:
-            subscribe = UserSubscribe.objects.get(user=request.user.userprofile, vendor=vendor)
+            subscribe = UserSubscribe.objects.get(user=request.user, vendor=vendor)
         except:
             subscribe = False
         # except UserSubscribe.DoesNotExist:
@@ -66,7 +66,7 @@ def vendor_detail(request, pk):
 def subscribe_ajax(request):
     vendor = get_object_or_404(Vendor, pk=request.POST.get("vendor", ''))
     if request.user.is_authenticated():
-        user = get_object_or_404(UserProfile, user=request.user)
+        user = request.user
         if request.method == "POST" and request.is_ajax():
             subscribe, created = UserSubscribe.objects.get_or_create(user=user, vendor=vendor)
             if created == False:
@@ -99,13 +99,13 @@ def course_detail(request, pk):
     googlemap_api_key = os.environ["GOOGLE_API_KEY"]
 
 
-    gte_date = course.availabletime_set.filter(date__gte=datetime.now())[:5]
+    gte_date = course.availabletime_set.filter(date__gte=datetime.now())[:3]
 
 
 
     form = OrderingForm()
     form.fields['material'].queryset = materials
-    form.fields['available_time'].queryset = gte_date
+    form.fields['available_time'].queryset = all_available_time
 
     if request.method == "GET" and request.is_ajax():
         material_data = request.GET.get('material', '').split(" ")[0]
@@ -131,11 +131,12 @@ def course_detail(request, pk):
         else:
             form = OrderingForm(request.POST)
             form.fields['material'].queryset = materials
-            form.fields['available_time'].queryset = gte_date
+            form.fields['available_time'].queryset = all_available_time
 
     context = {
     'course':course,
     'course_media':course_media,
+    'all_available_time': all_available_time,
     'gte_date':gte_date,
     'materials':materials,
     'form':form,

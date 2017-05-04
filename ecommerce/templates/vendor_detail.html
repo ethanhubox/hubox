@@ -3,15 +3,15 @@
 {% load static %}
 {% load markdown_deux_tags %}
 
-{% block meta_description %}{% endblock %}
+{% block meta_description %}{{ vendor.name }}{% endblock %}
 {% block author %}{% endblock %}
 
-{% block og_url %}{% endblock %}
-{% block og_title %}{% endblock %}
-{% block og_description %}{% endblock %}
-{% block og_image %}{% endblock %}
+{% block og_url %}{{ vendor.get_absolute_url }}{% endblock %}
+{% block og_title %}{{ vendor.name }}{% endblock %}
+{% block og_description %}{{ vendor.story }}{% endblock %}
+{% block og_image %}{{ vendor.logo.url }}{% endblock %}
 
-{% block title %}{% endblock %}
+{% block title %}{{ vendor.name }}{% endblock %}
 
 
 {% block cover_page %}
@@ -36,11 +36,9 @@
     <div class="vendor-page-content-container">
       <div class="vendor-page-statistic-container-r">
           <div class="vendor-page-profile-row">
-              <a href="#">
                   <div class="vendor-page-statistic-vendor-image">
                       <img src="{{ vendor.logo.url }}" />
                   </div>
-              </a>
               <div class="vendor-page-statistic-title-r">
                   <h1>{{ vendor.name }}</h1>
                   <p>{{ vendor.catagory }}</p>

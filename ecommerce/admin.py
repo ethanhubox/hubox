@@ -30,10 +30,6 @@ class IndexVendorInline(admin.StackedInline):
     model = IndexVendor
     extra = 0
 
-class UserSubscribeInline(admin.TabularInline):
-    model = UserSubscribe
-    extra = 0
-
 
 
 
@@ -82,7 +78,6 @@ class OderingAdmin(admin.ModelAdmin):
     list_display = ('user', 'course', 'total_amount')
 
 class UserProfileAdmin(admin.ModelAdmin):
-    inlines = [UserSubscribeInline, ]
     list_display = ('user', 'gender', 'phone', 'address')
 
 class UserSubscribeAdmin(admin.ModelAdmin):

@@ -3,6 +3,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.db.models.signals import pre_save, post_save, post_delete, pre_delete
 from django.core.mail import send_mail
+from django.conf import settings
 # Create your models here.
 
 def vendor_logo(instance, filename):
@@ -185,11 +186,14 @@ class UserProfile(models.Model):
 
 
 class UserSubscribe(models.Model):
-    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     vendor = models.ForeignKey(Vendor)
 
     def __str__(self):
         return str(self.user)
+
+    class Meta:
+        ordering = ['user',]
 
 
 def index_media(instance, filename):
