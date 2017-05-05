@@ -28,7 +28,7 @@
     <link href="{% static "css/animate.min.css" %}" rel="stylesheet">
 
     <!-- resposive css -->
-    <link href="{% static "css/responsive-m.css" %}" rel="stylesheet">
+    <link href="{% static "css/responsive-m1.css" %}" rel="stylesheet">
 
     <!-- font awesome css -->
     <link href="{% static "font-awesome/css/font-awesome.min.css" %}" rel="stylesheet">
@@ -132,6 +132,51 @@
   {% block cover_page %}{% endblock %}
 
   {% block content %}{% endblock %}
+
+  <section class="footer-setion">
+            <div class="footer-container">
+                <ul class="footer-item-container">
+                    <li class="footer-item">
+                        <a href="{% url "about" %}">關於我們</a>
+                    </li>
+                    <li class="footer-item footer-border-left">
+                        <a href="#">會員條款</a>
+                    </li>
+                    <li class="footer-item footer-border-left">
+                        <a href="#">隱私條款 </a>
+                    </li>
+                    <li class="footer-item footer-border-left">
+                        <a href="{% url "join" %}">加入我們</a>
+                    </li>
+                    <li class="footer-item footer-border-left">
+                        <a href="http://hubox.life/faq/">FAQ</a>
+                    </li>
+                </ul>
+                <div class="footer-item-container">
+                    <p>客服時間：10:00am-9:00pm 客服專線：(02)2341-3023</p>
+                </div>
+                <ul class="footer-item-container">
+                    <li class="footer-social-item">
+                        <a href="https://www.facebook.com/hubox.life/" target="_blank"><img src="{% static "img/fb_icon.png" %}" /></a>
+                    </li>
+                    <li class="footer-social-item">
+                        <a href="https://www.instagram.com/hubox.life/" target="_blank"><img src="{% static "img/ig_icon.png" %}" /></a>
+                    </li>
+                    <li class="footer-social-item">
+                        <a href="https://www.youtube.com/channel/UC4Emf5_O0w3J7T9aWyBKtzw" target="_blank"><img src="{% static "img/youtube_icon.png" %}" /></a>
+                    </li>
+                    <li class="footer-social-item">
+                        <a href="https://line.me/R/ti/p/%40fdp9143l" target="_blank"><img src="{% static "img/line_icon.png" %}" /></a>
+                    </li>
+                </ul>
+                <div class="footer-item-container">
+                    <p>© copyright 2017 Hubox</p>
+                </div>
+
+            </div>
+        </section>
+        <!-- Footer-section ends here -->
+
 </div>
 
 {% block modal %}{% endblock %}
@@ -139,50 +184,7 @@
 
   </body>
   {% endblock %}
-  <footer>
-    <!-- Footer-section starts here -->
-    <section class="footer-setion">
-        <div class="footer-container">
-            <ul class="footer-item-container">
-                <li class="footer-item footer-border-right">
-                    <a href="#">首頁</a>
-                </li>
-                <li class="footer-item">
-                    <a href="{% url "about" %}">關於我們</a>
-                </li>
-                <li class="footer-item footer-border-left">
-                    <a href="#">會員條款</a>
-                </li>
-                <li class="footer-item footer-border-left">
-                    <a href="{% url "join" %}">加入我們</a>
-                </li>
-                <li class="footer-item footer-border-left">
-                    <a href="#">聯絡我們</a>
-                </li>
-            </ul>
 
-
-            <div class="footer-copyright-container">
-                <p>© copyright 2016 Hubox</p>
-            </div>
-            <ul class="footer-social-container">
-                <li class="footer-social-item">
-                    <a href="https://www.facebook.com/hubox.life/"><img src="{% static "img/fb_icon.png" %}" /></a>
-                </li>
-                <li class="footer-social-item">
-                    <a href="https://www.instagram.com/hubox.life/"><img src="{% static "img/ig_icon.png" %}" /></a>
-                </li>
-                <li class="footer-social-item">
-                    <a href="https://www.youtube.com/channel/UC4Emf5_O0w3J7T9aWyBKtzw"><img src="{% static "img/youtube_icon.png" %}" /></a>
-                </li>
-                <li class="footer-social-item">
-                    <a href="https://line.me/R/ti/p/%40fdp9143l"><img src="{% static "img/line_icon.png" %}" /></a>
-                </li>
-            </ul>
-        </div>
-    </section>
-    <!-- Footer-section ends here -->
-  </footer>
 
   <!-- Bootstrap js -->
   <script src="{% static "js/bootstrap.min.js" %}"></script>

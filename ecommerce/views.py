@@ -15,8 +15,9 @@ def index(request):
     course = Course.objects.all().order_by('?')
     catagory = Catagory.objects.all().order_by('?')[:3]
     # index = IndexEdit.objects.get(pk="1")
+
     try:
-        index = IndexEdit.objects.get(pk="1")
+        index = IndexEdit.objects.all()[0]
     except IndexEdit.DoesNotExist:
         index = None
 

@@ -12,6 +12,29 @@
 
 {% block title %}關於Hubox{% endblock %}
 
+{% block css %}
+<style>
+.about-cover-section{
+  background-image: url("{% static "img/about-us-cover.jpg" %}");
+}
+
+.about-section-content-card-1{
+  background-image: url("{% static "img/about-card.jpg" %}");
+}
+.about-section-content-card-2{
+  background-image: url("{% static "img/about-card-2.jpg" %}");
+}
+.about-section-content-card-3{
+  background-image: url("{% static "img/about-card-3.jpg" %}");
+}
+
+
+</style>
+
+
+{% endblock %}
+
+
 {% block cover_page %}{% endblock %}
 
 {% block content %}

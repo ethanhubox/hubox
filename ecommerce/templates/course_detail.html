@@ -40,21 +40,21 @@
 
 {% block cover_page %}
 
+<!-- cover div -->
+<section class="course-page-cover-section">
+  <ul id="lightSliderThumbnailCover">
+    {% for course_media in course.coursemedia_set.all  %}
+      <li data-thumb="{{ course_media.file.url }}">
+          <img src="{{ course_media.file.url }}" />
+      </li>
+    {% endfor %}
+  </ul>
+</section>
+<!-- cover div end -->
+
 {% endblock %}
 
 {% block content %}
-
-  <!-- cover div -->
-  <section class="course-page-cover-section">
-    <ul id="lightSliderThumbnailCover">
-      {% for course_media in course.coursemedia_set.all  %}
-        <li data-thumb="{{ course_media.file.url }}">
-            <img src="{{ course_media.file.url }}" />
-        </li>
-      {% endfor %}
-    </ul>
-  </section>
-  <!-- cover div end -->
 
   <section class="blank-section"></section>
   <section class="course-page-content-section">

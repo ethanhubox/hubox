@@ -139,7 +139,7 @@ class Ordering(models.Model):
     user = models.ForeignKey(User)
     vendor = models.ForeignKey(Vendor)
     course = models.ForeignKey(Course)
-    material = models.ForeignKey(Material)
+    material = models.ForeignKey(Material, null=True, blank=True)
     available_time = models.ForeignKey(AvailableTime)
     participants_number = models.PositiveIntegerField()
     total_amount = models.PositiveIntegerField()

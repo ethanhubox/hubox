@@ -88,11 +88,15 @@ def payment(request):
         order_form = OrderingForm(request.POST)
         if order_form.is_valid():
             material = order_form.cleaned_data['material']
-            material_price = material.price
             available_time = order_form.cleaned_data['available_time']
             course = available_time.course
             vendor = course.vendor
-            total_amount = course.price + material_price
+
+            if material is not None:
+                material_price = material.price
+                total_amount = course.price + material_price
+            else:
+                total_amount = course.price
 
             print(order_form.cleaned_data)
             # form = PaymentForm()
@@ -131,6 +135,11 @@ def payment(request):
 
 
             form.fields['CheckValue'].initial = shavalue.hexdigest().upper()
+        else:
+            context = {
+            'error':'訂單錯誤，請重新填寫'
+            }
+            return render(request, "payment_error.html", context)
 
     context = {
     "form": form,
