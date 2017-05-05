@@ -7,14 +7,14 @@ from django.core.urlresolvers import reverse
 from django.core.mail import EmailMessage
 from datetime import datetime
 from itertools import chain
-import os
+from django.core.mail import send_mail
+import os, time, json
 # Create your views here.
 
 def index(request):
     vendor = Vendor.objects.all().order_by('?')
     course = Course.objects.all().order_by('?')
     catagory = Catagory.objects.all().order_by('?')[:3]
-    # index = IndexEdit.objects.get(pk="1")
 
     try:
         index = IndexEdit.objects.all()[0]
@@ -102,7 +102,7 @@ def course_detail(request, pk):
     gte_date = course.availabletime_set.filter(date__gte=datetime.now())[:3]
 
     form = OrderingForm()
-    form.fields['material'].queryset = materials
+    # form.fields['material'].queryset = materials
     form.fields['available_time'].queryset = all_available_time
 
     if request.method == "GET" and request.is_ajax():
@@ -128,7 +128,7 @@ def course_detail(request, pk):
             return HttpResponseRedirect(instance.get_absolute_url())
         else:
             form = OrderingForm(request.POST)
-            form.fields['material'].queryset = materials
+            # form.fields['material'].queryset = materials
             form.fields['available_time'].queryset = all_available_time
 
     context = {

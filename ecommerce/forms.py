@@ -13,12 +13,12 @@ class OrderingForm(forms.ModelForm):
         'data-width': '85%',
         }
 
-        self.fields['material'].empty_label = "選擇製作素材(總價依素材變動)"
-        self.fields['material'].widget.attrs = {
-        'class': 'selectpicker show-tick select-material',
-        # 'multiple title': '選擇製作素材(總價依素材變動)',
-        'data-width': '85%',
-        }
+        # self.fields['material'].empty_label = "選擇製作素材(總價依素材變動)"
+        # self.fields['material'].widget.attrs = {
+        # 'class': 'selectpicker show-tick select-material',
+        # # 'multiple title': '選擇製作素材(總價依素材變動)',
+        # 'data-width': '85%',
+        # }
 
 
 
@@ -33,6 +33,6 @@ class OrderingForm(forms.ModelForm):
 
         fields = [
         'available_time',
-        'material',
+        # 'material',
         'participants_number'
         ]

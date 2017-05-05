@@ -12,20 +12,51 @@
 
 {% block title %}{% endblock %}
 
-{% block css %}{% endblock %}
-
-{% block cover_page %}
-  <section class="allc-page-cover-section">
-      <div class="allc-page-cover-image-holder">
-          <img src="{% static "img/allc-cover.jpg" %}" />
-      </div>
-      <div class="allc-page-cover-caption">
-          <h1>payment</h1>
-      </div>
-  </section>
+{% block css %}
+<style>
+.login-background-img {
+    height: 100vh;
+    background-image: url("{% static "img/login-background.jpg" %}");
+    background-size: cover;
+    background-position: center;
+}
+</style>
 {% endblock %}
 
+
 {% block content %}
+
+
+<div class="login-background-img">
+  <div class="login-box-container">
+    <div class="login-box">
+      <div class="login-box-header"><h4>確認訂單</h4></div>
+      <div class="login-box-footer">
+        <p>供應商：</p>
+        <p>{{ vendor }}</p><br>
+        <p>課程：</p>
+        <p>{{ course }}</p><br>
+        <p>上課時段：</p>
+        <p>{{ available_time.date|date:"Y-m-d" }} {{ available_time.start_time|date:"H:i" }}～{{ available_time.end_time|date:"H:i" }}</p><br>
+        <p>上課地點：</p>
+        <p>{{ course.address }}</p><br>
+        <p>報名人數：</p>
+        <p>{{ total_amount }}</p><br>
+      </div>
+
+        <form class="add-merchant-form" action="https://core.spgateway.com/MPG/mpg_gateway" method="post">
+          {% csrf_token %}
+          {% if redirect_field_value %}
+          <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+          {% endif %}
+          {{ form.as_p }}
+          <button type="submit" class="primaryAction login-btn">前往付款</button>
+
+        </form>
+    </div>
+  </div>
+</div>
+
 確認訂單
 <p>{{ vendor }}</p>
 <p>{{ course }}</p>

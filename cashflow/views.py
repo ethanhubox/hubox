@@ -2,9 +2,11 @@ from django.shortcuts import render, HttpResponse
 import time, json, pprint, requests, binascii, base64, hashlib, os
 from Crypto.Cipher import AES
 from Crypto.Hash import SHA256
+from django.views.decorators.csrf import csrf_exempt
 
 from .forms import AddMerchantForm, PaymentForm
 from ecommerce.forms import OrderingForm
+from ecommerce.models import Ordering
 
 
 # Create your views here.
@@ -79,54 +81,51 @@ def add_merchant(request):
 def payment(request):
     form = PaymentForm()
     available_time = ''
-    material = ''
-    material_price = ''
+    # material = ''
+    # material_price = ''
     course = ''
     vendor = ''
     total_amount = ''
     if request.method == "POST":
         order_form = OrderingForm(request.POST)
         if order_form.is_valid():
-            material = order_form.cleaned_data['material']
+            # material = order_form.cleaned_data['material']
             available_time = order_form.cleaned_data['available_time']
+            number = order_form.cleaned_data['participants_number']
             course = available_time.course
             vendor = course.vendor
 
-            if material is not None:
-                material_price = material.price
-                total_amount = course.price + material_price
-            else:
-                total_amount = course.price
+            total_amount = int(course.price) * int(number)
 
-            print(order_form.cleaned_data)
-            # form = PaymentForm()
+
+
 
             form.fields['MerchantID'].initial = 'MS39344778'
             form.fields['RespondType'].initial = 'JSON'
             form.fields['TimeStamp'].initial = str(time.time())
             form.fields['Version'].initial = '1.2'
             form.fields['LangType'].initial = 'zh-tw'
-            form.fields['MerchantOrderNo'].initial = available_time.pk
+            form.fields['MerchantOrderNo'].initial = time.strftime("%y%m%d%H%M%S") + str(available_time.pk)
             form.fields['Amt'].initial = int(total_amount)
             form.fields['ItemDesc'].initial = course.name
             form.fields['TradeLimit'].initial = ''
             form.fields['ExpireDate'].initial = ''
-            form.fields['ReturnURL'].initial = ''
+            form.fields['ReturnURL'].initial = request.build_absolute_uri('comfirm_order') + "/"
             form.fields['NotifyURL'].initial = ''
             form.fields['CustomerURL'].initial = ''
             form.fields['ClientBackURL'].initial = ''
             form.fields['Email'].initial = request.user.email
-            form.fields['EmailModify'].initial = 1
+            form.fields['EmailModify'].initial = 0
             form.fields['LoginType'].initial = 0
             form.fields['OrderComment'].initial = ''
-            form.fields['CREDIT'].initial = ''
-            form.fields['InstFlag'].initial = ''
-            form.fields['UNIONPAY'].initial = ''
-            form.fields['WEBATM'].initial = ''
-            form.fields['VACC'].initial = ''
-            form.fields['CVS'].initial = ''
-            form.fields['BARCODE'].initial = ''
-            form.fields['CUSTOM'].initial = ''
+            form.fields['CREDIT'].initial = 1
+            form.fields['InstFlag'].initial = 0
+            form.fields['UNIONPAY'].initial = 0
+            form.fields['WEBATM'].initial = 0
+            form.fields['VACC'].initial = 0
+            form.fields['CVS'].initial = 1
+            form.fields['BARCODE'].initial = 1
+            form.fields['CUSTOM'].initial = 0
 
 
             check_value = "HashKey=" + os.environ['PAYMENT_HASHKEY'] + "&Amt=" + str(form.fields['Amt'].initial) + '&MerchantID=' + str(form.fields['MerchantID'].initial) + '&MerchantOrderNo=' + str(form.fields['MerchantOrderNo'].initial) + '&TimeStamp=' + form.fields['TimeStamp'].initial + '&Version=1.2&HashIV=' + os.environ['PAYMENT_HASHIV']
@@ -135,25 +134,41 @@ def payment(request):
 
 
             form.fields['CheckValue'].initial = shavalue.hexdigest().upper()
+
+            Ordering.objects.create(user=request.user, vendor=vendor, course=course, available_time=available_time, participants_number=int(number), total_amount=total_amount, check_value=form.fields['CheckValue'].initial, payment=False)
+
+
         else:
-            context = {
-            'error':'訂單錯誤，請重新填寫'
-            }
+            context = {}
             return render(request, "payment_error.html", context)
 
     context = {
     "form": form,
     'vendor': vendor,
     'course': course,
-    'material': material,
     'available_time': available_time,
     'total_amount': total_amount,
     }
 
     return render(request, "payment.html", context)
 
-def get_payback(request):
+@csrf_exempt
+def comfirm_order(request):
     if request.method == "POST":
-        print(request.method)
+        data = request.POST.get('JSONData','')
+        new_data = json.loads(data)
+        result = new_data['Result'].replace('\"','"')
+        new_result = json.loads(result)
+        print(new_result["MerchantOrderNo"][12:])
+        ordering = Ordering.objects.filter(user=request.user, available_time__pk=int(new_result["MerchantOrderNo"][12:]))[0]
+        print(ordering)
+        if ordering:
+            ordering.payment = True
+            ordering.save()
 
-    return HttpResponse(request.method)
+    context = {
+    "data": data,
+    "new_result": new_result
+    }
+
+    return render(request, "comfirm_order.html", context)

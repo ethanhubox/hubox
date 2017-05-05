@@ -143,6 +143,8 @@ class Ordering(models.Model):
     available_time = models.ForeignKey(AvailableTime)
     participants_number = models.PositiveIntegerField()
     total_amount = models.PositiveIntegerField()
+    check_value = models.CharField(max_length=500)
+    payment = models.BooleanField(default=False)
 
     def __str__(self):
         return str(self.user)
