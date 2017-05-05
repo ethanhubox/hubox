@@ -39,7 +39,11 @@
 
   <div class="tab-content allc-page-tab-container">
     {% for catagory in catagory %}
+    {% if forloop.first %}
     <div role="tabpanel" class="tab-pane fade active in" id="{{ catagory.slug }}">
+    {% else %}
+    <div role="tabpanel" class="tab-pane fade" id="{{ catagory.slug }}">
+    {% endif %}
       <div class="allc-page-tabpanel-title-holder">
         <div class="allc-page-tabpanel-title">
           <h1>{{ catagory.name }}</h1>
@@ -83,7 +87,7 @@
 <script>
     $('.owl-carousel').owlCarousel({
         center: false,
-        items: {{ catagory|length }},
+        items: 3,
         loop: true,
         margin: 0,
         nav: true,

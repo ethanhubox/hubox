@@ -180,10 +180,10 @@ ACCOUNT_EMAIL_REQUIRED = True
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST = 'smtp.hubox.life'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'yichenlinebot@gmail.com'
-DEFAULT_FROM_EMAIL = 'yichenlinebot@gmail.com'
+EMAIL_HOST_USER = 'service@hubox.life'
+DEFAULT_FROM_EMAIL = 'hubox哈盒子'
 EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
 
 ADMINS = [('miwooro', 'miwooro@hotmail.com'), ]

@@ -28,7 +28,7 @@
     <link href="{% static "css/animate.min.css" %}" rel="stylesheet">
 
     <!-- resposive css -->
-    <link href="{% static "css/responsive-m1.css" %}" rel="stylesheet">
+    <link href="{% static "css/responsive-m.css" %}" rel="stylesheet">
 
     <!-- font awesome css -->
     <link href="{% static "font-awesome/css/font-awesome.min.css" %}" rel="stylesheet">
@@ -100,7 +100,7 @@
     <div class="menu-wrap">
         <nav class="menu">
             <div class="icon-list">
-                <a href="http://www.hubox.life/demo/index.html">
+                <a href="{% url "index" %}">
                     <div class="side-nav-logo"><img src="{% static "img/logo.png" %}" /></div>
                 </a>
                 {% if user.is_authenticated %}
@@ -120,8 +120,8 @@
                 {% if user.is_authenticated %}
                 <a href="{% url "account_logout" %}"><i class="fa fa-fw fa-sign-in" aria-hidden="true"></i><span>登出</span></a>
                 {% else %}
-                <a href="#"><i class="fa fa-fw fa-user-circle-o" aria-hidden="true"></i><span>註冊</span></a>
-                <a href="#"><i class="fa fa-fw fa-sign-in" aria-hidden="true"></i><span>登入</span></a>
+                <a href="{% url "account_signup" %}"><i class="fa fa-fw fa-user-circle-o" aria-hidden="true"></i><span>註冊</span></a>
+                <a href="{% url "account_login" %}"><i class="fa fa-fw fa-sign-in" aria-hidden="true"></i><span>登入</span></a>
                 {% endif %}
             </div>
         </nav>

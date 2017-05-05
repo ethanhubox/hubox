@@ -22,7 +22,7 @@
 <style type="text/css">
 
     .slider-section-img-holder-1{
-     background-image:url({% static "img/main-cover-1.jpg" %});
+     background-image:url({% static "img/landing-page-01.jpg" %});
      background-size: cover;
      background-position: center;
     }
@@ -61,7 +61,7 @@
   <section class="slider-section">
       <div id="lightSliderSingleCover">
           <div class="slider-section-img-holder-1">
-              <div class="slider-caption-holder">
+              <!-- <div class="slider-caption-holder">
                   <div class="slider-caption-title-holder">
                       <div class="slider-caption-title-1">Learn</div>
                   </div>
@@ -69,8 +69,7 @@
                       <div class="slider-caption-text-line-1">學習</div>
                       <div class="slider-caption-text-line-2">就是這麼有趣</div>
                   </div>
-              </div>
-            </a>
+              </div> -->
           </div>
           <div class="slider-section-img-holder-2">
               <div class="slider-caption-holder">
@@ -121,6 +120,9 @@
 
   <section class="blank-section"></section>
   <!-- course-section starts here -->
+
+<section class="course-page-content-section">
+
 <section class="course-section">
   {% for role in index.indexrole_set.all %}
     <div class="course-header">
@@ -289,6 +291,8 @@
 
   </section>
   <!-- Corporate-srction starts here -->
+
+</section>
   <section class="corporate-section">
       <div class="corporate-container">
           <div class="corporate-info-holder">
@@ -296,7 +300,7 @@
                   <h1>揪團來學</h1>
               </div>
               <div class="corporate-info-content">
-                  親朋好友一起來，揪團加入Hubox;請點擊下方聯絡我們按鈕並留下表單，Hubox的專員會馬上與您聯絡，為您及您的單量身規劃最適合你們的學習體驗。
+                  親朋好友一起來，揪團加入hubox，人數超過五位(含以上)的團體或公司，請點擊下方聯絡我們按鈕並留下表單資訊，Hubox的專員會馬上與您聯絡，為您及您的夥伴量身規劃出最適合你們的學習體驗。
               </div>
               <div class="corporate-info-btn">
                   <a href="#" type="button" class="btn btn-info" data-toggle="modal" data-target="#Modal">聯絡我們</a>

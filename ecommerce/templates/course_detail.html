@@ -15,6 +15,47 @@
 {% block title %}{{ course.name }}{% endblock %}
 
 {% block css %}
+<style>
+
+td.day {
+  color: black !important;
+  font-weight: bold !important;
+  background-color: white !important;
+}
+
+td.active.day {
+  color: white !important;
+}
+
+td.new.day {
+  color: black !important;
+  font-weight: bold !important;
+  background-color: white !important;
+}
+td.new.day.disabled {
+  color: #999 !important;
+  background-color: transparent !important;
+}
+
+td.old.day {
+  color: black !important;
+  font-weight: bold !important;
+  background-color: white !important;
+}
+
+td.old.day.disabled {
+  color: #999 !important;
+  background-color: transparent !important;
+}
+
+td.day.disabled {
+  color: #999 !important;
+  background-color: transparent !important;
+}
+
+</style>
+
+
 <!-- date picker css -->
 <link href="{% static "css/bootstrap-datepicker.min.css" %}" rel="stylesheet">
 
@@ -115,7 +156,11 @@
                     </div>
                 </div>
             </a>
-            <a href="#">
+
+
+
+
+<a href="javascript: void(window.open('http://www.facebook.com/share.php?u='.concat(encodeURIComponent('{{request.build_absolute_uri}}'))));">
                 <div class="course-page-statistic-share-r">
                     <div class="course-page-statistic-share-icon-r">
                         <i class="fa fa-facebook-official fa-4x" aria-hidden="true"></i>
@@ -160,7 +205,7 @@
                     <a href="#intro" aria-controls="intro" role="tab" data-toggle="tab">學習介紹</a>
                 </li>
                 <li role="presentation">
-                    <a href="#info" aria-controls="others" role="tab" data-toggle="tab">學習包含</a>
+                    <a href="#info" aria-controls="others" role="tab" data-toggle="tab">取消/更改辦法</a>
                 </li>
                 <li role="presentation">
                     <a href="#others" aria-controls="others" role="tab" data-toggle="tab">其他學習</a>
@@ -313,6 +358,7 @@
                 <div class="modal-title modal-header-price" id="Modal">
                     <h2><span>最低價：TWD</span> {{ course.price }}</h2></div>
             </div>
+
             <div class="modal-body">
                 <div class="course-page-date-collapse-container">
                     <div class="datePicker"><input class="date-input" type="hidden" value=""/></div>
@@ -334,6 +380,7 @@
             </div>
             <div class="modal-footer">
                 <input type="submit" value="結帳去" class="btn btn-primary btn-lg">
+                <button type="button" class="btn btn-secondary btn-lg" data-dismiss="modal">關閉</button>
             </div>
                     </form>
         </div>
@@ -349,9 +396,7 @@
                 <div class="other-transport-info-mrt">
                     <i class="fa fa-subway" aria-hidden="true">{{ course.mrt }}</i>
                 </div>
-                <div class="other-transport-info-bus">
-                    <i class="fa fa-bus" aria-hidden="true">{{ course.bus }}</i>
-                </div>
+
                 <div></div>
             </div>
         </div>
@@ -366,6 +411,17 @@
 
 
 {% block js %}
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v2.9&appId=756428617851645";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
 
 <!-- form js -->
 <script src="{% static "js/bootstrap-select.js" %}"></script>
@@ -460,7 +516,7 @@
     $('.select-availabel-time').find('option').remove();
     $('.select-availabel-time').append($('<option value="">選擇時間</option>'));
     {% for value, text in form.available_time.field.choices %}
-    {% if text != '請先選擇日期' %}
+    {% if text != '請先於上方選擇日期' %}
     if ("{{ text }}".startsWith(dateData)) {
       var stringDate = "{{ text }}";
       var stringDateArray = new Array();
@@ -499,7 +555,6 @@
       }
     })
   })
-
 
   </script>
 

@@ -6,7 +6,7 @@ class OrderingForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(OrderingForm, self).__init__(*args, **kwargs)
-        self.fields['available_time'].empty_label = "請先選擇日期"
+        self.fields['available_time'].empty_label = "請先於上方選擇日期"
         self.fields['available_time'].widget.attrs = {
         'class': 'selectpicker show-tick select-availabel-time',
         # 'multiple title': '選擇時間',
