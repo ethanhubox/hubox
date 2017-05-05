@@ -34,7 +34,6 @@
 }
 
 
-
 </style>
 
 {% endblock %}
@@ -317,7 +316,7 @@
             <div class="modal-body">
                 <div class="course-page-date-collapse-container">
                     <div class="datePicker"><input class="date-input" type="hidden" value=""/></div>
-                    <form class="ordering-form" id="submit-form" action="" method="post">
+                    <form class="ordering-form" id="submit-form" action="{% url "payment" %}" method="post">
 
                       {% csrf_token %}
                       {{ form.non_field_errors }}
@@ -358,6 +357,10 @@
         </div>
     </div>
 </div>
+
+
+
+
 {% endblock %}
 
 
@@ -434,6 +437,7 @@
   {% endfor %}
 
 
+
   $('.datePicker').datepicker({
     language: "zh-TW",
 
@@ -456,14 +460,29 @@
     $('.select-availabel-time').find('option').remove();
     $('.select-availabel-time').append($('<option value="">選擇時間</option>'));
     {% for value, text in form.available_time.field.choices %}
+    {% if text != '請先選擇日期' %}
     if ("{{ text }}".startsWith(dateData)) {
-      $('.select-availabel-time').append($('<option value="{{ value }}">{{ text }}</option>'));
-    }
+      var stringDate = "{{ text }}";
+      var stringDateArray = new Array();
+      stringDate = stringDate.split(" ")[0].replace("月"," ").replace("日"," ");
+      var d = new Date();
+      var y = d.getFullYear();
+      var formDate = Date.parse(stringDate + y)
+      var todayDate = Date.parse(d)
+      if (formDate < todayDate) {
+        var text = "{{ text }}".split(" ")
+        $('.select-availabel-time').append($('<option value="{{ value }}" disabled>' + text[0] + ' ' + text[1] + ' 已結束</option>'));
+      } else {
+        $('.select-availabel-time').append($('<option value="{{ value }}">{{ text }}</option>'));
+      }
 
+    }
+    {% endif %}
      {% endfor %}
    $('.selectpicker').selectpicker('refresh');
     $('.select-availabel-time').find('option').hide();
   });
+
 
   $('.select-material').on('change', function() {
     var material = $(this).find("option:selected").text()

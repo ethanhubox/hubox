@@ -172,8 +172,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 # allauth
 
-LOGIN_REDIRECT_URL = "/vendor/list"
-ACCOUNT_LOGOUT_REDIRECT_URL = "/vendor/list"
+LOGIN_REDIRECT_URL = "/"
+ACCOUNT_LOGOUT_REDIRECT_URL = "/"
 ACCOUNT_EMAIL_REQUIRED = True
 
 # email

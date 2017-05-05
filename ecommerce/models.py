@@ -124,7 +124,7 @@ class AvailableTime(models.Model):
     format_date = models.CharField(max_length=200, blank=True)
 
     def __str__(self):
-        return self.date.strftime("%m月%d日（%a.）") + self.start_time.strftime("%H:%M～") + self.end_time.strftime("%H:%M") + " 剩餘 " + str(self.quota) + "人"
+        return self.date.strftime("%m月%d日 （%a.）") + self.start_time.strftime("%H:%M～") + self.end_time.strftime("%H:%M") + " 剩餘" + str(self.quota) + "人"
 
     class Meta:
         ordering = ['course', 'date', 'start_time']

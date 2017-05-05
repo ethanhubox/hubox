@@ -98,10 +98,7 @@ def course_detail(request, pk):
     materials = course.material_set.all()
     googlemap_api_key = os.environ["GOOGLE_API_KEY"]
 
-
     gte_date = course.availabletime_set.filter(date__gte=datetime.now())[:3]
-
-
 
     form = OrderingForm()
     form.fields['material'].queryset = materials

@@ -26,10 +26,17 @@
 {% endblock %}
 
 {% block content %}
+確認訂單
+<p>{{ vendor }}</p>
+<p>{{ course }}</p>
+<p>{{ material.name }}</p>
+<p>{{ available_time }}</p>
+<p>{{ total_amount }}</p>
+
 <form class="add-merchant-form" action="https://core.spgateway.com/MPG/mpg_gateway" method="post">
 {% csrf_token %}
 {{ form.as_p }}
-<input type="submit" name="add-merchant-submit" value="送出">
+<input type="submit" name="add-merchant-submit" value="前往付款">
 </form>
 
 {% endblock %}
