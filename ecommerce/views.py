@@ -160,14 +160,13 @@ def ordering_detail(request, pk):
 
 def user_profile(request):
     form = UserProfileForm()
-    print(request.GET.get('next'))
     if request.method == "POST":
         form = UserProfileForm(request.POST)
         if form.is_valid():
             instance = form.save(commit=False)
             instance.user = request.user
             instance.save()
-            return HttpResponseRedirect(request.GET.get('next'))
+            return HttpResponseRedirect(request.GET.get('next',''))
     context = {
     'form': form,
     }
