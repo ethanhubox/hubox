@@ -42,6 +42,7 @@ class UserProfileForm(forms.ModelForm):
         model = UserProfile
 
         fields = [
+        'name',
         'phone',
         'address',
         ]

@@ -1,4 +1,5 @@
 /*login & Signup starts here */
+
 .login-background-img {
     height: 100vh;
     background-image: url(../img/login-background.jpg);
@@ -17,7 +18,7 @@
     margin: auto;
     padding: 20px;
     border: 2px solid #ccc;
-    background: rgba(0,0,0,.15);
+    background: rgba(0, 0, 0, .15);
 }
 
 .login-box-header {
@@ -37,7 +38,7 @@
     border-radius: 0;
 }
 
-.login-btn{
+.login-btn {
     height: 50px;
     margin-bottom: 20px;
     line-height: 48px;
@@ -52,49 +53,281 @@
     border-radius: 0 !important;
 }
 
-.fb-login-btn{
-  height: 50px;
-  margin-bottom: 15px;
-  line-height: 48px;
-  border: 2px solid #4267b2;
-  background: #4267b2;
+.fb-login-btn {
+    height: 50px;
+    margin-bottom: 15px;
+    line-height: 48px;
+    border: 2px solid #4267b2;
+    background: #4267b2;
+    color: #fff;
+    width: 100%;
+    font-size: 15px;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 1px;
+    border-radius: 0 !important;
+}
+
+.login-box-footer {
+    text-align: center;
+    color: #fff;
+    margin-top: 5px;
+    font-size: 10px;
+}
+
+.login-box-footer a {
+    color: #fd4;
+}
+
+.login-register {
+    color: #fff !important;
+    padding: 0px 10px;
+    font-size: 15px;
+}
+
+.login-password-retrieve {
+    color: #fff !important;
+    padding: 0px 10px;
+    font-size: 15px;
+}
+
+.login-box .form-check-label {
+    color: #fff;
+}
+
+.login-box .form-check-input {
+    height: auto;
+    width: auto;
+}
+/*login & signup ends here*/
+
+/*member-info starts here*/
+.member-info-background-img{
+  background-image: url(../img/login-background.jpg);
+  background-size: cover;
+  background-position: center;
+}
+.member-info-background{
+  min-height: 100vh;
+  margin-top: 70px;
+}
+.member-info-tab-container{
+ position: relative;
+ width:1200px;
+ margin: auto;
+}
+
+.member-info-tab-nav-container>.nav-tabs>li>a {
+    color: #fff;
+    font-weight: 900;
+    font-size: 20px;
+    padding: 10px 60px;
+}
+
+.member-info-tab-nav-container>.nav-tabs>li.active>a, .member-info-nav-container>.nav-tabs>li.active>a:focus, .member-info-tab-nav-container>.nav-tabs>li.active>a:hover {
+    background-color: #fff;
+    color: #fff !important;
+}
+
+.member-info-tab-nav-container>.nav-tabs>li.active>a{
+  border: none;
+  border-bottom: 4px solid lightblue;
+}
+.member-info-tab-nav-container {
+    text-align: center;
+    padding: 0px 10px;
+}
+
+.member-info-tab-nav-container>ul {
+    display: inline-block;
+}
+
+.member-info-tab-container .tab-content{
+  padding: 30px;
+}
+.member-info-tab-container .tab-pane{
   color: #fff;
-  width: 100%;
-  font-size: 15px;
+}
+
+.member-profile-holder{
+
+}
+
+.member-profile-img-holder{
+ height: 300px;
+ text-align: center;
+}
+.member-profile-img-holder img{
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.member-profile-name{
+  text-align: center;
+  font-size: 30px;
+  font-weight: 700;
+}
+.member-personal-detail-holder{
+  text-align: center;
+  padding: 15px;
+}
+.member-personal-detail-item{
+  font-size: 25px;
+  padding: 10px 0px;
+}
+
+.member-order-row-container,.member-tracking-row-container{
+  width: 800px;
+  margin: auto;
+}
+
+.member-order-record-row,.member-tracking-record-row{
+ overflow: hidden;
+ border-bottom: 2px solid #ccc;
+}
+
+.member-order-record-img-holder{
+ height: 250px;
+ padding-bottom: 15px;
+ padding-top: 15px;
+ padding-left: 0px !important;
+}
+.member-tracking-record-img-holder{
+  height: 270px;
+  padding-bottom: 15px;
+  padding-top: 15px;
+  padding-left: 0px !important;
+}
+
+.member-order-record-img-holder img,.member-tracking-record-img-holder img{
+  max-width: 100%;
+  max-height: 100%;
+  min-height: 100%;
+  min-width: 100%;
+}
+
+.member-order-record-info-holder{
+  height: 250px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+.member-tracking-record-info-holder{
+  height: 270px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+.member-order-record-info-title,.member-tracking-record-info-title{
+  font-size: 22px;
+  font-weight: 700;
+  padding-bottom: 10px;
+}
+.member-order-record-info-title a,.member-tracking-record-info-title a{
+  color: #fff;
+}
+
+.member-order-record-info-item,.member-tracking-record-info-item{
+  font-size: 18px;
+  padding: 5px 0px;
+}
+.member-order-check-btn{
+    height: 50px;
+    display: inline-block;
+    margin-top:10px;
+    line-height: 48px;
+    border: 2px solid #5bc0de;
+    background: #5bc0de;
+    color: #fff;
+    width: 40%;
+    font-size: 17px;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 1px;
+    border-radius: 0 !important;
+}
+.member-order-comment-btn {
+    height: 50px;
+    display: inline-block;
+    margin-top:10px;
+    line-height: 48px;
+    border: 2px solid #ff6800;
+    background: #ff6800;
+    color: #fff;
+    width: 40%;
+    font-size: 17px;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 1px;
+    border-radius: 0 !important;
+}
+.member-tracking-check-btn{
+  height: 50px;
+  display: inline-block;
+  margin-top:40px;
+  line-height: 48px;
+  border: 2px solid #f0ad4e;
+  background: #f0ad4e;
+  color: #fff;
+  width: 40%;
+  font-size: 17px;
   text-transform: uppercase;
   font-weight: bold;
   letter-spacing: 1px;
   border-radius: 0 !important;
 }
-
-.login-box-footer{
-text-align: center;
-color: #fff;
-margin-top: 5px;
-font-size: 10px;
+.member-pass-change-form{
+  width: 500px;
+  margin: auto;
+  text-align: center;
+  color: #333;
 }
 
-.login-box-footer a{
-  color: #fd4;
-}
-
-.login-register{
- color: #fff !important;
- padding: 0px 10px;
- font-size: 15px;
-}
-
-.login-password-retrieve{
- color: #fff !important;
- padding: 0px 10px;
- font-size: 15px;
-}
-
-.login-box .form-check-label{
+.member-pass-change-form i{
   color: #fff;
 }
-.login-box .form-check-input{
-height: auto;
-width: auto;
+
+.member-pass-change-label{
+  padding: 0px 10px;
+  font-size: 25px;
+  vertical-align: middle;
 }
-/*login & signup ends here*/
+
+.member-info-tab-container input {
+    background: #f5f5f5;
+    border: none;
+    width: 90%;
+    height: 45px;
+    padding-left: 20px;
+    font-weight: 500;
+    margin-bottom: 24px;
+    border-radius: 0;
+}
+
+.member-pass-change-btn {
+    height: 50px;
+    display: inline-block;
+    line-height: 48px;
+    border: 2px solid #5bc0de;
+    background: #5bc0de;
+    color: #fff;
+    width: 34%;
+    font-size: 17px;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 1px;
+    border-radius: 0 !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*member-info ends here*/

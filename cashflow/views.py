@@ -193,12 +193,12 @@ def finish_order(request):
 
 
     context = {
-    'ordering': ordering
+        'ordering': ordering
     }
 
     return render(request, "finish_order.html", context)
 
-
+@login_required
 def cancel_ordering(request):
     ordering = ''
     if request.method == "POST":
@@ -209,7 +209,7 @@ def cancel_ordering(request):
             return HttpResponseRedirect(reverse("course_detail", kwargs={'pk': return_page}))
 
     context = {
-    "ordering": ordering,
+        "ordering": ordering,
     }
 
     return render(request, "cancel_ordering.html", context)

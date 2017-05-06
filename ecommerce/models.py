@@ -145,6 +145,7 @@ class Ordering(models.Model):
     total_amount = models.PositiveIntegerField()
     establish = models.BooleanField(default=True)
     payment = models.BooleanField(default=False)
+    timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return str(self.user)
@@ -170,6 +171,7 @@ post_delete.connect(ordering_post_delete_receiver, sender=Ordering)
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=30)
     phone = models.CharField(max_length=30)
     address = models.CharField(max_length=200)
 

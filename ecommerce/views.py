@@ -8,6 +8,7 @@ from django.core.mail import EmailMessage
 from datetime import datetime
 from itertools import chain
 import os, time, json
+from django.contrib.auth.decorators import login_required
 
 from hubox.settings import BASE_DIR
 from django.core.mail import send_mail
@@ -147,7 +148,7 @@ def course_detail(request, pk):
 
     return render(request, 'course_detail.html', context)
 
-
+@login_required
 def ordering_detail(request, pk):
     ordering = get_object_or_404(Ordering, pk=pk)
 
@@ -158,7 +159,8 @@ def ordering_detail(request, pk):
 
     return render(request, 'ordering_detail.html', context)
 
-def user_profile(request):
+@login_required
+def create_user_profile(request):
     form = UserProfileForm()
     if request.method == "POST":
         form = UserProfileForm(request.POST)
@@ -166,9 +168,47 @@ def user_profile(request):
             instance = form.save(commit=False)
             instance.user = request.user
             instance.save()
+            if request.GET.get('next',''):
+                return HttpResponseRedirect(request.GET.get('next',''))
+            else:
+                return HttpResponseRedirect(reverse('user_profile'))
+    context = {
+        'form': form,
+    }
+
+    return render(request, 'create_user_profile.html', context)
+
+@login_required
+def edit_user_profile(request):
+    form = UserProfileForm(instance=UserProfile.objects.get(user=request.user))
+    if request.method == "POST":
+        form = UserProfileForm(request.POST, instance=UserProfile.objects.get(user=request.user))
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.user = request.user
+            instance.save()
             return HttpResponseRedirect(request.GET.get('next',''))
     context = {
-    'form': form,
+        'form': form,
+    }
+
+    return render(request, 'edit_user_profile.html', context)
+
+@login_required
+def user_profile(request):
+    user = request.user
+    ordering = user.ordering_set.all()
+    subscribe = user.usersubscribe_set.all()
+
+    if not UserProfile.objects.filter(user=user):
+        return HttpResponseRedirect(reverse('create_user_profile'))
+
+    print(ordering)
+
+    context = {
+        'user': user,
+        'ordering': ordering,
+        'subscribe': subscribe,
     }
 
     return render(request, 'user_profile.html', context)

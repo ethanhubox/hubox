@@ -33,15 +33,19 @@
       <div class="login-box-header"><h4>訂單完成繳費</h4></div>
       <div class="login-box-footer">
         <p>供應商：</p>
-        <p>{{ ordering.course.vendor.name }}</p><br>
+        <a href="{{ ordering.vendor.get_absolute_url }}"><p>{{ ordering.course.vendor.name }}</p><br></a>
         <p>課程：</p>
-        <p>{{ ordering.course.name }}</p><br>
+        <a href="{{ ordering.course.get_absolute_url }}"><p>{{ ordering.course.name }}</p><br></a>
         <p>上課時段：</p>
         <p>{{ ordering.available_time.date|date:"Y-m-d" }} {{ ordering.available_time.start_time|date:"H:i" }}～{{ ordering.available_time.end_time|date:"H:i" }}</p><br>
         <p>上課地點：</p>
         <p>{{ ordering.course.address }}</p><br>
         <p>報名人數：</p>
         <p>{{ ordering.participants_number }}</p><br>
+        <p>訂單金額：</p>
+        <p>{{ ordering.total_amount }}</p><br>
+        <p>訂單狀態：</p>
+        <p>{% if ordering.payment %}已繳費{% else %}尚未繳費{% endif %}</p><br>
       </div>
 
     </div>

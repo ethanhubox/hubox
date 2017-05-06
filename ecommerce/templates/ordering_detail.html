@@ -2,42 +2,58 @@
 
 {% load static %}
 
-{% block meta_description %}訂單{% endblock %}
+{% block meta_description %}{% endblock %}
 {% block author %}{% endblock %}
 
-{% block og_url %}{{ ordering.get_absolute_url }}{% endblock %}
-{% block og_title %}訂單{% endblock %}
+{% block og_url %}{% endblock %}
+{% block og_title %}{% endblock %}
 {% block og_description %}{% endblock %}
 {% block og_image %}{% endblock %}
 
-{% block title %}訂單{% endblock %}
+{% block title %}{% endblock %}
 
-
-{% block cover_page %}
-
-<!-- cover div -->
-<div class="allv-page-cover-section">
-    <div class="allv-page-cover-image-holder">
-        <img src="{% static 'img/vendor_cover.jpg' %}" />
-    </div>
-    <div class="allv-page-cover-caption">
-        <h1>Ordering</h1>
-    </div>
-</div>
-<!-- cover div end -->
-
+{% block css %}
+<style>
+.login-background-img {
+    height: 100vh;
+    background-image: url("{% static "img/login-background.jpg" %}");
+    background-size: cover;
+    background-position: center;
+}
+</style>
 {% endblock %}
+
 
 {% block content %}
 
 
+<div class="login-background-img">
+  <div class="login-box-container">
+    <div class="login-box">
+      <div class="login-box-header"><h4>訂單內容</h4></div>
+      <div class="login-box-footer">
+        <p>供應商：</p>
+        <a href="{{ ordering.vendor.get_absolute_url }}"><p>{{ ordering.course.vendor.name }}</p><br></a>
+        <p>課程：</p>
+        <a href="{{ ordering.course.get_absolute_url }}"><p>{{ ordering.course.name }}</p><br></a>
+        <p>上課時段：</p>
+        <p>{{ ordering.available_time.date|date:"Y-m-d" }} {{ ordering.available_time.start_time|date:"H:i" }}～{{ ordering.available_time.end_time|date:"H:i" }}</p><br>
+        <p>上課地點：</p>
+        <p>{{ ordering.course.address }}</p><br>
+        <p>報名人數：</p>
+        <p>{{ ordering.participants_number }}</p><br>
+        <p>訂單金額：</p>
+        <p>{{ ordering.total_amount }}</p><br>
+        <p>訂單狀態：</p>
+        <p>{% if ordering.payment %}已繳費{% else %}尚未繳費{% endif %}</p><br>
+      </div>
 
-<p>user:{{ ordering.user }}</p>
-<p>vendor:{{ ordering.vendor }}</p>
-<p>course:{{ ordering.course }}</p>
-<p>material:{{ ordering.material }}</p>
-<p>available_time:{{ ordering.available_time }}</p>
-<p>participants_number:{{ ordering.participants_number }}</p>
-<p>total_amount:{{ ordering.total_amount }}</p>
+    </div>
+  </div>
+</div>
 
 {% endblock %}
+
+{% block modal %}{% endblock %}
+
+{% block js %}{% endblock %}
