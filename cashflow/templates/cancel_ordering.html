@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block meta_description %}{% endblock %}
+{% block author %}{% endblock %}
+
+{% block og_url %}{% endblock %}
+{% block og_title %}{% endblock %}
+{% block og_description %}{% endblock %}
+{% block og_image %}{% endblock %}
+
+{% block title %}{% endblock %}
+
+{% block css %}
+<style>
+.login-background-img {
+    height: 100vh;
+    background-image: url("{% static "img/login-background.jpg" %}");
+    background-size: cover;
+    background-position: center;
+}
+</style>
+{% endblock %}
+
+
+{% block content %}
+
+
+<div class="login-background-img">
+  <div class="login-box-container">
+    <div class="login-box">
+      <div class="login-box-header"><h4>取消訂單</h4></div>
+      <div class="login-box-footer">
+        訂單已取消
+      </div>
+
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block modal %}{% endblock %}
+
+{% block js %}{% endblock %}

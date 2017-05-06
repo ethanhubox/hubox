@@ -7,8 +7,11 @@ from django.core.urlresolvers import reverse
 from django.core.mail import EmailMessage
 from datetime import datetime
 from itertools import chain
-from django.core.mail import send_mail
 import os, time, json
+
+from hubox.settings import BASE_DIR
+from django.core.mail import send_mail
+
 # Create your views here.
 
 def index(request):

@@ -143,7 +143,7 @@ class Ordering(models.Model):
     available_time = models.ForeignKey(AvailableTime)
     participants_number = models.PositiveIntegerField()
     total_amount = models.PositiveIntegerField()
-    check_value = models.CharField(max_length=500)
+    establish = models.BooleanField(default=True)
     payment = models.BooleanField(default=False)
 
     def __str__(self):
@@ -156,10 +156,6 @@ def ordering_post_save_receiver(sender, instance, *args, **kwargs):
     available_time = instance.available_time
     available_time.quota -= instance.participants_number
     available_time.save()
-
-
-    # message = "感謝您購買" + instance.course.name + "課程<br>您選擇的素材為：" + instance.material.name + "<br>上課時間為：" + str(instance.available_time)
-    # send_mail("hi", "miwooro@hotmail.com", ["miwooro@hotmail.com"], html_message=message)
 
 post_save.connect(ordering_post_save_receiver, sender=Ordering)
 
