@@ -16,8 +16,13 @@
 {% block css %}
 
 <!-- member page css -->
-<link href="{% static "css/member.css" %}" rel="stylesheet">
 
+    <!-- member page css -->
+    <link href="{% static "css/member.css" %}" rel="stylesheet">
+
+
+    <!-- resposive css -->
+    <link href="{% static "css/responsive-m.css" %}" rel="stylesheet">
 
 {% endblock %}
 
@@ -137,6 +142,24 @@
 {% block modal %}{% endblock %}
 
 {% block js %}
+
+<script>
+    function init() {
+        window.addEventListener('scroll', function(e) {
+            var distanceY = window.pageYOffset || document.documentElement.scrollTop,
+                shrinkOn = 300,
+                header = document.querySelector(".m-nav-container");
+            if (distanceY > shrinkOn) {
+                classie.add(header, "m-nav-container-onscroll");
+            } else {
+                if (classie.has(header, "m-nav-container-onscroll")) {
+                    classie.remove(header, "m-nav-container-onscroll");
+                }
+            }
+        });
+    }
+    window.onload = init();
+</script>
 
 
 <script type="text/javascript">

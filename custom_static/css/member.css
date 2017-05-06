@@ -320,6 +320,89 @@
 
 
 
+/*member responsive starts here*/
+@media screen and (max-width:1024px){
+  .member-info-tab-container{
+    width: 100%;
+  }
+  .member-order-row-container, .member-tracking-row-container{
+    width: 100%;
+  }
+  .member-order-record-img-holder{
+    width: 320px;
+    margin: auto;
+  }
+  .member-order-record-info-holder,.member-tracking-record-info-holder{
+    text-align: center;
+  }
+  .member-tracking-record-img-holder{
+    width: 270px;
+    margin: auto;
+  }
+  .member-tracking-check-btn{
+    margin-top: 20px;
+  }
+}
+
+@media screen and (max-width:815px){
+  .member-info-tab-nav-container>.nav-tabs>li>a{
+    padding: 10px 20px;
+  }
+  .member-info-tab-nav-container .nav-tabs li a{
+    font-size: 18px;
+  }
+  .member-tracking-record-info-holder{
+    height: 250px;
+  }
+  .member-info-tab-container .tab-content{
+    padding: 15px;
+  }
+}
+
+@media screen and (max-width:575px){
+  .member-info-tab-nav-container>.nav-tabs>li>a{
+    padding: 10px;
+  }
+  .member-pass-change-form{
+    width: 100%;
+  }
+  .member-info-tab-container input{
+    width: 80%;
+  }
+  .member-order-check-btn,.member-order-comment-btn{
+    height: 40px;
+    line-height: 30px;
+    margin-top: 0px;
+  }
+  .member-order-record-info-holder{
+    height: 240px;
+  }
+  .member-personal-detail-item{
+    font-size: 18px;
+  }
+  .member-pass-change-btn{
+    height: 40px;
+    line-height: 30px;
+  }
+}
+
+@media screen and (max-width:400px){
+  .member-info-tab-nav-container .nav-tabs li a{
+    font-size: 15px;
+  }
+}
+
+@media screen and (max-width:330px){
+  .member-info-tab-nav-container .nav-tabs li a {
+    font-size: 12px;
+}
+}
+
+
+
+
+
+
 
 
 
