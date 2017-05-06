@@ -36,3 +36,12 @@ class OrderingForm(forms.ModelForm):
         # 'material',
         'participants_number'
         ]
+
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+
+        fields = [
+        'phone',
+        'address',
+        ]

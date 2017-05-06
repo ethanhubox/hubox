@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, HttpResponseRedirect
 from django.http import JsonResponse
 from .models import Vendor, Course, Catagory, Ordering, IndexEdit, AvailableTime, UserSubscribe, UserProfile
-from .forms import OrderingForm
+from .forms import OrderingForm, UserProfileForm
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.core.mail import EmailMessage
@@ -15,6 +15,7 @@ from django.core.mail import send_mail
 # Create your views here.
 
 def index(request):
+
     vendor = Vendor.objects.all().order_by('?')
     course = Course.objects.all().order_by('?')
     catagory = Catagory.objects.all().order_by('?')[:3]
@@ -156,3 +157,19 @@ def ordering_detail(request, pk):
     }
 
     return render(request, 'ordering_detail.html', context)
+
+def user_profile(request):
+    form = UserProfileForm()
+    print(request.GET.get('next'))
+    if request.method == "POST":
+        form = UserProfileForm(request.POST)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.user = request.user
+            instance.save()
+            return HttpResponseRedirect(request.GET.get('next'))
+    context = {
+    'form': form,
+    }
+
+    return render(request, 'user_profile.html', context)

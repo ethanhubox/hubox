@@ -167,15 +167,9 @@ def ordering_post_delete_receiver(sender, instance, *args, **kwargs):
 post_delete.connect(ordering_post_delete_receiver, sender=Ordering)
 
 
-GENDER_CHOICE = (
-    ('男', '男'),
-    ('女', '女'),
-    ('不願透露', '不願透露'),
-)
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    gender = models.CharField(max_length=20, choices=GENDER_CHOICE)
     phone = models.CharField(max_length=30)
     address = models.CharField(max_length=200)
 

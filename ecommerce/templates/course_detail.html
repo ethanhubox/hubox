@@ -548,6 +548,13 @@ td.day.disabled {
     })
   })
 
+  if ("{{ request.user.userprofile }}" == "") {
+    $('input[type="submit"]').click(function( event ) {
+      event.preventDefault();
+      document.location.href="{% url "user_profile" %}?next={{ course.get_absolute_url }}"
+    })
+  }
+
   </script>
 
   {% endblock %}

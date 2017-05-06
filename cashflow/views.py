@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponse, get_object_or_404
+from django.shortcuts import render, HttpResponse, get_object_or_404, HttpResponseRedirect
 import time, json, pprint, requests, binascii, base64, hashlib, os
 from Crypto.Cipher import AES
 from Crypto.Hash import SHA256
@@ -6,6 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from hubox.settings import BASE_DIR
+from django.core.urlresolvers import reverse
 
 from .forms import AddMerchantForm, PaymentForm
 from ecommerce.forms import OrderingForm
@@ -173,14 +174,14 @@ def finish_order(request):
                 ordering.payment = True
                 ordering.save()
                 with open(os.path.join(BASE_DIR, 'cashflow', 'templates') + '/order_mail.txt', 'w') as content:
-                    content.write("訂單資訊：\n會員：" + str(ordering.user) + "\n課程：" + ordering.course.name + "\n上課時段：" + ordering.available_time.date.strftime("%Y-%m-%d %H:%M") + "\n上課人數" + str(ordering.participants_number))
+                    content.write("訂單資訊：\n會員：" + str(ordering.user) + "\n聯絡電話：" + ordering.user.userprofile.phone + "\n聯絡地址" + ordering.user.userprofile.address + "\n課程：" + ordering.course.name + "\n上課時段：" + ordering.available_time.date.strftime("%Y-%m-%d %H:%M") + "\n上課人數" + str(ordering.participants_number))
                 if ordering.payment == True:
                     with open(os.path.join(BASE_DIR, 'cashflow', 'templates') + '/order_mail.txt', "a") as append_content:
                         append_content.write("\n繳費狀態：已繳費")
                 file = open(os.path.join(BASE_DIR, 'cashflow', 'templates') + '/order_mail.txt', 'r')
                 content = file.read()
 
-                to_mail = []
+                to_mail = ['ethan@hubox.life', 'frank@hubox.life',]
                 to_mail.append(ordering.user.email)
                 send_mail(
                     '訂單成立',
@@ -203,7 +204,9 @@ def cancel_ordering(request):
     if request.method == "POST":
         if request.POST.get("username", '') == request.user.username:
             ordering = get_object_or_404(Ordering, user=request.user, pk=int(request.POST.get("ordering", '')))
+            return_page = ordering.course.pk
             ordering.delete()
+            return HttpResponseRedirect(reverse("course_detail", kwargs={'pk': return_page}))
 
     context = {
     "ordering": ordering,

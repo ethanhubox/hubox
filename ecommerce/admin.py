@@ -75,10 +75,11 @@ class MaterialAdmin(admin.ModelAdmin):
     list_display = ('course', 'name', 'price')
 
 class OderingAdmin(admin.ModelAdmin):
+    search_fields = ('user',)
     list_display = ('user', 'course', 'total_amount')
 
 class UserProfileAdmin(admin.ModelAdmin):
-    list_display = ('user', 'gender', 'phone', 'address')
+    list_display = ('user', 'phone', 'address')
 
 class UserSubscribeAdmin(admin.ModelAdmin):
     list_display = ('user', 'vendor')

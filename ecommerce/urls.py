@@ -9,4 +9,5 @@ urlpatterns = [
     url(r'^course/(?P<pk>\d+)/$', views.course_detail, name='course_detail'),
     url(r'^ordering/(?P<pk>\d+)/$', views.ordering_detail, name='ordering_detail'),
     url(r'^subscribe_ajax/$', views.subscribe_ajax, name='subscribe_ajax'),
+    url(r'^user_profile/$', views.user_profile, name='user_profile'),
 ]
