@@ -41,7 +41,7 @@ def add_merchant(request):
             # plain_text = decryption_suite.decrypt(binascii.a2b_hex(cipher_text))
 
 
-            print('cipher_text', cipher_text)
+            # print('cipher_text', cipher_text)
             # print('plain_text', plain_text)
 
             URL = 'https://ccore.spgateway.com/API/AddMerchant'
@@ -58,14 +58,14 @@ def add_merchant(request):
 
             r = requests.post(URL, headers=headers, data=last_data)
 
-            print(r.status_code)
-            print(r.json())
+            # print(r.status_code)
+            # print(r.json())
 
             form = AddMerchantForm(request.POST)
 
         else:
             form = AddMerchantForm(request.POST)
-            print('no')
+            # print('no')
 
 
 
@@ -76,7 +76,7 @@ def add_merchant(request):
     shavalue = hashlib.sha256()
     shavalue.update(c.encode('utf-8'))
     # print(shavalue.digest().decode('utf-8'))
-    print("我要的",shavalue.hexdigest().upper())
+    # print("我要的",shavalue.hexdigest().upper())
     # print(str(shavalue.digest(),'utf-8'))
 
     return render(request, "add_merchant.html", context)
@@ -162,14 +162,14 @@ def finish_order(request):
     if request.method == "POST":
         data = request.POST.get('JSONData','')
         new_data = json.loads(data)
-        print("new_data", new_data)
+        # print("new_data", new_data)
         result = new_data['Result'].replace('\"','"')
         new_result = json.loads(result)
-        print("new_result", new_result)
-        print(new_result["MerchantOrderNo"][12:])
+        # print("new_result", new_result)
+        # print(new_result["MerchantOrderNo"][12:])
         if new_data['Status'] == "SUCCESS":
             ordering = Ordering.objects.filter(user=request.user, pk=int(new_result["MerchantOrderNo"][12:]))[0]
-            print("ordering", ordering)
+            # print("ordering", ordering)
             if ordering:
                 ordering.payment = True
                 ordering.save()

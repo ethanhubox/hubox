@@ -203,7 +203,6 @@ def user_profile(request):
     if not UserProfile.objects.filter(user=user):
         return HttpResponseRedirect(reverse('create_user_profile'))
 
-    print(ordering)
 
     context = {
         'user': user,
