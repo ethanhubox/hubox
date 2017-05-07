@@ -16,7 +16,6 @@ from django.core.mail import send_mail
 # Create your views here.
 
 def index(request):
-
     vendor = Vendor.objects.all().order_by('?')
     course = Course.objects.all().order_by('?')
     catagory = Catagory.objects.all().order_by('?')[:3]
@@ -25,6 +24,27 @@ def index(request):
         index = IndexEdit.objects.all()[0]
     except IndexEdit.DoesNotExist:
         index = None
+
+    if request.method == "POST":
+        name = request.POST.get('name', '')
+        email = request.POST.get('email', '')
+        phone = request.POST.get('phone', '')
+        message = request.POST.get('message', '')
+
+        if name and email and phone and message:
+            with open(os.path.join(BASE_DIR, 'ecommerce', 'templates') + '/contact_us.txt', 'w') as content:
+                content.write("聯絡人姓名：{}\n信箱：{}\n電話：{}\n要說的話：\n{}".format(name, email, phone, message))
+            file = open(os.path.join(BASE_DIR, 'ecommerce', 'templates') + '/contact_us.txt', 'r')
+            content = file.read()
+
+            to_mail = ['ethan@hubox.life', 'frank@hubox.life',]
+            send_mail(
+                '聯絡我們',
+                content,
+                'Hubox哈盒子',
+                to_mail,
+                fail_silently=False,
+            )
 
     context = {
     'vendor':vendor,
