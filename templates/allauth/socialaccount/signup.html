@@ -32,6 +32,7 @@
                 <div class="login-box-footer">
                     你正在使用facebook登入，我們還需要一些資訊才能完成
                 </div>
+                <br>
             <form class="signup" id="signup_form" method="post" action="{% url 'socialaccount_signup' %}">
               {% csrf_token %}
               {% if redirect_field_value %}
