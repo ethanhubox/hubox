@@ -90,7 +90,7 @@ def vendor_detail(request, pk):
     return render(request, 'vendor_detail.html', context)
 
 def subscribe_ajax(request):
-    vendor = get_object_or_404(Vendor, pk=request.POST.get("vendor", ''))
+    vendor = get_object_or_404(Vendor, pk=request.POST.get("vendor", 0))
     if request.user.is_authenticated():
         user = request.user
         if request.method == "POST" and request.is_ajax():
@@ -182,21 +182,23 @@ def ordering_detail(request, pk):
 @login_required
 def create_user_profile(request):
     form = UserProfileForm()
-    if request.user.userprofile:
+    try:
+        profile = request.user.userprofile
         if request.GET.get('next',''):
             return HttpResponseRedirect(request.GET.get('next',''))
         else:
             return HttpResponseRedirect(reverse('index'))
-    if request.method == "POST":
-        form = UserProfileForm(request.POST)
-        if form.is_valid():
-            instance = form.save(commit=False)
-            instance.user = request.user
-            instance.save()
-            if request.GET.get('next',''):
-                return HttpResponseRedirect(request.GET.get('next',''))
-            else:
-                return HttpResponseRedirect(reverse('user_profile'))
+    except:
+        if request.method == "POST":
+            form = UserProfileForm(request.POST)
+            if form.is_valid():
+                instance = form.save(commit=False)
+                instance.user = request.user
+                instance.save()
+                if request.GET.get('next',''):
+                    return HttpResponseRedirect(request.GET.get('next',''))
+                else:
+                    return HttpResponseRedirect(reverse('user_profile'))
     context = {
         'form': form,
     }
