@@ -162,6 +162,9 @@ def ordering_detail(request, pk):
 @login_required
 def create_user_profile(request):
     form = UserProfileForm()
+    if request.user.userprofile:
+        print(request.user)
+        return HttpResponseRedirect(request.GET.get('next',''))
     if request.method == "POST":
         form = UserProfileForm(request.POST)
         if form.is_valid():
