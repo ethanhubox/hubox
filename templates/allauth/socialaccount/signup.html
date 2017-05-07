@@ -2,21 +2,44 @@
 
 {% load i18n %}
 
+{% load static %}
+
 {% block head_title %}{% trans "Signup" %}{% endblock %}
 
-{% block content %}
-    <h1>{% trans "Sign Up" %}</h1>
-
-<p>{% blocktrans with provider_name=account.get_provider.name site_name=site.name %}You are about to use your {{provider_name}} account to login to
-{{site_name}}. As a final step, please complete the following form:{% endblocktrans %}</p>
-
-<form class="signup" id="signup_form" method="post" action="{% url 'socialaccount_signup' %}">
-  {% csrf_token %}
-  {{ form.as_p }}
-  {% if redirect_field_value %}
-  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-  {% endif %}
-  <button type="submit">{% trans "Sign Up" %} &raquo;</button>
-</form>
+<style>
+.login-background-img {
+    height: 100vh;
+    background-image: url("{% static "img/login-background.jpg" %}");
+    background-size: cover;
+    background-position: center;
+}
+</style>
 
 {% endblock %}
+
+{% block cover_page %}{% endblock %}
+
+
+{% block content %}
+
+<section class="login-background-img">
+    <div class="login-box-container">
+        <div class="login-box">
+            <div class="login-box-header">
+                <h4>facebook會員註冊</h4></div>
+                <div class="login-box-footer">
+                    你正在使用facebook登入，我們需要您再提供一些資訊給我們。
+                </div>
+            <form class="signup" id="signup_form" method="post" action="{% url 'socialaccount_signup' %}">
+              {% csrf_token %}
+              {% if redirect_field_value %}
+              <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+              {% endif %}
+
+                  <input autofocus="autofocus" id="id_username" maxlength="30" name="username" placeholder="請設置使用者帳號" type="text">
+                  <input id="id_email" name="email" placeholder="請輸入E-mail" type="email" value="miwooro@gmail.com">
+                <button type="submit" class="login-btn">註冊</button>
+            </form>
+        </div>
+    </div>
+</section>
