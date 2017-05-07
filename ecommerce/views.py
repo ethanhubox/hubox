@@ -163,8 +163,10 @@ def ordering_detail(request, pk):
 def create_user_profile(request):
     form = UserProfileForm()
     if request.user.userprofile:
-        print(request.user)
-        return HttpResponseRedirect(request.GET.get('next',''))
+        if request.GET.get('next',''):
+            return HttpResponseRedirect(request.GET.get('next',''))
+        else:
+            return HttpResponseRedirect(reverse('index'))
     if request.method == "POST":
         form = UserProfileForm(request.POST)
         if form.is_valid():

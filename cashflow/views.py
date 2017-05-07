@@ -118,7 +118,7 @@ def payment(request):
             form.fields['CustomerURL'].initial = ''
             form.fields['ClientBackURL'].initial = ''
             form.fields['Email'].initial = request.user.email
-            form.fields['EmailModify'].initial = 0
+            form.fields['EmailModify'].initial = 1
             form.fields['LoginType'].initial = 0
             form.fields['OrderComment'].initial = ''
             form.fields['CREDIT'].initial = 1
