@@ -4,12 +4,12 @@
 
 {% load markdown_deux_tags %}
 
-{% block meta_description %}{{ course.name }}{% endblock %}
+{% block meta_description %}{% endblock %}
 {% block author %}{% endblock %}
 
 {% block og_url %}{{ course.get_absolute_url }}{% endblock %}
 {% block og_title %}{{ course.name }}{% endblock %}
-{% block og_description %}{{ course.introduce }}{% endblock %}
+{% block og_description %}{{ course.introduce|markdown|striptags }}{% endblock %}
 {% block og_image %}{{ course.coursemedia_set.all.0.file.url }}{% endblock %}
 
 {% block title %}{{ course.name }}{% endblock %}
@@ -554,6 +554,8 @@ td.day.disabled {
       document.location.href="{% url "create_user_profile" %}?next={{ course.get_absolute_url }}"
     })
   }
+
+
 
   </script>
 

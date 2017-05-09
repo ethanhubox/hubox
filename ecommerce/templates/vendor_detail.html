@@ -8,8 +8,8 @@
 
 {% block og_url %}{{ vendor.get_absolute_url }}{% endblock %}
 {% block og_title %}{{ vendor.name }}{% endblock %}
-{% block og_description %}{{ vendor.story }}{% endblock %}
-{% block og_image %}{{ vendor.logo.url }}{% endblock %}
+{% block og_description %}{{ vendor.story|markdown|striptags }}{% endblock %}
+{% block og_image %}{{ vendor.banner.url }}{% endblock %}
 
 {% block title %}{{ vendor.name }}{% endblock %}
 
@@ -293,7 +293,12 @@ $('.vendor-page-follow-btn').click(function (event) {
     }
   });
 });
-</script>
 
+var description = $('.vendor-page-intro-container').text()
+console.log(description)
+$("meta[property='og\\:description']").attr("content", description);
+
+
+</script>
 
 {% endblock %}
