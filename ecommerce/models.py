@@ -129,7 +129,7 @@ class AvailableTime(models.Model):
     format_date = models.CharField(max_length=200, blank=True)
 
     def __str__(self):
-        return self.date.strftime("%m月%d日 （%a.） ") + self.start_time.strftime("%H:%M - ") + self.end_time.strftime("%H:%M") + " 剩餘" + str(self.quota) + "人"
+        return self.date.strftime("%m月%d日 (%a.) ") + self.start_time.strftime("%H:%M - ") + self.end_time.strftime("%H:%M") + " 剩餘 " + str(self.quota) + " 人"
 
     class Meta:
         ordering = ['course', 'date', 'start_time']
@@ -158,20 +158,21 @@ class Ordering(models.Model):
     def get_absolute_url(self):
         return reverse('ordering_detail', kwargs = {"pk": self.pk})
 
-def ordering_post_save_receiver(sender, instance, *args, **kwargs):
-    available_time = instance.available_time
-    available_time.quota -= instance.participants_number
+def ordering_post_save_receiver(sender, instance, created, *args, **kwargs):
+    if created:
+        available_time = instance.available_time
+        available_time.quota -= instance.participants_number
 
 
-    available_date = datetime.datetime.combine(available_time.date, available_time.start_time)
-    expire = available_date - datetime.timedelta(days=1)
+        available_date = datetime.datetime.combine(available_time.date, available_time.start_time)
+        expire = available_date - datetime.timedelta(days=1)
 
-    if available_time.quota < 0:
-        raise OverfulfilException('已額滿')
-    elif datetime.datetime.now() > expire:
-        raise OurOfDateException('已結束')
-    else:
-        available_time.save()
+        if available_time.quota < 0:
+            raise OverfulfilException('已額滿')
+        elif datetime.datetime.now() > expire:
+            raise OurOfDateException('已結束')
+        else:
+            available_time.save()
 
 post_save.connect(ordering_post_save_receiver, sender=Ordering)
 

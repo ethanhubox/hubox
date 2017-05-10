@@ -41,9 +41,9 @@
               <li role="presentation">
                   <a href="#orderInfo" aria-controls="others" role="tab" data-toggle="tab">我的訂單</a>
               </li>
-              <li role="presentation">
+              <!-- <li role="presentation">
                   <a href="#passChange" aria-controls="others" role="tab" data-toggle="tab">更改密碼</a>
-              </li>
+              </li> -->
               <li role="presentation">
                   <a href="#trackingList" aria-controls="comments" role="tab" data-toggle="tab">我的追蹤</a>
               </li>
@@ -67,6 +67,7 @@
              <div class="member-personal-detail-item">電子郵件：{{ user.email }}</div>
              <div class="member-personal-detail-item">聯絡電話：{{ user.userprofile.phone }}</div>
              <div class="member-personal-detail-item">帳單地址：{{ user.userprofile.address }}</div>
+             <button type="button" class="member-order-comment-btn" onclick="window.location='{% url "account_change_password" %}'"="">修改密碼</button>
           </div>
         </div>
         <div role="tabpanel" class="tab-pane fade" id="orderInfo">
@@ -90,7 +91,7 @@
             {% endfor %}
           </div>
         </div>
-        <div role="tabpanel" class="tab-pane fade" id="passChange">
+        <!-- <div role="tabpanel" class="tab-pane fade" id="passChange">
           <div class="member-personal-detail-holder">
              <div class="member-personal-detail-item form-message" style="color:white;"></div>
           </div>
@@ -111,7 +112,7 @@
             <input id="id_password2" name="password2" placeholder="請再次輸入新密碼" type="password" />
             <button type="submit" class="member-pass-change-btn">確認修改</button>
           </form>
-        </div>
+        </div> -->
         <div role="tabpanel" class="tab-pane fade" id="trackingList">
           <div class="member-tracking-row-container">
             {% for subscribe in subscribe %}

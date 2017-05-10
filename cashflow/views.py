@@ -123,7 +123,7 @@ def payment(request):
             form.fields['ExpireDate'].initial = ''
             form.fields['ReturnURL'].initial = request.build_absolute_uri('finish_order') + "/"
             form.fields['NotifyURL'].initial = ''
-            form.fields['CustomerURL'].initial = ''
+            form.fields['CustomerURL'].initial = request.build_absolute_uri('finish_order') + "/"
             form.fields['ClientBackURL'].initial = ''
             form.fields['Email'].initial = request.user.email
             form.fields['EmailModify'].initial = 1
@@ -171,11 +171,19 @@ def finish_order(request):
     if request.method == "POST":
         data = request.POST.get('JSONData','')
         new_data = json.loads(data)
-        # print("new_data", new_data)
         result = new_data['Result'].replace('\"','"')
         new_result = json.loads(result)
-        # print("new_result", new_result)
-        # print(new_result["MerchantOrderNo"][12:])
+
+
+        check_value = "HashKey=" + os.environ['PAYMENT_HASHKEY'] + "&Amt=" + str(new_result['Amt']) + '&MerchantID=' + str(new_result['MerchantID']) + '&MerchantOrderNo=' + str(new_result['MerchantOrderNo']) + '&TradeNo=' + str(new_result['TradeNo']) + '&HashIV=' + os.environ['PAYMENT_HASHIV']
+        shavalue = hashlib.sha256()
+        shavalue.update(check_value.encode('utf-8'))
+
+        check_value = shavalue.hexdigest().upper()
+        print('check_value', check_value)
+        print('返回', new_result['CheckCode'])
+
+
         if new_data['Status'] == "SUCCESS":
             ordering = Ordering.objects.filter(user=request.user, pk=int(new_result["MerchantOrderNo"].split('_')[-2]))[0]
             if ordering:

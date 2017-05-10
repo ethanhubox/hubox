@@ -206,11 +206,6 @@ td.day.disabled {
         <div class="tab-content">
             <div role="tabpanel" class="tab-pane fade active in" id="intro">
                 <div class="course-page-intro-container">
-                  {% if messages %}
-                      {% for message in messages %}
-                      <div{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</div>
-                      {% endfor %}
-                  {% endif %}
                     {{ course.introduce|markdown }}
                 </div>
             </div>
