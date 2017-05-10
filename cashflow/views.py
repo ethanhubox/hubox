@@ -189,8 +189,8 @@ def finish_order(request):
                 file = open(os.path.join(BASE_DIR, 'cashflow', 'templates') + '/order_mail.txt', 'r')
                 content = file.read()
 
-                to_mail = ['miwooro@hotmail.com']
-                # to_mail = ['ethan@hubox.life', 'frank@hubox.life']
+                # to_mail = ['miwooro@hotmail.com']
+                to_mail = ['ethan@hubox.life', 'frank@hubox.life']
                 to_mail.append(ordering.user.email)
                 send_mail(
                     '訂單成立',
