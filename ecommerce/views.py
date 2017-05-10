@@ -9,6 +9,7 @@ from datetime import datetime
 from itertools import chain
 import os, time, json
 from django.contrib.auth.decorators import login_required
+from allauth.account.forms import ChangePasswordForm
 
 from hubox.settings import BASE_DIR
 from django.core.mail import send_mail
@@ -226,6 +227,7 @@ def user_profile(request):
     user = request.user
     ordering = user.ordering_set.all()
     subscribe = user.usersubscribe_set.all()
+    form = ChangePasswordForm()
 
     if not UserProfile.objects.filter(user=user):
         return HttpResponseRedirect(reverse('create_user_profile'))
@@ -235,6 +237,16 @@ def user_profile(request):
         'user': user,
         'ordering': ordering,
         'subscribe': subscribe,
+        'form': form,
     }
 
     return render(request, 'user_profile.html', context)
+
+def catagory_detail(request, pk):
+    catagory = get_object_or_404(Catagory, pk=pk)
+
+    context = {
+        'catagory': catagory,
+    }
+
+    return render(request, 'catagory_detail.html', context)

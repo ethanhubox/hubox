@@ -162,11 +162,9 @@ def finish_order(request):
     if request.method == "POST":
         data = request.POST.get('JSONData','')
         new_data = json.loads(data)
-        print('new_data', new_data)
         # print("new_data", new_data)
         result = new_data['Result'].replace('\"','"')
         new_result = json.loads(result)
-        print('new_result', new_result)
         # print("new_result", new_result)
         # print(new_result["MerchantOrderNo"][12:])
         if new_data['Status'] == "SUCCESS":

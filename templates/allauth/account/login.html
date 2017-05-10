@@ -19,6 +19,10 @@
     background-size: cover;
     background-position: center;
 }
+
+ul.errorlist li {
+  color: white;
+}
 </style>
 
 
@@ -37,11 +41,14 @@
 
         <form class="login" method="POST" action="{% url 'account_login' %}">
           {% csrf_token %}
+          {{ form.non_field_errors }}
+
           {% if redirect_field_value %}
           <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
           {% endif %}
-
+          {{ form.login.errors }}
           <input autofocus="autofocus" id="id_login" maxlength="30" name="login" placeholder="請輸入帳號/EMAIL" type="text" />
+          {{ form.password.errors }}
           <input id="id_password" name="password" placeholder="請輸入密碼" type="password" />
           <button type="submit" class="primaryAction login-btn">登入</button>
         </form>
@@ -71,7 +78,6 @@
     </div>
   </div>
 </div>
-
 
 {% endblock %}
 

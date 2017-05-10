@@ -60,10 +60,12 @@ def catagory_upload(instance, filename):
     ext = filename.split('.')[-1]
     return "catagory/{}.{}".format(instance.name, ext)
 
+
 class Catagory(models.Model):
     name = models.CharField(max_length=50)
     slug = models.CharField(max_length=50)
     logo = models.ImageField(upload_to=catagory_upload)
+    banner = models.ImageField(upload_to=catagory_upload)
 
     def __str__(self):
         return self.name

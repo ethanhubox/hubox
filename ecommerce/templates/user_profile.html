@@ -96,6 +96,7 @@
           </div>
           <form class="member-pass-change-form" action='{% url 'account_change_password' %}' method="POST">
             {% csrf_token %}
+
             <label class="member-pass-change-label">
               <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i>
             </label>
@@ -103,7 +104,7 @@
             <label class="member-pass-change-label">
               <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i>
             </label>
-            <input id="id_password1" name="password1" placeholder="請輸入新密碼" type="password" />
+            <input id="id_password1" name="password1" placeholder="請輸入新密碼 密碼至少要8個字" type="password" />
             <label class="member-pass-change-label">
               <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i>
             </label>

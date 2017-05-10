@@ -12,4 +12,5 @@ urlpatterns = [
     url(r'^create_user_profile/$', views.create_user_profile, name='create_user_profile'),
     url(r'^edit_user_profile/$', views.edit_user_profile, name='edit_user_profile'),
     url(r'^user_profile/$', views.user_profile, name='user_profile'),
+    url(r'^catagory_detail/(?P<pk>\d+)/$', views.catagory_detail, name='catagory_detail'),
 ]
