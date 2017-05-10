@@ -75,6 +75,7 @@ class MaterialAdmin(admin.ModelAdmin):
     list_display = ('course', 'name', 'price')
 
 class OderingAdmin(admin.ModelAdmin):
+    readonly_fields = ('timestamp',)
     search_fields = ('user',)
     list_display = ('user', 'course', 'total_amount')
 

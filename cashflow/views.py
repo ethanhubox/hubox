@@ -7,10 +7,12 @@ from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from hubox.settings import BASE_DIR
 from django.core.urlresolvers import reverse
+from django.contrib import messages
 
 from .forms import AddMerchantForm, PaymentForm
 from ecommerce.forms import OrderingForm
 from ecommerce.models import Ordering
+from hubox.custom_exceptions import OverfulfilException, OurOfDateException
 
 
 # Create your views here.
@@ -100,8 +102,14 @@ def payment(request):
             vendor = course.vendor
 
             total_amount = int(course.price) * int(number)
-
-            ordering = Ordering.objects.create(user=request.user, vendor=vendor, course=course, available_time=available_time, participants_number=int(number), total_amount=total_amount, establish=True, payment=False)
+            try:
+                ordering = Ordering.objects.create(user=request.user, vendor=vendor, course=course, available_time=available_time, participants_number=int(number), total_amount=total_amount, payment=False)
+            except OverfulfilException:
+                messages.error(request, '此課程已額滿')
+                return HttpResponseRedirect(reverse('course_detail', args=[course.pk,]))
+            except OurOfDateException:
+                messages.error(request, '此課程已結束')
+                return HttpResponseRedirect(reverse('course_detail', args=[course.pk,]))
 
             form.fields['MerchantID'].initial = 'MS39344778'
             form.fields['RespondType'].initial = 'JSON'
@@ -138,7 +146,8 @@ def payment(request):
 
             form.fields['CheckValue'].initial = shavalue.hexdigest().upper()
 
-
+            ordering.order_number = form.fields['MerchantOrderNo'].initial
+            ordering.save()
 
 
         else:
@@ -168,7 +177,7 @@ def finish_order(request):
         # print("new_result", new_result)
         # print(new_result["MerchantOrderNo"][12:])
         if new_data['Status'] == "SUCCESS":
-            ordering = Ordering.objects.filter(user=request.user, pk=int(new_result["MerchantOrderNo"][12:]))[0]
+            ordering = Ordering.objects.filter(user=request.user, pk=int(new_result["MerchantOrderNo"].split('_')[-2]))[0]
             if ordering:
                 ordering.payment = True
                 ordering.save()
@@ -180,8 +189,8 @@ def finish_order(request):
                 file = open(os.path.join(BASE_DIR, 'cashflow', 'templates') + '/order_mail.txt', 'r')
                 content = file.read()
 
-                # to_mail = ['miwooro@hotmail.com']
-                to_mail = ['ethan@hubox.life', 'frank@hubox.life']
+                to_mail = ['miwooro@hotmail.com']
+                # to_mail = ['ethan@hubox.life', 'frank@hubox.life']
                 to_mail.append(ordering.user.email)
                 send_mail(
                     '訂單成立',

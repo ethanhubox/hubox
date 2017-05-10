@@ -4,6 +4,9 @@ from django.contrib.auth.models import User
 from django.db.models.signals import pre_save, post_save, post_delete, pre_delete
 from django.core.mail import send_mail
 from django.conf import settings
+
+import datetime
+from hubox.custom_exceptions import OverfulfilException, OurOfDateException
 # Create your models here.
 
 def vendor_logo(instance, filename):
@@ -122,11 +125,11 @@ class AvailableTime(models.Model):
     date = models.DateField()
     start_time = models.TimeField()
     end_time = models.TimeField()
-    quota = models.IntegerField()
+    quota = models.PositiveIntegerField()
     format_date = models.CharField(max_length=200, blank=True)
 
     def __str__(self):
-        return self.date.strftime("%m月%d日 （%a.）") + self.start_time.strftime("%H:%M～") + self.end_time.strftime("%H:%M") + " 剩餘" + str(self.quota) + "人"
+        return self.date.strftime("%m月%d日 （%a.） ") + self.start_time.strftime("%H:%M - ") + self.end_time.strftime("%H:%M") + " 剩餘" + str(self.quota) + "人"
 
     class Meta:
         ordering = ['course', 'date', 'start_time']
@@ -138,6 +141,7 @@ pre_save.connect(available_time_pre_save_receiver, sender=AvailableTime)
 
 
 class Ordering(models.Model):
+    order_number = models.CharField(max_length=200, blank=True)
     user = models.ForeignKey(User)
     vendor = models.ForeignKey(Vendor)
     course = models.ForeignKey(Course)
@@ -145,7 +149,6 @@ class Ordering(models.Model):
     available_time = models.ForeignKey(AvailableTime)
     participants_number = models.PositiveIntegerField()
     total_amount = models.PositiveIntegerField()
-    establish = models.BooleanField(default=True)
     payment = models.BooleanField(default=False)
     timestamp = models.DateTimeField(auto_now_add=True)
 
@@ -158,7 +161,17 @@ class Ordering(models.Model):
 def ordering_post_save_receiver(sender, instance, *args, **kwargs):
     available_time = instance.available_time
     available_time.quota -= instance.participants_number
-    available_time.save()
+
+
+    available_date = datetime.datetime.combine(available_time.date, available_time.start_time)
+    expire = available_date - datetime.timedelta(days=1)
+
+    if available_time.quota < 0:
+        raise OverfulfilException('已額滿')
+    elif datetime.datetime.now() > expire:
+        raise OurOfDateException('已結束')
+    else:
+        available_time.save()
 
 post_save.connect(ordering_post_save_receiver, sender=Ordering)
 

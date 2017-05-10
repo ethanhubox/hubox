@@ -206,6 +206,11 @@ td.day.disabled {
         <div class="tab-content">
             <div role="tabpanel" class="tab-pane fade active in" id="intro">
                 <div class="course-page-intro-container">
+                  {% if messages %}
+                      {% for message in messages %}
+                      <div{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</div>
+                      {% endfor %}
+                  {% endif %}
                     {{ course.introduce|markdown }}
                 </div>
             </div>
@@ -480,6 +485,8 @@ td.day.disabled {
 
 
 
+
+
   $('.datePicker').datepicker({
     language: "zh-TW",
 
@@ -505,11 +512,15 @@ td.day.disabled {
     {% if text != '請先於上方選擇日期' %}
     if ("{{ text }}".startsWith(dateData)) {
       var stringDate = "{{ text }}";
+      var stringTime = stringDate.split(" ")[2]
       var stringDateArray = new Array();
       stringDate = stringDate.split(" ")[0].replace("月"," ").replace("日"," ");
+      var date = Number(stringDate.split(" ")[1]) - 1
+      stringDate = stringDate.split(" ")[0] + " " + date.toString() + " "
       var d = new Date();
       var y = d.getFullYear();
-      var formDate = Date.parse(stringDate + y)
+      console.log(stringDate + y + ' ' + stringTime)
+      var formDate = Date.parse(stringDate + y + ' ' + stringTime)
       var todayDate = Date.parse(d)
       if (formDate < todayDate) {
         var text = "{{ text }}".split(" ")

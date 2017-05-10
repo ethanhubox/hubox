@@ -5,7 +5,7 @@ from .forms import OrderingForm, UserProfileForm
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.core.mail import EmailMessage
-from datetime import datetime
+import datetime
 from itertools import chain
 import os, time, json
 from django.contrib.auth.decorators import login_required
@@ -125,7 +125,7 @@ def course_detail(request, pk):
     materials = course.material_set.all()
     googlemap_api_key = os.environ["GOOGLE_API_KEY"]
 
-    gte_date = course.availabletime_set.filter(date__gte=datetime.now())[:3]
+    gte_date = course.availabletime_set.filter(date__gte=datetime.datetime.now())[:3]
 
     form = OrderingForm()
     # form.fields['material'].queryset = materials
