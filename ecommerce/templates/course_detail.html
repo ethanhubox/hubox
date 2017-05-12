@@ -348,7 +348,7 @@ td.day.disabled {
             <div class="modal-body">
                 <div class="course-page-date-collapse-container">
                     <div class="datePicker"><input class="date-input" type="hidden" value=""/></div>
-                    <form class="ordering-form" id="submit-form" action="{% url "payment" %}" method="post">
+                    <form class="ordering-form" id="submit-form" action="{% url "cart" %}" method="post">
 
                       {% csrf_token %}
                       {{ form.non_field_errors }}
@@ -365,7 +365,7 @@ td.day.disabled {
                 <h2>總金額：<span>TWD</span> {{ course.price }}</h2>
             </div>
             <div class="modal-footer">
-                <input type="submit" value="結帳去" class="btn btn-primary btn-lg">
+                <input type="submit" value="加入購物車" class="btn btn-primary btn-lg">
                 <button type="button" class="btn btn-secondary btn-lg" data-dismiss="modal">關閉</button>
             </div>
                     </form>
@@ -538,28 +538,68 @@ td.day.disabled {
     $('.modal-total-price').html('<h2>總金額：<span>TWD</span> ' + {{ course.price }} * num + '</h2>')
 
   })
-  $('.select-material').on('change', function() {
-    var material = $(this).find("option:selected").text()
-    var price = "{{ course.price }}"
+
+
+  function getCookie(name) {
+      var cookieValue = null;
+      if (document.cookie && document.cookie !== '') {
+          var cookies = document.cookie.split(';');
+          for (var i = 0; i < cookies.length; i++) {
+              var cookie = jQuery.trim(cookies[i]);
+              // Does this cookie string begin with the name we want?
+              if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                  cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                  break;
+              }
+          }
+      }
+      return cookieValue;
+  }
+  var csrftoken = getCookie('csrftoken');
+
+  function csrfSafeMethod(method) {
+      // these HTTP methods do not require CSRF protection
+      return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+  }
+  $.ajaxSetup({
+      beforeSend: function(xhr, settings) {
+          if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+              xhr.setRequestHeader("X-CSRFToken", csrftoken);
+          }
+      }
+  });
+
+  $('input.btn.btn-primary.btn-lg').click(function (event) {
+    event.preventDefault()
+
     $.ajax({
-      type: "GET",
-      url: "{{ course.get_absolute_url }}",
-      data: {"material": material, "price": price},
+      type:"POST",
+      url: "{% url "cart" %}",
+      data: $('.ordering-form').serialize(),
       success: function(data) {
-        $('.modal-total-price').html('<h2>總金額：<span>TWD</span> ' + data['total'] + '</h2>')
+        console.log('item added')
+        $('#ModalBuy').modal('hide');
+        var cartItemCount = $('.cart-item-count')
+
+        $.ajax({
+          type:"GET",
+          url: "{% url "cart_item_count" %}",
+          success: function(data) {
+            cartItemCount.text(data.count)
+          },
+          error: function(data) {
+            console.log('error')
+          }
+        })
       },
       error: function(data) {
-        console.log(data)
+        console.log('error')
       }
     })
   })
 
-  if ("{{ request.user.userprofile }}" == "") {
-    $('input[type="submit"]').click(function( event ) {
-      event.preventDefault();
-      document.location.href="{% url "create_user_profile" %}?next={{ course.get_absolute_url }}"
-    })
-  }
+
+
 
 
 

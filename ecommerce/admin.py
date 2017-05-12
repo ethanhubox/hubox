@@ -76,8 +76,8 @@ class MaterialAdmin(admin.ModelAdmin):
 
 class OderingAdmin(admin.ModelAdmin):
     readonly_fields = ('timestamp',)
-    search_fields = ('user',)
-    list_display = ('user', 'course', 'total_amount')
+    search_fields = ('user', 'order_number')
+    list_display = ('order_number', 'user', 'total_amount')
 
 class UserProfileAdmin(admin.ModelAdmin):
     list_display = ('user', 'phone', 'address')

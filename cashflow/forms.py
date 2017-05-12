@@ -1,42 +1,5 @@
 from django import forms
 
-
-class AddMerchantForm(forms.Form):
-    Version = forms.CharField(max_length=5)
-    TimeStamp = forms.CharField(max_length=5, widget = forms.HiddenInput(), required = False)
-    MemberUnified = forms.CharField(max_length=30)
-    IdCardDate = forms.CharField(max_length=8, required=False)
-    IdCardPlace = forms.CharField(max_length=10, required=False)
-    MemberName = forms.CharField(max_length=20)
-    MemberPhone = forms.CharField(max_length=13)
-    ManagerName = forms.CharField(max_length=10)
-    ManagerNameE = forms.CharField(max_length=20)
-    LoginAccount = forms.CharField(max_length=20)
-    ManagerMobile = forms.CharField(max_length=10)
-    ManagerEmail = forms.CharField(max_length=40)
-    MerchantID = forms.CharField(max_length=15)
-    MerchantName = forms.CharField(max_length=20)
-    MerchantNameE = forms.CharField(max_length=100)
-    MerchantWebURL = forms.URLField(max_length=100)
-    MerchantAddrCity = forms.CharField(max_length=5)
-    MerchantAddrArea = forms.CharField(max_length=5)
-    MerchantAddrCode = forms.CharField(max_length=3)
-    MerchantAddr = forms.CharField(max_length=60)
-    NationalIE = forms.CharField(max_length=20)
-    CityE = forms.CharField(max_length=20)
-    MerchantType = forms.IntegerField()
-    BusinessType = forms.CharField(max_length=4)
-    MerchantDesc = forms.CharField(max_length=255)
-    BankCode = forms.CharField(max_length=3)
-    SubBankCode = forms.CharField(max_length=4)
-    BankAccount = forms.CharField(max_length=30)
-    CreditAudioType = forms.IntegerField(required=False)
-    CreditLimit = forms.IntegerField(required=False)
-    PaymentType = forms.CharField(max_length=255, required=False)
-    AgreedFee = forms.CharField(max_length=255, required=False)
-    AgreeDay = forms.CharField(max_length=255, required=False)
-
-
 class PaymentForm(forms.Form):
     MerchantID = forms.CharField(max_length=15, widget = forms.HiddenInput())
     RespondType = forms.CharField(max_length=6, required = False, widget = forms.HiddenInput())

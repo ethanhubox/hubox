@@ -83,6 +83,7 @@
           {% if user.is_authenticated %}
           <a href="{% url "course_list" %}"><i class="fa fa-fw fa-star-o"></i><span>學習類別</span></a>
           <a href="{% url "vendor_list" %}"><i class="fa fa-fw fa-bell-o"></i><span>學習工作坊一覽</span></a>
+          <a href="{% url "cart" %}"><i class="fa fa-shopping-cart"></i><span> 購物車</span><span class="cart-item-count"></span></a>
           <a href="{% url "account_logout" %}"><i class="fa fa-fw fa-sign-in" aria-hidden="true"></i><span>登出</span></a>
           <a href="{% url "user_profile" %}">
             {% if user.socialaccount_set.all.0.get_avatar_url %}
@@ -99,6 +100,7 @@
           {% else %}
           <a href="{% url "course_list" %}"><i class="fa fa-fw fa-star-o"></i><span>學習類別</span></a>
           <a href="{% url "vendor_list" %}"><i class="fa fa-fw fa-bell-o"></i><span>學習工作坊一覽</span></a>
+          <a href="{% url "cart" %}"><i class="fa fa-shopping-cart"></i><span> 購物車</span><span class="cart-item-count"></span></a>
           <a href="{% url "account_signup" %}"><i class="fa fa-fw fa-user-circle-o" aria-hidden="true"></i><span>註冊</span></a>
           <a href="{% url "account_login" %}"><i class="fa fa-fw fa-sign-in" aria-hidden="true"></i><span>登入</span></a>
           {% endif %}
@@ -127,7 +129,11 @@
                 {% endif %}
                 <a href="{% url "course_list" %}"><i class="fa fa-fw fa-bell-o"></i><span>所有學習</span></a>
                 <a href="{% url "vendor_list" %}"><i class="fa fa-fw fa-bell-o"></i><span>學習工作坊一覽</span></a>
+                <a href="{% url "cart" %}"><i class="fa fa-shopping-cart"></i><span> 購物車</span><span class="cart-item-count"></span></a>
                 {% if user.is_authenticated %}
+                {% if request.user.is_superuser %}
+                <a href="{% url 'admin:index' %}"><span>進入後台</span></a>
+                {% endif %}
                 <a href="{% url "account_logout" %}"><i class="fa fa-fw fa-sign-in" aria-hidden="true"></i><span>登出</span></a>
                 {% else %}
                 <a href="{% url "account_signup" %}"><i class="fa fa-fw fa-user-circle-o" aria-hidden="true"></i><span>註冊</span></a>
@@ -143,7 +149,7 @@
 
   {% block content %}{% endblock %}
 
-  <section class="footer-setion">
+  <section class="footer-section">
             <div class="footer-container">
                 <ul class="footer-item-container">
                     <li class="footer-item">
@@ -241,6 +247,24 @@
     ga('send', 'pageview');
 
   </script>
+
+<script type="text/javascript">
+
+$(document).ready(function() {
+    var cartItemCount = $('.cart-item-count')
+    $.ajax({
+      type:"GET",
+      url: "{% url "cart_item_count" %}",
+      success: function(data) {
+        cartItemCount.text(data.count)
+      },
+      error: function(data) {
+        console.log('error')
+      }
+    })
+})
+
+</script>
 
 {% block js %}{% endblock %}
 

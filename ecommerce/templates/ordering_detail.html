@@ -32,22 +32,33 @@
     <div class="login-box">
       <div class="login-box-header"><h4>訂單內容</h4></div>
       <div class="login-box-footer">
-        <p>供應商：</p>
-        <a href="{{ ordering.vendor.get_absolute_url }}"><p>{{ ordering.course.vendor.name }}</p><br></a>
-        <p>課程：</p>
-        <a href="{{ ordering.course.get_absolute_url }}"><p>{{ ordering.course.name }}</p><br></a>
-        <p>上課時段：</p>
-        <p>{{ ordering.available_time.date|date:"Y-m-d" }} {{ ordering.available_time.start_time|date:"H:i" }}～{{ ordering.available_time.end_time|date:"H:i" }}</p><br>
-        <p>上課地點：</p>
-        <p>{{ ordering.course.address }}</p><br>
-        <p>報名人數：</p>
-        <p>{{ ordering.participants_number }}</p><br>
-        <p>訂單金額：</p>
-        <p>{{ ordering.total_amount }}</p><br>
-        <p>訂單狀態：</p>
-        <p>{% if ordering.payment %}已繳費{% else %}尚未繳費{% endif %}</p><br>
-      </div>
+        <p>訂單編號：{{ ordering.order_number }}</p>
+        <p>訂單內容：</p>
+        <hr>
+        {% for item in ordering.cart.cartitem_set.all %}
+        <p>{{ item.available_time.course.vendor.name }}-{{ item.available_time.course.name }}</p>
+        <p>{{ item.available_time.date|date:"Y-m-d" }} {{ item.available_time.start_time|date:"H:i" }}～{{ item.available_time.end_time|date:"H:i" }}</p>
+        <p>參加人數：{{ item.participants_number }}</p>
+        <p>商品金額：{{ item.item_total }}</p>
+        <hr>
+        {% endfor %}
+        <p>訂單金額：{{ ordering.cart.total }}</p>
+        {% if not ordering.payment_choice %}
+        <form class="add-merchant-form" action="https://core.spgateway.com/MPG/mpg_gateway" method="post">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <button type="submit" class="primaryAction login-btn">前往付款</button>
+          <form class="cancel-order" action="{% url "cancel_ordering" %}?next={{ request.path }}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="username" value="{{ request.user }}">
+            <input type="hidden" name="ordering" value="{{ ordering.pk }}">
+            <button type="submit" class="primaryAction login-btn">取消訂單</button>
+          </form>
+        {% else %}
+        <p>繳費方式：{{ ordering.payment_choice }}</p>
 
+        {% endif %}
+      </div>
     </div>
   </div>
 </div>

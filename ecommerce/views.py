@@ -1,15 +1,16 @@
 from django.shortcuts import render, get_object_or_404, HttpResponseRedirect
 from django.http import JsonResponse
 from .models import Vendor, Course, Catagory, Ordering, IndexEdit, AvailableTime, UserSubscribe, UserProfile
-from .forms import OrderingForm, UserProfileForm
+from .forms import UserProfileForm
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.core.mail import EmailMessage
-import datetime
 from itertools import chain
-import os, time, json
+import os, time, json, datetime, hashlib
 from django.contrib.auth.decorators import login_required
-from allauth.account.forms import ChangePasswordForm
+from cart.forms import CartItemForm
+from cashflow.forms import PaymentForm
+from Crypto.Hash import SHA256
 
 from hubox.settings import BASE_DIR
 from django.core.mail import send_mail
@@ -20,6 +21,7 @@ def index(request):
     vendor = Vendor.objects.all().order_by('?')
     course = Course.objects.all().order_by('?')
     catagory = Catagory.objects.all().order_by('?')[:3]
+
 
     try:
         index = IndexEdit.objects.all()[0]
@@ -127,23 +129,13 @@ def course_detail(request, pk):
 
     gte_date = course.availabletime_set.filter(date__gte=datetime.datetime.now())[:3]
 
-    form = OrderingForm()
+    form = CartItemForm()
     # form.fields['material'].queryset = materials
     form.fields['available_time'].queryset = all_available_time
-
-    if request.method == "GET" and request.is_ajax():
-        material_data = request.GET.get('material', '').split(" ")[0]
-        material_price = materials.filter(name=material_data)[0].price
-
-        price = request.GET.get('price', '')
-        total = int(price) + int(material_price)
-
-        return JsonResponse({'total':total})
 
     if request.method == "POST":
         form = OrderingForm(request.POST)
         if form.is_valid():
-            material_price = form.cleaned_data['material'].price
             instance = form.save(commit=False)
             instance.user = request.user
             instance.vendor = course.vendor
@@ -172,10 +164,48 @@ def course_detail(request, pk):
 @login_required
 def ordering_detail(request, pk):
     ordering = get_object_or_404(Ordering, pk=pk)
+    total_amount = ordering.total_amount
+    form = PaymentForm()
+
+    form.fields['MerchantID'].initial = 'MS39344778'
+    form.fields['RespondType'].initial = 'JSON'
+    form.fields['TimeStamp'].initial = str(time.time())
+    form.fields['Version'].initial = '1.2'
+    form.fields['LangType'].initial = 'zh-tw'
+    form.fields['MerchantOrderNo'].initial = 'HBX{}_{}'.format(str(ordering.pk), request.user.pk)
+    form.fields['Amt'].initial = int(total_amount)
+    form.fields['ItemDesc'].initial = str(request.user)
+    form.fields['TradeLimit'].initial = ''
+    form.fields['ExpireDate'].initial = ''
+    form.fields['ReturnURL'].initial = request.build_absolute_uri(reverse('finish_order'))
+    form.fields['NotifyURL'].initial = ''
+    form.fields['CustomerURL'].initial = request.build_absolute_uri(reverse('finish_order'))
+    form.fields['ClientBackURL'].initial = ''
+    form.fields['Email'].initial = request.user.email
+    form.fields['EmailModify'].initial = 1
+    form.fields['LoginType'].initial = 0
+    form.fields['OrderComment'].initial = ''
+    form.fields['CREDIT'].initial = 1
+    form.fields['InstFlag'].initial = 0
+    form.fields['UNIONPAY'].initial = 0
+    form.fields['WEBATM'].initial = 0
+    form.fields['VACC'].initial = 0
+    form.fields['CVS'].initial = 1
+    form.fields['BARCODE'].initial = 0
+    form.fields['CUSTOM'].initial = 0
+
+
+    check_value = "HashKey=" + os.environ['PAYMENT_HASHKEY'] + "&Amt=" + str(form.fields['Amt'].initial) + '&MerchantID=' + str(form.fields['MerchantID'].initial) + '&MerchantOrderNo=' + str(form.fields['MerchantOrderNo'].initial) + '&TimeStamp=' + form.fields['TimeStamp'].initial + '&Version=1.2&HashIV=' + os.environ['PAYMENT_HASHIV']
+    shavalue = hashlib.sha256()
+    shavalue.update(check_value.encode('utf-8'))
+
+
+    form.fields['CheckValue'].initial = shavalue.hexdigest().upper()
 
 
     context = {
     'ordering': ordering,
+    'form': form,
     }
 
     return render(request, 'ordering_detail.html', context)
@@ -227,7 +257,6 @@ def user_profile(request):
     user = request.user
     ordering = user.ordering_set.all()
     subscribe = user.usersubscribe_set.all()
-    form = ChangePasswordForm()
 
     if not UserProfile.objects.filter(user=user):
         return HttpResponseRedirect(reverse('create_user_profile'))
@@ -237,7 +266,6 @@ def user_profile(request):
         'user': user,
         'ordering': ordering,
         'subscribe': subscribe,
-        'form': form,
     }
 
     return render(request, 'user_profile.html', context)
@@ -250,3 +278,7 @@ def catagory_detail(request, pk):
     }
 
     return render(request, 'catagory_detail.html', context)
+
+def cancel_paid_order(request):
+    if request.method == "POST":
+        pass

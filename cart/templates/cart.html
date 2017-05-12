@@ -1,0 +1,154 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block meta_description %}{% endblock %}
+{% block author %}{% endblock %}
+
+{% block og_url %}{% endblock %}
+{% block og_title %}{% endblock %}
+{% block og_description %}{% endblock %}
+{% block og_image %}{% endblock %}
+
+{% block title %}{% endblock %}
+
+{% block css %}
+<!-- member page css -->
+<link href="{% static "css/member.css" %}" rel="stylesheet">
+
+
+<!-- resposive css -->
+<link href="{% static "css/responsive-m.css" %}" rel="stylesheet">
+
+<style>
+  button, input, select, textarea {
+    color: black;
+  }
+</style>
+
+{% endblock %}
+
+
+{% block content %}
+
+
+<div class="content-wrap member-info-background-img">
+  <section class="member-info-background">
+    <div class="member-info-tab-container">
+      <div class="tab-content">
+      <div role="tabpanel" class="tab-pane fade active in" id="personalInfo">
+        <div class="member-order-row-container">
+          {% for item in cart.cartitem_set.all %}
+          <div class="member-order-record-row-{{forloop.counter}}">
+            <div class="member-order-record-img-holder col-md-5">
+              <img src="{{ item.available_time.course.coursemedia_set.all.0.file.url }}"/>
+            </div>
+            <div class="member-order-record-info-holder col-md-7">
+              <div class="member-order-record-info-title">{{ item.available_time.course.name }}</div>
+              <div class="member-order-record-info-item">體驗時段：{{ item.available_time.date|date:"Y年m月d日" }} {{ item.available_time.start_time|date:"H:i" }} ~ {{ item.available_time.end_time|date:"H:i" }}</div>
+              <div class="member-order-record-info-item">參加人數：{{ item.participants_number }}人</div>
+              <div class="member-order-record-info-item">金額：{{ item.item_total }}</div>
+              <div class="member-order-record-info-btn">
+                <form class="delete-{{forloop.counter}}" action="{% url 'cart' %}" method="post">
+                  {% csrf_token %}
+                  <input type="checkbox" name="delete" value="{{ item.pk }}" checked hidden>
+                  <button type="submit" class="member-order-check-btn delete-{{forloop.counter}}">刪除</button>
+                </form>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+          <div class="member-order-record-info-item no-item"></div>
+          <div class="member-order-record-info-item total">總金額：<span class="total">{{ cart.total }}</span></div>
+          <button type="button" class="member-order-check-btn" onclick="window.location='{% url "payment" %}';">結帳</button>
+      </div>
+    </div>
+    </div>
+  </section>
+</div>
+
+{% endblock %}
+
+{% block modal %}{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+if ($('span.total').text() == 0) {
+  $('.no-item').html("購物車目前沒有物品")
+  $('.member-order-check-btn').hide()
+
+}
+
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+var csrftoken = getCookie('csrftoken');
+
+function csrfSafeMethod(method) {
+    // these HTTP methods do not require CSRF protection
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+$.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+    }
+});
+
+{% for item in cart.cartitem_set.all %}
+$('button.delete-{{forloop.counter}}').click(function (event) {
+  event.preventDefault()
+
+  $.ajax({
+    type:"POST",
+    url: "{% url "cart" %}",
+    data: $('form.delete-{{forloop.counter}}').serialize(),
+    success: function(data) {
+      console.log(data)
+      $('.member-order-record-row-{{forloop.counter}}').hide()
+
+      $('span.total').html(data['update_total'])
+      if ($('span.total').text() == 0) {
+        $('.no-item').html("購物車目前沒有物品")
+        $('.member-order-check-btn').hide()
+      } else {
+        $('.no-item').html()
+        $('.member-order-check-btn').show()
+      }
+
+      var cartItemCount = $('.cart-item-count')
+      $.ajax({
+        type:"GET",
+        url: "{% url "cart_item_count" %}",
+        success: function(data) {
+          cartItemCount.text(data.count)
+        },
+        error: function(data) {
+          console.log('error')
+        }
+      })
+
+    },
+    error: function(data) {
+      console.log('error')
+    }
+  })
+})
+{% endfor %}
+</script>
+
+
+{% endblock %}

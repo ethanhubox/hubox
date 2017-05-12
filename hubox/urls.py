@@ -27,6 +27,7 @@ urlpatterns = [
     url(r'^accounts/', include('allauth.urls')),
     url(r'^', include('ecommerce.urls')),
     url(r'^cashflow/', include('cashflow.urls')),
+    url(r'^cart/', include('cart.urls')),
     url(r'^markdownx/', include('markdownx.urls')),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

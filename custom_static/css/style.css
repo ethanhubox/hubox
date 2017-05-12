@@ -1899,6 +1899,10 @@ ul li {
 
 /*footer-section*/
 
+.footer-section {
+	background: #fff;
+}
+
 .footer-container {
     width: 100%;
     margin: auto;
@@ -2428,6 +2432,7 @@ ul li {
 
 .vendor-page-comment-tab-container {
   padding: 0px 10px;
+	display: none;
 }
 
 .comment-row {
@@ -3525,6 +3530,7 @@ input.star {
 
 .course-page-comment-tab-container {
   padding: 0px 10px;
+	display: none;
 }
 
 .comment-row {
@@ -4137,6 +4143,7 @@ input.star {
 	width: 30%;
 	height: 300px;
 	left: 35%;
+	margin-top: 250px;
 }
 .join-bottom-section-btn-holder{
   text-align: center;

@@ -15,7 +15,6 @@
 
 {% block css %}
 
-<!-- member page css -->
 
     <!-- member page css -->
     <link href="{% static "css/member.css" %}" rel="stylesheet">
@@ -41,9 +40,6 @@
               <li role="presentation">
                   <a href="#orderInfo" aria-controls="others" role="tab" data-toggle="tab">我的訂單</a>
               </li>
-              <!-- <li role="presentation">
-                  <a href="#passChange" aria-controls="others" role="tab" data-toggle="tab">更改密碼</a>
-              </li> -->
               <li role="presentation">
                   <a href="#trackingList" aria-controls="comments" role="tab" data-toggle="tab">我的追蹤</a>
               </li>
@@ -79,9 +75,11 @@
               </div>
               <div class="member-order-record-info-holder col-md-7">
                 <div class="member-order-record-info-title">{{ ordering.course.name }}</div>
+                <div class="member-order-record-info-item">訂購編號：{{ ordering.order_number }}</div>
                 <div class="member-order-record-info-item">訂購日期：{{ ordering.timestamp|date:"Y年m月d日" }}</div>
-                <div class="member-order-record-info-item">體驗日期：{{ ordering.available_time.date|date:"Y年m月d日" }}</div>
-                <div class="member-order-record-info-item">訂購數量：{{ ordering.participants_number }}人 訂單狀態：{% if ordering.payment %}已繳費{% else %}尚未繳費{% endif %}</div>
+                <div class="member-order-record-info-item">訂購金額：{{ ordering.total_amount }}</div>
+                <div class="member-order-record-info-item">繳費方式：{{ ordering.payment_choice }}</div>
+                <div class="member-order-record-info-item">訂單狀態：{% if ordering.payment %}已繳費{% else %}尚未繳費{% endif %}</div>
                 <div class="member-order-record-info-btn">
                   <button type="submit" class="member-order-check-btn" onclick="window.location='{{ ordering.get_absolute_url }}'">查看</button>
                   <button type="submit" class="member-order-comment-btn" disabled="">評論</button>
@@ -91,28 +89,6 @@
             {% endfor %}
           </div>
         </div>
-        <!-- <div role="tabpanel" class="tab-pane fade" id="passChange">
-          <div class="member-personal-detail-holder">
-             <div class="member-personal-detail-item form-message" style="color:white;"></div>
-          </div>
-          <form class="member-pass-change-form" action='{% url 'account_change_password' %}' method="POST">
-            {% csrf_token %}
-
-            <label class="member-pass-change-label">
-              <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i>
-            </label>
-            <input id="id_oldpassword" name="oldpassword" placeholder="請輸入目前密碼" type="password" />
-            <label class="member-pass-change-label">
-              <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i>
-            </label>
-            <input id="id_password1" name="password1" placeholder="請輸入新密碼 密碼至少要8個字" type="password" />
-            <label class="member-pass-change-label">
-              <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i>
-            </label>
-            <input id="id_password2" name="password2" placeholder="請再次輸入新密碼" type="password" />
-            <button type="submit" class="member-pass-change-btn">確認修改</button>
-          </form>
-        </div> -->
         <div role="tabpanel" class="tab-pane fade" id="trackingList">
           <div class="member-tracking-row-container">
             {% for subscribe in subscribe %}

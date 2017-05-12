@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     # local app
     'ecommerce',
     'cashflow',
+    'cart',
 
 
     # django-allauth
