@@ -216,7 +216,7 @@ PAYMENT_CHOICE = (
 from cart.models import Cart
 class Ordering(models.Model):
     order_number = models.CharField(max_length=200, blank=True)
-    cart = models.ForeignKey(Cart)
+    cart = models.ForeignKey(Cart, null=True)
     user = models.ForeignKey(User)
     total_amount = models.PositiveIntegerField()
     payment = models.BooleanField(default=False)
