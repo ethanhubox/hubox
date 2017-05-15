@@ -47,7 +47,6 @@ class CatagoryAdmin(admin.ModelAdmin):
     list_display = ('name',)
 
 # class CourseAdmin(GhosterAdmin):
-#
 #     markdown_field = "introduce"
 #     title_field = "name"
 #

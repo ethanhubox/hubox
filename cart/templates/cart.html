@@ -44,6 +44,13 @@
               <img src="{{ item.available_time.course.coursemedia_set.all.0.file.url }}"/>
             </div>
             <div class="member-order-record-info-holder col-md-7">
+              {% if messages %}
+              <ul class="messages">
+                  {% for message in messages %}
+                  <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                  {% endfor %}
+              </ul>
+              {% endif %}
               <div class="member-order-record-info-title">{{ item.available_time.course.name }}</div>
               <div class="member-order-record-info-item">體驗時段：{{ item.available_time.date|date:"Y年m月d日" }} {{ item.available_time.start_time|date:"H:i" }} ~ {{ item.available_time.end_time|date:"H:i" }}</div>
               <div class="member-order-record-info-item">參加人數：{{ item.participants_number }}人</div>
@@ -134,7 +141,11 @@ $('button.delete-{{forloop.counter}}').click(function (event) {
         type:"GET",
         url: "{% url "cart_item_count" %}",
         success: function(data) {
-          cartItemCount.text(data.count)
+          if (data.count == 0 ){
+            cartItemCount.hide()
+          } else {
+            cartItemCount.text(data.count).show()
+          }
         },
         error: function(data) {
           console.log('error')

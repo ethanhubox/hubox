@@ -40,7 +40,7 @@ def index(request):
             file = open(os.path.join(BASE_DIR, 'ecommerce', 'templates') + '/contact_us.txt', 'r')
             content = file.read()
 
-            to_mail = ['ethan@hubox.life', 'frank@hubox.life',]
+            to_mail = ['ethan@hubox.life', 'frank@hubox.life']
             send_mail(
                 '聯絡我們',
                 content,
@@ -278,7 +278,3 @@ def catagory_detail(request, pk):
     }
 
     return render(request, 'catagory_detail.html', context)
-
-def cancel_paid_order(request):
-    if request.method == "POST":
-        pass

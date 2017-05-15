@@ -71,7 +71,7 @@
             {% for ordering in ordering %}
             <div class="member-order-record-row">
               <div class="member-order-record-img-holder col-md-5">
-                <img src="{{ ordering.course.coursemedia_set.all.0.file.url }}"/>
+                <img src="{{ ordering.cart.cartitem_set.all.0.available_time.course.coursemedia_set.all.0.file.url }}"/>
               </div>
               <div class="member-order-record-info-holder col-md-7">
                 <div class="member-order-record-info-title">{{ ordering.course.name }}</div>

@@ -585,7 +585,13 @@ td.day.disabled {
           type:"GET",
           url: "{% url "cart_item_count" %}",
           success: function(data) {
-            cartItemCount.text(data.count)
+            if (data.count == 0 ){
+              cartItemCount.hide()
+              console.log('ss')
+            } else {
+              cartItemCount.text(data.count).show()
+              console.log('ff')
+            }
           },
           error: function(data) {
             console.log('error')

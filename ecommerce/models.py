@@ -233,16 +233,17 @@ class Ordering(models.Model):
         ordering = ['-pk',]
 
 def ordering_post_save_receiver(sender, instance, created, *args, **kwargs):
-    if created:
+    if instance.payment_choice:
         for item in instance.cart.cartitem_set.all():
             item.available_time.quota -= item.participants_number
             item.available_time.save()
 
 post_save.connect(ordering_post_save_receiver, sender=Ordering)
 
-def ordering_post_delete_receiver(sender, instance, *args, **kwargs):
-    for item in instance.cart.cartitem_set.all():
-        item.available_time.quota += item.participants_number
-        item.available_time.save()
+def ordering_pre_delete_receiver(sender, instance, *args, **kwargs):
+    if instance.payment_choice:
+        for item in instance.cart.cartitem_set.all():
+            item.available_time.quota += item.participants_number
+            item.available_time.save()
 
-post_delete.connect(ordering_post_delete_receiver, sender=Ordering)
+pre_delete.connect(ordering_pre_delete_receiver, sender=Ordering)

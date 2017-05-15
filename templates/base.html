@@ -70,79 +70,7 @@
   <body>
 
     <!-- Navigation starts here-->
-    <nav class="m-nav-container">
-        <div class="nav-toggle-container" id="open-button" type="button">
-            <i class="fa fa-bars"></i>
-            </span>
-        </div>
-
-        <div class="nav-logo">
-            <a href="{% url "index" %}"><img src="{% static "img/logo.png" %}" /></a>
-        </div>
-        <div class="top-menu">
-          {% if user.is_authenticated %}
-          <a href="{% url "course_list" %}"><i class="fa fa-fw fa-star-o"></i><span>學習類別</span></a>
-          <a href="{% url "vendor_list" %}"><i class="fa fa-fw fa-bell-o"></i><span>學習工作坊一覽</span></a>
-          <a href="{% url "cart" %}"><i class="fa fa-shopping-cart"></i><span> 購物車</span><span class="cart-item-count"></span></a>
-          <a href="{% url "account_logout" %}"><i class="fa fa-fw fa-sign-in" aria-hidden="true"></i><span>登出</span></a>
-          <a href="{% url "user_profile" %}">
-            {% if user.socialaccount_set.all.0.get_avatar_url %}
-              <div class="nav-member-profile-holder">
-                  <div class="nav-member-profile-image"><img src="{{ user.socialaccount_set.all.0.get_avatar_url }}" /></div>
-              </div>
-              {% else %}
-              <a href="{% url "user_profile" %}"><span>{{ user }}</span></a>
-            {% endif %}
-          </a>
-          {% if request.user.is_superuser %}
-          <a href="{% url 'admin:index' %}"><span>進入後台</span></a>
-          {% endif %}
-          {% else %}
-          <a href="{% url "course_list" %}"><i class="fa fa-fw fa-star-o"></i><span>學習類別</span></a>
-          <a href="{% url "vendor_list" %}"><i class="fa fa-fw fa-bell-o"></i><span>學習工作坊一覽</span></a>
-          <a href="{% url "cart" %}"><i class="fa fa-shopping-cart"></i><span> 購物車</span><span class="cart-item-count"></span></a>
-          <a href="{% url "account_signup" %}"><i class="fa fa-fw fa-user-circle-o" aria-hidden="true"></i><span>註冊</span></a>
-          <a href="{% url "account_login" %}"><i class="fa fa-fw fa-sign-in" aria-hidden="true"></i><span>登入</span></a>
-          {% endif %}
-
-        </div>
-    </nav>
-    <div class="menu-wrap">
-        <nav class="menu">
-            <div class="icon-list">
-                <a href="{% url "index" %}">
-                    <div class="side-nav-logo"><img src="{% static "img/logo.png" %}" /></div>
-                </a>
-                {% if user.is_authenticated %}
-                <a href="#">
-                    <div class="nav-member-profile-holder">
-                      {% if user.socialaccount_set.all.0 %}
-                        <a href="{% url "user_profile" %}"><div class="nav-member-profile-image"><img src="{{ user.socialaccount_set.all.0.get_avatar_url }}" /></div></a>
-                        <a href="{% url "user_profile" %}"><div class="nav-member-profile-caption">{{ user.socialaccount_set.all.0.extra_data.name }},歡迎回來</div></a>
-                      {% else %}
-                      <a href="{% url "user_profile" %}">
-                        <div class="nav-member-profile-caption">{{ user.username }},歡迎回來</div>
-                      </a>
-                      {% endif %}
-                    </div>
-                </a>
-                {% endif %}
-                <a href="{% url "course_list" %}"><i class="fa fa-fw fa-bell-o"></i><span>所有學習</span></a>
-                <a href="{% url "vendor_list" %}"><i class="fa fa-fw fa-bell-o"></i><span>學習工作坊一覽</span></a>
-                <a href="{% url "cart" %}"><i class="fa fa-shopping-cart"></i><span> 購物車</span><span class="cart-item-count"></span></a>
-                {% if user.is_authenticated %}
-                {% if request.user.is_superuser %}
-                <a href="{% url 'admin:index' %}"><span>進入後台</span></a>
-                {% endif %}
-                <a href="{% url "account_logout" %}"><i class="fa fa-fw fa-sign-in" aria-hidden="true"></i><span>登出</span></a>
-                {% else %}
-                <a href="{% url "account_signup" %}"><i class="fa fa-fw fa-user-circle-o" aria-hidden="true"></i><span>註冊</span></a>
-                <a href="{% url "account_login" %}"><i class="fa fa-fw fa-sign-in" aria-hidden="true"></i><span>登入</span></a>
-                {% endif %}
-            </div>
-        </nav>
-        <button class="close-button" id="close-button"></button>
-    </div>
+    {% include 'nav.html' %}
     <!-- navigation ends here -->
 <div class="content-wrap">
   {% block cover_page %}{% endblock %}
@@ -256,7 +184,11 @@ $(document).ready(function() {
       type:"GET",
       url: "{% url "cart_item_count" %}",
       success: function(data) {
-        cartItemCount.text(data.count)
+        if (data.count == 0 ){
+          cartItemCount.hide()
+        } else {
+          cartItemCount.text(data.count).show()
+        }
       },
       error: function(data) {
         console.log('error')

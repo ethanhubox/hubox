@@ -28,11 +28,20 @@ def payment(request):
 
     cart_pk = request.session.get("cart_pk")
     if cart_pk == None:
-        return(reverse('cart'))
+        return HttpResponseRedirect(reverse('cart'))
     cart = Cart.objects.get(pk=cart_pk)
+    if request.user.is_authenticated():
+        cart.user = request.user
+        cart.save()
     total_amount = cart.total
 
+    for item in cart.cartitem_set.all():
+        if item.available_time.quota < item.participants_number:
+            messages.error(request, '{}課程已額滿'.format(item.available_time.course.name))
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+
     ordering = Ordering.objects.create(cart=cart, user=request.user, total_amount=total_amount)
+
 
     form.fields['MerchantID'].initial = 'MS39344778'
     form.fields['RespondType'].initial = 'JSON'
@@ -124,8 +133,8 @@ def finish_order(request):
                     file = open(os.path.join(BASE_DIR, 'cashflow', 'templates') + '/order_mail.txt', 'r')
                     content = file.read()
 
-                    # to_mail = ['miwooro@hotmail.com']
-                    to_mail = ['ethan@hubox.life', 'frank@hubox.life']
+                    to_mail = ['miwooro@hotmail.com']
+                    # to_mail = ['ethan@hubox.life', 'frank@hubox.life']
                     to_mail.append(ordering.user.email)
                     send_mail(
                         '訂單成立',
@@ -153,10 +162,48 @@ def cancel_ordering(request):
         if request.POST.get("username", '') == request.user.username:
             ordering = get_object_or_404(Ordering, user=request.user, pk=int(request.POST.get("ordering", '')))
             ordering.delete()
-            return HttpResponseRedirect(reverse('index'))
+            return HttpResponseRedirect(reverse('user_profile'))
 
     context = {
         "ordering": ordering,
     }
 
     return render(request, "cancel_ordering.html", context)
+
+@login_required
+def refund(request):
+    ordering = ''
+    if request.method == "POST":
+        ordering = get_object_or_404(Ordering, order_number=request.POST.get('order_number'))
+        phone = request.POST.get('phone')
+        email = request.POST.get('email')
+        message = request.POST.get('message')
+        print(request.POST)
+
+
+        with open(os.path.join(BASE_DIR, 'cashflow', 'templates') + '/refund.txt', 'w') as content:
+            content.write("訂單資訊：" + "\n訂單編號：" + ordering.order_number + "\n會員：" + str(ordering.user) + "\n聯絡電話：" + ordering.user.userprofile.phone + "\n聯絡信箱：" + email + "\n退款原因：\n" + message)
+        if ordering.payment == True:
+            with open(os.path.join(BASE_DIR, 'cashflow', 'templates') + '/refund.txt', "a") as append_content:
+                append_content.write("\n繳費狀態：已繳費")
+        file = open(os.path.join(BASE_DIR, 'cashflow', 'templates') + '/refund.txt', 'r')
+        content = file.read()
+
+        to_mail = ['miwooro@hotmail.com']
+        # to_mail = ['ethan@hubox.life', 'frank@hubox.life']
+        to_mail.append(ordering.user.email)
+        send_mail(
+            '訂單退款',
+            content,
+            'Hubox哈盒子',
+            to_mail,
+            fail_silently=False,
+        )
+
+    context = {
+        'ordering': ordering,
+        'phone': phone,
+        'email': email,
+        'message': message,
+    }
+    return render(request, "refund.html", context)
