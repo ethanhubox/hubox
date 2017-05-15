@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load markdown_deux_tags %}
+
+{% block meta_description %}{% endblock %}
+{% block author %}{% endblock %}
+
+{% block og_url %}{% endblock %}
+{% block og_title %}{% endblock %}
+{% block og_description %}{% endblock %}
+{% block og_image %}{% endblock %}
+
+{% block title %}{% endblock %}
+
+{% block css %}{% endblock %}
+
+{% block cover_page %}
+
+<div class="content-wrap">
+  <section class="allv-page-cover-section">
+      <div class="allv-page-cover-image-holder">
+          <img src="{% static 'img/vendor_cover.jpg' %}" />
+      </div>
+      <div class="allv-page-cover-caption">
+          <h1>Privacy Policy</h1>
+      </div>
+  </section>
+
+
+
+{% endblock %}
+
+{% block content %}
+<section class="allv-page-content-section">
+  <div class="allv-page-vendor-cards-container">
+    {{ privacy_policy.policy|markdown }}
+  </div>
+</section>
+{% endblock %}
+
+{% block modal %}{% endblock %}
+
+{% block js %}{% endblock %}

@@ -70,6 +70,7 @@ class Catagory(models.Model):
     slug = models.CharField(max_length=50)
     logo = models.ImageField(upload_to=catagory_upload)
     banner = models.ImageField(upload_to=catagory_upload)
+    description = models.TextField()
 
     def __str__(self):
         return self.name

@@ -57,7 +57,7 @@
           </form>
         {% else %}
         <p>繳費方式：{{ ordering.payment_choice }}</p>
-        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#Modal">退款／取消訂單</button>
+        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#Modal">取消／更改訂單</button>
         {% endif %}
       </div>
     </div>
@@ -92,8 +92,8 @@
                             <p class="help-block text-danger"></p>
                         </div>
                         <div class="form-group">
-                            <label for="message">退款原因</label>
-                            <textarea rows="4" class="form-control" placeholder="請告訴我們您為什麼希望退款" name="message"></textarea>
+                            <label for="message">取消原因</label>
+                            <textarea rows="4" class="form-control" placeholder="請告訴我們您為什麼希望取消" name="message"></textarea>
                             <p class="help-block text-danger"></p>
                         </div>
                         <input type="hidden" class="form-control" name="order_number" required value="{{ ordering.order_number }}">

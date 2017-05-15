@@ -133,8 +133,8 @@ def finish_order(request):
                     file = open(os.path.join(BASE_DIR, 'cashflow', 'templates') + '/order_mail.txt', 'r')
                     content = file.read()
 
-                    to_mail = ['miwooro@hotmail.com']
-                    # to_mail = ['ethan@hubox.life', 'frank@hubox.life']
+                    # to_mail = ['miwooro@hotmail.com']
+                    to_mail = ['ethan@hubox.life', 'frank@hubox.life']
                     to_mail.append(ordering.user.email)
                     send_mail(
                         '訂單成立',
@@ -178,7 +178,6 @@ def refund(request):
         phone = request.POST.get('phone')
         email = request.POST.get('email')
         message = request.POST.get('message')
-        print(request.POST)
 
 
         with open(os.path.join(BASE_DIR, 'cashflow', 'templates') + '/refund.txt', 'w') as content:
@@ -189,8 +188,8 @@ def refund(request):
         file = open(os.path.join(BASE_DIR, 'cashflow', 'templates') + '/refund.txt', 'r')
         content = file.read()
 
-        to_mail = ['miwooro@hotmail.com']
-        # to_mail = ['ethan@hubox.life', 'frank@hubox.life']
+        # to_mail = ['miwooro@hotmail.com']
+        to_mail = ['ethan@hubox.life', 'frank@hubox.life']
         to_mail.append(ordering.user.email)
         send_mail(
             '訂單退款',

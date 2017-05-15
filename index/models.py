@@ -16,3 +16,26 @@ class IndexBanner(models.Model):
 
     def __str__(self):
         return str(self.banner)
+
+class MemberTerms(models.Model):
+    terms = models.TextField()
+
+    def __str__(self):
+        return str(self.pk)
+
+class PrivacyPolicy(models.Model):
+    policy = models.TextField()
+
+    def __str__(self):
+        return str(self.pk)
+
+def catagory_page_media(instance, filename):
+    return "catagory/banner/{}".format(filename)
+
+class CatagoryPage(models.Model):
+    title = models.CharField(max_length=50)
+    description = models.TextField()
+    banner = models.FileField(upload_to=catagory_page_media)
+
+    def __str__(self):
+        return str(self.pk)

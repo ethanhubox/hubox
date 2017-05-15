@@ -31,9 +31,3 @@ def join(request):
                 fail_silently=False,
             )
     return render(request, 'join.html', {})
-
-def member_terms(request):
-    pass
-
-def privacy_policy(request):
-    pass

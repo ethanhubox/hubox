@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, HttpResponseRedirect
 from django.http import JsonResponse
 from .models import Vendor, Course, Catagory, Ordering, IndexEdit, AvailableTime, UserSubscribe, UserProfile
+from index.models import CatagoryPage
 from .forms import UserProfileForm
 from django.conf import settings
 from django.core.urlresolvers import reverse
@@ -113,9 +114,14 @@ def subscribe_ajax(request):
 
 def course_list(request):
     catagory = Catagory.objects.all()
+    try:
+        catagory_element = CatagoryPage.objects.all()[0]
+    except:
+        catagory_element = ''
 
     context = {
     'catagory':catagory,
+    'catagory_element':catagory_element,
     }
 
     return render(request, 'course_list.html', context)
@@ -278,3 +284,9 @@ def catagory_detail(request, pk):
     }
 
     return render(request, 'catagory_detail.html', context)
+
+@login_required
+def certificate(request, pk):
+    ordering = get_object_or_404(Ordering, pk=pk)
+    if request.user != ordering.user:
+        messages.add_message(request, messages.INFO, '你並沒有購買這個課程的憑證')

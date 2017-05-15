@@ -6,9 +6,9 @@
 {% block author %}{% endblock %}
 
 {% block og_url %}{% url "course_list" %}{% endblock %}
-{% block og_title %}所有學習{% endblock %}
-{% block og_description %}{% endblock %}
-{% block og_image %}{% static "img/allc-cover.jpg" %}{% endblock %}
+{% block og_title %}{{ catagory_element.title }}{% endblock %}
+{% block og_description %}{{ catagory_element.description }}{% endblock %}
+{% block og_image %}{{ catagory_element.banner.url }}{% endblock %}
 
 {% block title %}所有學習{% endblock %}
 
@@ -30,7 +30,7 @@
   <div class="allc-page-tab-nav-container  owl-carousel">
     {% for catagory in catagory %}
     <a href="#{{ catagory.slug }}" aria-controls="home" role="tab" data-toggle="tab">
-      <div role="presentation" class="allc-page-tab-nav-item-holder">
+      <div role="presentation" class="allc-page-tab-nav-item-holder {{ catagory.slug }}">
         <img src="{{ catagory.logo.url }}" /><span>{{ catagory.name }}</span>
       </div>
     </a>
@@ -39,11 +39,8 @@
 
   <div class="tab-content allc-page-tab-container">
     {% for catagory in catagory %}
-    {% if forloop.first %}
-    <div role="tabpanel" class="tab-pane fade active in" id="{{ catagory.slug }}">
-    {% else %}
+
     <div role="tabpanel" class="tab-pane fade" id="{{ catagory.slug }}">
-    {% endif %}
       <div class="allc-page-tabpanel-title-holder">
         <div class="allc-page-tabpanel-title">
           <h1>{{ catagory.name }}</h1>
@@ -88,7 +85,7 @@
     $('.owl-carousel').owlCarousel({
         center: false,
         items: 3,
-        loop: true,
+        loop: false,
         margin: 0,
         nav: true,
         navContainer: '.customNav',
@@ -104,11 +101,45 @@
         }
     });
 
-    if(window.location.hash) {
-      console.log('有')
-    } else {
-      console.log('沒')
-    }
+
+
+
+{% for catagory in catagory %}
+
+if(window.location.hash) {
+  setTimeout(function() {
+
+  window.scrollTo(0, 0);
+}, 1);
+  var hash = window.location.hash
+  hash = hash.replace('#','')
+  if ( hash == '{{ catagory.slug }}' ) {
+    $('.allc-page-cover-image-holder > img').attr('src', '{{ catagory.banner.url }}')
+    $('.allc-page-cover-caption > h1').text('{{ catagory.slug }}')
+    window.scrollTo(0, 0);
+    $('#{{ catagory.slug }}').addClass( "active in" )
+
+  }
+
+}  else {
+  console.log('ffg')
+  {% if forloop.first %}
+  $('#{{ catagory.slug }}').addClass("active in")
+  {% endif %}
+}
+
+    $('.{{ catagory.slug }}').click(function (event) {
+      var link = $('.{{ catagory.slug }}').parent().attr('href')
+      window.location = "{% url "course_list" %}" + link
+      if(window.location.hash) {
+        window.scrollTo(0, 0);
+        $('.allc-page-cover-image-holder > img').attr('src', '{{ catagory.banner.url }}')
+        $('.allc-page-cover-caption > h1').text('{{ catagory.slug }}')
+
+      }
+    })
+{% endfor %}
+
 
 </script>
 

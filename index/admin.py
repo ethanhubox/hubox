@@ -1,19 +1,42 @@
 from django.contrib import admin
-
-from .models import IndexPage, IndexBanner
+from django.db import models
+from markdownx.widgets import AdminMarkdownxWidget
+from .models import IndexPage, IndexBanner, MemberTerms, PrivacyPolicy, CatagoryPage
 # Register your models here.
 
-class IndexBannerInline(admin.TabularInline):
-    model = IndexBanner
-    extra = 0
+# class IndexBannerInline(admin.TabularInline):
+#     model = IndexBanner
+#     extra = 0
+#
+#
+# class IndexPageAdmin(admin.ModelAdmin):
+#     inlines = [IndexBannerInline, ]
+#     list_display = ('name',)
+#
+# class IndexBannerAdmin(admin.ModelAdmin):
+#     list_display = ('index', 'banner')
 
 
-class IndexPageAdmin(admin.ModelAdmin):
-    inlines = [IndexBannerInline, ]
-    list_display = ('name',)
+class MemberTermsAdmin(admin.ModelAdmin):
+    formfield_overrides = {
+        models.TextField: {'widget': AdminMarkdownxWidget},
+    }
+    list_display = ('terms', )
 
-class IndexBannerAdmin(admin.ModelAdmin):
-    list_display = ('index', 'banner')
+class PrivacyPolicyAdmin(admin.ModelAdmin):
+    formfield_overrides = {
+        models.TextField: {'widget': AdminMarkdownxWidget},
+    }
+    list_display = ('policy', )
 
-admin.site.register(IndexPage, IndexPageAdmin)
-admin.site.register(IndexBanner, IndexBannerAdmin)
+class CatagoryPageAdmin(admin.ModelAdmin):
+    formfield_overrides = {
+        models.TextField: {'widget': AdminMarkdownxWidget},
+    }
+    list_display = ('title', )
+
+# admin.site.register(IndexPage, IndexPageAdmin)
+# admin.site.register(IndexBanner, IndexBannerAdmin)
+admin.site.register(MemberTerms, MemberTermsAdmin)
+admin.site.register(PrivacyPolicy, PrivacyPolicyAdmin)
+admin.site.register(CatagoryPage, CatagoryPageAdmin)
