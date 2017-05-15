@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import MemberTerms, PrivacyPolicy
+from .models import MemberTerms, PrivacyPolicy, FAQ
 
 # Create your views here.
 def member_terms(request):
@@ -22,3 +22,14 @@ def privacy_policy(request):
     }
 
     return render(request, 'privacy_policy.html', context)
+
+def faq(request):
+    try:
+        faq = FAQ.objects.all()[0]
+    except:
+        faq = ''
+    context = {
+        'faq':faq,
+    }
+
+    return render(request, 'faq.html', context)

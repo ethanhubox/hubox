@@ -29,6 +29,12 @@ class PrivacyPolicy(models.Model):
     def __str__(self):
         return str(self.pk)
 
+class FAQ(models.Model):
+    faq = models.TextField()
+
+    def __str__(self):
+        return str(self.pk)
+
 def catagory_page_media(instance, filename):
     return "catagory/banner/{}".format(filename)
 

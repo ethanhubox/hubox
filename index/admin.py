@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.db import models
 from markdownx.widgets import AdminMarkdownxWidget
-from .models import IndexPage, IndexBanner, MemberTerms, PrivacyPolicy, CatagoryPage
+from .models import IndexPage, IndexBanner, MemberTerms, PrivacyPolicy, CatagoryPage, FAQ
 # Register your models here.
 
 # class IndexBannerInline(admin.TabularInline):
@@ -29,6 +29,12 @@ class PrivacyPolicyAdmin(admin.ModelAdmin):
     }
     list_display = ('policy', )
 
+class FAQAdmin(admin.ModelAdmin):
+    formfield_overrides = {
+        models.TextField: {'widget': AdminMarkdownxWidget},
+    }
+    list_display = ('faq', )
+
 class CatagoryPageAdmin(admin.ModelAdmin):
     formfield_overrides = {
         models.TextField: {'widget': AdminMarkdownxWidget},
@@ -39,4 +45,5 @@ class CatagoryPageAdmin(admin.ModelAdmin):
 # admin.site.register(IndexBanner, IndexBannerAdmin)
 admin.site.register(MemberTerms, MemberTermsAdmin)
 admin.site.register(PrivacyPolicy, PrivacyPolicyAdmin)
+admin.site.register(FAQ, FAQAdmin)
 admin.site.register(CatagoryPage, CatagoryPageAdmin)
