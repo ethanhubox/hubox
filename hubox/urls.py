@@ -23,6 +23,7 @@ from . import views
 urlpatterns = [
     url(r'^about/$', views.about, name="about"),
     url(r'^join/$', views.join, name="join"),
+    url(r'^BingSiteAuth.xml$', views.seo, name="seo"),
     url(r'^system_admin/', admin.site.urls),
     url(r'^accounts/', include('allauth.urls')),
     url(r'^', include('ecommerce.urls')),

@@ -31,3 +31,6 @@ def join(request):
                 fail_silently=False,
             )
     return render(request, 'join.html', {})
+
+def seo(request):
+    return render(request, 'BingSiteAuth.xml', {})
