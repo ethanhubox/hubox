@@ -32,6 +32,11 @@
     <div class="login-box">
       <div class="login-box-header"><h4>訂單內容</h4></div>
       <div class="login-box-footer">
+        {% if messages %}
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        {% endif %}
         <p>訂單編號：{{ ordering.order_number }}</p>
         <p>訂單內容：</p>
         <hr>

@@ -12,6 +12,7 @@ from django.contrib.auth.decorators import login_required
 from cart.forms import CartItemForm
 from cashflow.forms import PaymentForm
 from Crypto.Hash import SHA256
+from django.conf import settings
 
 from hubox.settings import BASE_DIR
 from django.core.mail import send_mail

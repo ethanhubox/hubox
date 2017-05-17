@@ -13,7 +13,15 @@
 
 {% block title %}{% endblock %}
 
-{% block css %}{% endblock %}
+{% block css %}
+<style>
+.break p {
+  margin-top: 10px !important;
+  margin-bottom: 10px !important;
+}
+</style>
+
+{% endblock %}
 
 {% block cover_page %}
 
@@ -33,8 +41,8 @@
 
 {% block content %}
 <section class="allv-page-content-section">
-  <div class="allv-page-vendor-cards-container">
-    {{ privacy_policy.policy|markdown }}
+  <div class="allv-page-vendor-cards-container break">
+    {{ privacy_policy.policy|markdown|safe }}
   </div>
 </section>
 {% endblock %}

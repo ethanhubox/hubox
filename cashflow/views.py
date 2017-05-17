@@ -8,6 +8,7 @@ from django.core.mail import send_mail
 from hubox.settings import BASE_DIR
 from django.core.urlresolvers import reverse
 from django.contrib import messages
+from django.conf import settings
 
 from .forms import PaymentForm
 
@@ -70,6 +71,11 @@ def payment(request):
     form.fields['BARCODE'].initial = 0
     form.fields['CUSTOM'].initial = 0
 
+    if settings.DEBUG == True:
+        form.fields['MerchantOrderNo'].initial += '_0'
+    else:
+        form.fields['MerchantOrderNo'].initial += '_1'
+
 
     check_value = "HashKey=" + os.environ['PAYMENT_HASHKEY'] + "&Amt=" + str(form.fields['Amt'].initial) + '&MerchantID=' + str(form.fields['MerchantID'].initial) + '&MerchantOrderNo=' + str(form.fields['MerchantOrderNo'].initial) + '&TimeStamp=' + form.fields['TimeStamp'].initial + '&Version=1.2&HashIV=' + os.environ['PAYMENT_HASHIV']
     shavalue = hashlib.sha256()
@@ -101,14 +107,13 @@ def finish_order(request):
         new_result = json.loads(result)
 
 
-        check_value = 'HashIV=' + os.environ['PAYMENT_HASHIV'] + "&Amt=" + str(new_result['Amt']) + '&MerchantID=' + str(new_result['MerchantID']) + '&MerchantOrderNo=' + str(new_result['MerchantOrderNo']) + '&TradeNo=' + str(new_result['TradeNo']) + "&HashKey=" + os.environ['PAYMENT_HASHKEY']
-        shavalue = hashlib.sha256()
-        shavalue.update(check_value.encode('utf-8'))
-
-        check_value = shavalue.hexdigest().upper()
-
-
         if new_data['Status'] == "SUCCESS":
+            check_value = 'HashIV=' + os.environ['PAYMENT_HASHIV'] + "&Amt=" + str(new_result['Amt']) + '&MerchantID=' + str(new_result['MerchantID']) + '&MerchantOrderNo=' + str(new_result['MerchantOrderNo']) + '&TradeNo=' + str(new_result['TradeNo']) + "&HashKey=" + os.environ['PAYMENT_HASHKEY']
+            shavalue = hashlib.sha256()
+            shavalue.update(check_value.encode('utf-8'))
+
+            check_value = shavalue.hexdigest().upper()
+
             if check_value == new_result['CheckCode']:
                 ordering = Ordering.objects.filter(user=request.user, pk=int(new_result["MerchantOrderNo"].replace('HBX', '').split('_')[0]))[0]
                 if ordering:
@@ -147,6 +152,10 @@ def finish_order(request):
 
 
                 return HttpResponseRedirect(reverse('ordering_detail', kwargs={'pk': ordering.pk}))
+        else:
+            ordering = Ordering.objects.filter(user=request.user, pk=int(new_result["MerchantOrderNo"].replace('HBX', '').split('_')[0]))[0]
+            messages.error(request, '付款失敗，請重試一次或聯絡我們')
+            return HttpResponseRedirect(reverse('ordering_detail', kwargs={'pk': ordering.pk}))
 
 
     context = {
