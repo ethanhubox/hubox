@@ -39,7 +39,6 @@ class VendorAdmin(admin.ModelAdmin):
     formfield_overrides = {
         models.TextField: {'widget': AdminMarkdownxWidget},
     }
-
     inlines = [VendorMediaInline, CourseInline, ]
     list_display = ('name',)
 
