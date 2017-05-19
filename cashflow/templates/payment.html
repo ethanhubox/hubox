@@ -42,7 +42,7 @@
         <p>商品金額：{{ item.item_total }}</p>
         <hr>
         {% endfor %}
-        <p>訂單金額：{{ ordering.cart.total }}</p>
+        <p>訂單金額：{{ ordering.total_amount }}</p>
       </div>
 
         <form class="add-merchant-form" action="https://core.spgateway.com/MPG/mpg_gateway" method="post">

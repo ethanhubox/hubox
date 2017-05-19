@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.db import models
 from ghoster.admin import GhosterAdmin
 from markdownx.widgets import AdminMarkdownxWidget
-from .models import Vendor, Catagory, Course, AvailableTime, VendorMedia, CourseMedia, Material, Ordering, UserProfile, UserSubscribe, IndexEdit, IndexRole, IndexVendor
+from .models import Vendor, Catagory, Course, AvailableTime, VendorMedia, CourseMedia, Material, Ordering, UserProfile, UserSubscribe, IndexEdit, IndexRole, IndexVendor, Voucher
 # Register your models here.
 
 
@@ -77,11 +77,17 @@ class OderingAdmin(admin.ModelAdmin):
     search_fields = ('user', 'order_number')
     list_display = ('order_number', 'user', 'total_amount')
 
+class IndexVendorAdmin(admin.ModelAdmin):
+    list_display = ('order', 'vendor', )
+
 class UserProfileAdmin(admin.ModelAdmin):
     list_display = ('user', 'phone', 'address')
 
 class UserSubscribeAdmin(admin.ModelAdmin):
-    list_display = ('user', 'vendor')
+    list_display = ('user', 'vendor',)
+
+class VoucherAdmin(admin.ModelAdmin):
+    list_display = ('serial_number', 'price')
 
 
 class IndexEditAdmin(admin.ModelAdmin):
@@ -97,6 +103,8 @@ class IndexRoleAdmin(admin.ModelAdmin):
 class IndexVendorAdmin(admin.ModelAdmin):
     list_display = ('order', 'vendor', )
 
+
+
 admin.site.register(Vendor, VendorAdmin)
 admin.site.register(Catagory, CatagoryAdmin)
 admin.site.register(Course, CourseAdmin)
@@ -105,6 +113,7 @@ admin.site.register(VendorMedia, VendorMediaAdmin)
 admin.site.register(CourseMedia, CourseMediaAdmin)
 admin.site.register(Material, MaterialAdmin)
 admin.site.register(Ordering, OderingAdmin)
+admin.site.register(Voucher, VoucherAdmin)
 admin.site.register(UserProfile, UserProfileAdmin)
 admin.site.register(UserSubscribe, UserSubscribeAdmin)
 admin.site.register(IndexEdit, IndexEditAdmin)

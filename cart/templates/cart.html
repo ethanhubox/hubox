@@ -24,6 +24,15 @@
   button, input, select, textarea {
     color: black;
   }
+
+  input.voucher-input{
+    width: 30%;
+  }
+
+  .voucher-btn{
+    width: 20%;
+  }
+
 </style>
 
 {% endblock %}
@@ -65,9 +74,20 @@
             </div>
           </div>
           {% endfor %}
-          <div class="member-order-record-info-item no-item"></div>
-          <div class="member-order-record-info-item total">總金額：<span class="total">{{ cart.total }}</span></div>
-          <button type="button" class="member-order-check-btn" onclick="window.location='{% url "payment" %}';">結帳</button>
+          <div class="ordering-check">
+            <div class="member-order-record-info-item no-item"></div>
+            <div class="voucher-div">
+              <form class="voucher-form" action="{% url 'cart' %}" method="post">
+                {% csrf_token %}
+                <input type="text" class="voucher-input" name="voucher" value="" placeholder="使用折價券">
+                <button type="submit" class="member-order-check-btn voucher-btn">送出</button>
+              </form>
+              <div class="voucher-added">已使用折價券 <span><i class="fa fa-times" aria-hidden="true"></i></span></div>
+            </div>
+            <div class="member-order-record-info-item total">總金額：<span class="total">{{ cart.total }}</span></div>
+            <button type="button" class="member-order-check-btn" onclick="window.location='{% url "payment" %}';">結帳</button>
+          </div>
+
       </div>
     </div>
     </div>
@@ -82,8 +102,20 @@
 <script type="text/javascript">
 if ($('span.total').text() == 0) {
   $('.no-item').html("購物車目前沒有物品")
+  $('.voucher-div').hide()
   $('.member-order-check-btn').hide()
 
+}
+
+if ("{{cart.voucher}}" == 'None') {
+  $('form.voucher-form').show()
+  $(".voucher-added").hide()
+} else {
+  $('form.voucher-form').hide()
+  $(".voucher-added").show()
+  var before = {{ cart.total }}
+  var after = {{ cart.total }} - {{ cart.voucher.price }}
+  $('span.total').html('<del>' + before + '</del> ' + after)
 }
 
 function getCookie(name) {
@@ -131,6 +163,8 @@ $('button.delete-{{forloop.counter}}').click(function (event) {
       if ($('span.total').text() == 0) {
         $('.no-item').html("購物車目前沒有物品")
         $('.member-order-check-btn').hide()
+        $('#open-button').html('<i class="fa fa-bars"></i>')
+        $('.voucher-form').hide()
       } else {
         $('.no-item').html()
         $('.member-order-check-btn').show()
@@ -145,6 +179,7 @@ $('button.delete-{{forloop.counter}}').click(function (event) {
             cartItemCount.hide()
           } else {
             cartItemCount.text(data.count).show()
+            $('#open-button').html('。<i class="fa fa-bars"></i>')
           }
         },
         error: function(data) {
@@ -158,6 +193,54 @@ $('button.delete-{{forloop.counter}}').click(function (event) {
     }
   })
 })
+$('button.voucher-btn').click(function (event) {
+  event.preventDefault()
+  $.ajax({
+    type: "POST",
+    url: "{% url "cart" %}",
+    data: $('form.voucher-form').serialize(),
+    success: function(data) {
+      if (data["data"] !== 'error') {
+        if ( data["data"] !== "applied") {
+          $('.voucher-form').hide()
+          $(".voucher-added").show()
+          var before = Number($('span.total').text())
+          var after = before - data["data"]
+          console.log(after)
+          $('span.total').html('<del>' + before + '</del> ' + after)
+
+        } else {
+          $('.voucher-input').val('')
+          $('.voucher-input').attr("placeholder", "序號已被使用")
+        }
+
+      }
+    },
+    error: function(data) {
+      console.log('error')
+    }
+  })
+})
+
+$('.fa-times').click(function () {
+  $.ajax({
+    type: "POST",
+    url: "{% url "cart" %}",
+    data: {"data":"delete_voucher"},
+    success: function(data) {
+      if (data["data"] == "delete_voucher") {
+        $('.voucher-form').show()
+        $(".voucher-added").hide()
+        $('span.total').text('{{ cart.total }}')
+      }
+    },
+    error: function(data) {
+      console.log('error')
+    }
+  })
+
+})
+
 {% endfor %}
 </script>
 

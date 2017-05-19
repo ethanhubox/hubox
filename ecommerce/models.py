@@ -214,6 +214,15 @@ PAYMENT_CHOICE = (
 )
 
 
+class Voucher(models.Model):
+    serial_number = models.CharField(max_length=200, unique=True)
+    price = models.PositiveIntegerField()
+    aply = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.serial_number
+
+
 from cart.models import Cart
 class Ordering(models.Model):
     order_number = models.CharField(max_length=200, blank=True)
@@ -223,6 +232,7 @@ class Ordering(models.Model):
     payment = models.BooleanField(default=False)
     payment_choice = models.CharField(max_length=20, choices=PAYMENT_CHOICE, blank=True)
     timestamp = models.DateTimeField(auto_now_add=True)
+    voucher = models.ForeignKey(Voucher, null=True, blank=True)
 
     def __str__(self):
         return str(self.user)

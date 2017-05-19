@@ -12,7 +12,7 @@ from django.conf import settings
 
 from .forms import PaymentForm
 
-from ecommerce.models import Ordering
+from ecommerce.models import Ordering, Voucher
 from cart.models import Cart
 from hubox.custom_exceptions import OverfulfilException, OurOfDateException
 
@@ -34,14 +34,19 @@ def payment(request):
     if request.user.is_authenticated():
         cart.user = request.user
         cart.save()
-    total_amount = cart.total
+
+    if cart.voucher:
+        total_amount = cart.total - cart.voucher.price
+    else:
+        total_amount = cart.total
+
 
     for item in cart.cartitem_set.all():
         if item.available_time.quota < item.participants_number:
             messages.error(request, '{}課程已額滿'.format(item.available_time.course.name))
             return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
-    ordering = Ordering.objects.create(cart=cart, user=request.user, total_amount=total_amount)
+    ordering = Ordering.objects.create(cart=cart, user=request.user, total_amount=total_amount, voucher=cart.voucher)
 
 
     form.fields['MerchantID'].initial = 'MS39344778'
@@ -124,14 +129,17 @@ def finish_order(request):
                         ordering.payment_choice = '超商繳款'
 
                     ordering.save()
+                    voucher = ordering.voucher
+                    voucher.aply = True
+                    voucher.save()
 
                     cart_item = ordering.cart.cartitem_set.all()
+                    item_string = ''
                     for item in cart_item:
-                        item_string = ''
                         item_string += "\n" + item.available_time.course.name + " " + item.available_time.date.strftime("%Y-%m-%d %H:%M") + " " + item.available_time.start_time.strftime("%H:%M") + "～" + item.available_time.end_time.strftime("%H:%M") + " " + str(item.participants_number) + "人"
 
                     with open(os.path.join(BASE_DIR, 'cashflow', 'templates') + '/order_mail.txt', 'w') as content:
-                        content.write("訂單資訊：" + "\n訂單編號：" + ordering.order_number + "\n會員：" + str(ordering.user) + "\n聯絡電話：" + ordering.user.userprofile.phone + "\n聯絡地址：" + ordering.user.userprofile.address + "\n訂單內容：" + item_string)
+                        content.write("訂單資訊：" + "\n訂單編號：" + ordering.order_number + "\n會員：" + str(ordering.user) + "\n聯絡電話：" + ordering.user.userprofile.phone + "\n聯絡地址：" + ordering.user.userprofile.address + "\n訂單內容：" + item_string + "\n訂單金額：" + str(ordering.total_amount))
                     if ordering.payment == True:
                         with open(os.path.join(BASE_DIR, 'cashflow', 'templates') + '/order_mail.txt', "a") as append_content:
                             append_content.write("\n繳費狀態：已繳費")

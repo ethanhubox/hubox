@@ -2,12 +2,13 @@ from django.db import models
 from django.db.models.signals import pre_save, post_save, post_delete, pre_delete
 
 from django.contrib.auth.models import User
-from ecommerce.models import AvailableTime
+from ecommerce.models import AvailableTime, Voucher
 # Create your models here.
 
 class Cart(models.Model):
     user = models.ForeignKey(User, null=True, blank=True)
     total = models.PositiveIntegerField(default=0)
+    voucher = models.ForeignKey(Voucher, null=True, blank=True)
 
     def __str__(self):
         return str(self.user)

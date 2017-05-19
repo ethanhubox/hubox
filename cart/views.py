@@ -3,6 +3,7 @@ from django.http import JsonResponse
 
 from .models import Cart, CartItem
 from .forms import CartItemForm
+from ecommerce.models import Voucher
 # Create your views here.
 
 def cart(request):
@@ -35,6 +36,23 @@ def cart(request):
 
             return JsonResponse({'update_total':update_total})
 
+    if request.is_ajax() and request.POST.get('voucher', ''):
+        serial_number = request.POST.get('voucher', '')
+        try:
+            voucher = Voucher.objects.get(serial_number=serial_number)
+            if voucher.aply == True:
+                return JsonResponse({"data":"applied"})
+            else:
+                cart.voucher = voucher
+                cart.save()
+            return JsonResponse({"data":voucher.price})
+        except:
+            return JsonResponse({"data":"error"})
+
+    if request.is_ajax() and request.POST.get('data', '') == "delete_voucher":
+        cart.voucher = None
+        cart.save()
+        return JsonResponse({"data":"delete_voucher"})
 
     context = {
         'cart': cart

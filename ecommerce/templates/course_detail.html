@@ -587,10 +587,9 @@ td.day.disabled {
           success: function(data) {
             if (data.count == 0 ){
               cartItemCount.hide()
-              console.log('ss')
             } else {
               cartItemCount.text(data.count).show()
-              console.log('ff')
+              $('#open-button').html('。<i class="fa fa-bars"></i>')
             }
           },
           error: function(data) {

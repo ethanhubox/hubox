@@ -190,6 +190,7 @@ $(document).ready(function() {
           cartItemCount.hide()
         } else {
           cartItemCount.text(data.count).show()
+          $('#open-button').html('。<i class="fa fa-bars"></i>')
         }
       },
       error: function(data) {
