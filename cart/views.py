@@ -28,31 +28,35 @@ def cart(request):
             cart_item.participants_number = participants_number
             cart_item.save()
 
-        if request.POST.get('delete', '') and request.is_ajax():
-            delete_pk = request.POST.get('delete', '')
-            delete_item = CartItem.objects.get(pk=delete_pk)
-            update_total = cart.total - delete_item.item_total
-            delete_item.delete()
+        if request.is_ajax():
+            if request.POST.get('delete', ''):
+                delete_pk = request.POST.get('delete', '')
+                delete_item = CartItem.objects.get(pk=delete_pk)
+                update_total = cart.total - delete_item.item_total
+                delete_item.delete()
 
-            return JsonResponse({'update_total':update_total})
+                return JsonResponse({'update_total':update_total})
 
-    if request.is_ajax() and request.POST.get('voucher', ''):
-        serial_number = request.POST.get('voucher', '')
-        try:
-            voucher = Voucher.objects.get(serial_number=serial_number)
-            if voucher.aply == True:
-                return JsonResponse({"data":"applied"})
-            else:
-                cart.voucher = voucher
+            elif request.POST.get('voucher', ''):
+                print(request.POST)
+                serial_number = request.POST.get('voucher', '')
+                try:
+                    voucher = Voucher.objects.get(serial_number=serial_number)
+                    if voucher.aply == True:
+                        return JsonResponse({"data":"applied"})
+                    else:
+                        cart.voucher = voucher
+                        cart.save()
+                        return JsonResponse({"data":voucher.price})
+                except:
+                    return JsonResponse({"data":"error"})
+
+            elif request.POST.get('data', '') == "delete_voucher":
+                cart.voucher = None
                 cart.save()
-            return JsonResponse({"data":voucher.price})
-        except:
-            return JsonResponse({"data":"error"})
-
-    if request.is_ajax() and request.POST.get('data', '') == "delete_voucher":
-        cart.voucher = None
-        cart.save()
-        return JsonResponse({"data":"delete_voucher"})
+                return JsonResponse({"data":"delete_voucher"})
+            else:
+                return JsonResponse({"data":"error"})
 
     context = {
         'cart': cart

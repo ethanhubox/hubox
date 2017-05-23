@@ -13,6 +13,8 @@
 {% block title %}關於Hubox{% endblock %}
 
 {% block css %}
+<link href="{% static "css/mediaelementplayer.css" %}" rel="stylesheet">
+
 <style>
 .about-cover-section{
   background-image: url("{% static "img/about-us-cover.jpg" %}");
@@ -89,7 +91,16 @@
 {% endblock %}
 
 {% block js %}
-<script src="{% static "js/parallax.min.js" %}"></script>
+
+<script src="{% static "js/mediaelement-and-player.js" %}"></script>
+
+<script>
+    $('.parallax-window').parallax({
+        naturalWidth: 1280,
+        naturalHeight: 720,
+        bleed: 100
+    });
+</script>
 
 <script>
 $(function() {

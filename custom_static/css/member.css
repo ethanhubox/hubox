@@ -229,6 +229,7 @@
 .member-order-record-info-item,.member-tracking-record-info-item{
   font-size: 18px;
   padding: 5px 0px;
+  font-weight: 600;
 }
 .member-order-check-btn{
     height: 50px;
@@ -357,6 +358,12 @@
   .member-info-tab-container .tab-content{
     padding: 15px;
   }
+  .voucher-div{
+    text-align: center;
+  }
+  .voucher-cehck-out-info-holder{
+    text-align: center;
+  }
 }
 
 @media screen and (max-width:575px){
@@ -384,6 +391,21 @@
     height: 40px;
     line-height: 30px;
   }
+  .voucher-form .voucher-input{
+    width: 50%;
+    height: 40px !important;
+    font-size: 10px;
+    margin-bottom: 0px;
+  }
+  .voucher-form .voucher-btn{
+    width: 20% !important;
+  }
+  .voucher-added{
+    font-size: 15px;
+  }
+  .voucher-cehck-out-info-holder .member-order-record-info-item{
+    font-size: 15px;
+  }
 }
 
 @media screen and (max-width:400px){
@@ -397,20 +419,40 @@
     font-size: 12px;
 }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*member-info ends here*/
+/*voucher-starts-here*/
+/*.voucher-div{
+ border-top: 2px solid #fff;
+}*/
+.voucher-form{
+  padding: 10px 0px;
+}
+.voucher-form button{
+  line-height: 10px;
+}
+.voucher-form input{
+  height: 50px !important;
+}
+.voucher-form .voucher-input{
+  width: 30%;
+  margin-bottom: 15px;
+}
+.voucher-added{
+  font-size: 18px;
+  padding: 5px 0px;
+  font-weight: 600;
+}
+.voucher-added span{
+  margin: 0px 5px;
+  color:#ff6800;
+}
+.voucher-form .voucher-btn{
+  width: 10%;
+  background:#ff6800;
+  border: 2px solid #ff6800;
+  font-size: 15px;
+}
+.voucher-cehck-out-info-holder{
+
+}
+/*voucher-ends-here*/

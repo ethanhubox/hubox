@@ -39,60 +39,66 @@
 
 
 {% block content %}
-
-
 <div class="content-wrap member-info-background-img">
   <section class="member-info-background">
     <div class="member-info-tab-container">
       <div class="tab-content">
-      <div role="tabpanel" class="tab-pane fade active in" id="personalInfo">
-        <div class="member-order-row-container">
-          {% for item in cart.cartitem_set.all %}
-          <div class="member-order-record-row-{{forloop.counter}}">
-            <div class="member-order-record-img-holder col-md-5">
-              <img src="{{ item.available_time.course.coursemedia_set.all.0.file.url }}"/>
+        <div role="tabpanel" class="tab-pane fade active in" id="personalInfo">
+          <div class="member-order-row-container">
+            {% for item in cart.cartitem_set.all %}
+            <div class="member-order-record-row-{{forloop.counter}}">
+              <div class="member-order-record-img-holder col-md-5">
+                <img src="{{ item.available_time.course.coursemedia_set.all.0.file.url }}"/>
+              </div>
+              <div class="member-order-record-info-holder col-md-7">
+                {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                <div class="member-order-record-info-title">{{ item.available_time.course.name }}</div>
+                <div class="member-order-record-info-item">體驗時段：{{ item.available_time.date|date:"Y年m月d日" }} {{ item.available_time.start_time|date:"H:i" }} ~ {{ item.available_time.end_time|date:"H:i" }}</div>
+                <div class="member-order-record-info-item">參加人數：{{ item.participants_number }}人</div>
+                <div class="member-order-record-info-item">金額：{{ item.item_total }}</div>
+                <div class="member-order-record-info-btn">
+                  <form class="delete-{{forloop.counter}}" action="{% url 'cart' %}" method="post">
+                    {% csrf_token %}
+                    <input type="checkbox" name="delete" value="{{ item.pk }}" checked hidden>
+                    <button type="submit" class="member-order-check-btn delete-{{forloop.counter}}">刪除</button>
+                  </form>
+                </div>
+              </div>
             </div>
-            <div class="member-order-record-info-holder col-md-7">
-              {% if messages %}
-              <ul class="messages">
-                  {% for message in messages %}
-                  <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                  {% endfor %}
-              </ul>
-              {% endif %}
-              <div class="member-order-record-info-title">{{ item.available_time.course.name }}</div>
-              <div class="member-order-record-info-item">體驗時段：{{ item.available_time.date|date:"Y年m月d日" }} {{ item.available_time.start_time|date:"H:i" }} ~ {{ item.available_time.end_time|date:"H:i" }}</div>
-              <div class="member-order-record-info-item">參加人數：{{ item.participants_number }}人</div>
-              <div class="member-order-record-info-item">金額：{{ item.item_total }}</div>
-              <div class="member-order-record-info-btn">
-                <form class="delete-{{forloop.counter}}" action="{% url 'cart' %}" method="post">
+            {% endfor %}
+            <div class="ordering-check">
+              <div class="member-order-record-info-item no-item"></div>
+              <div class="voucher-div">
+                <form class="voucher-form" action="{% url 'cart' %}" method="post">
                   {% csrf_token %}
-                  <input type="checkbox" name="delete" value="{{ item.pk }}" checked hidden>
-                  <button type="submit" class="member-order-check-btn delete-{{forloop.counter}}">刪除</button>
+                  <input type="text" class="voucher-input" name="voucher" value="" placeholder="使用折價券">
+                  <button type="submit" class="member-order-check-btn voucher-btn">送出</button>
                 </form>
+                <div class="voucher-added">恭喜您，已成功完成折價<span><i class="fa fa-times" aria-hidden="true"></i></span></div>
+              </div>
+              <div class="voucher-cehck-out-info-holder">
+              <div class="member-order-record-info-item total">
+                總金額：<span class="total">{{ cart.total }}</span>
+              </div>
+              <div class="member-order-record-info-item after-total">
+                折價後金額：<span class="after-total"></span>
+              </div>
+              <button type="button" class="member-order-check-btn" onclick="window.location='{% url "payment" %}';">結帳</button>
               </div>
             </div>
           </div>
-          {% endfor %}
-          <div class="ordering-check">
-            <div class="member-order-record-info-item no-item"></div>
-            <div class="voucher-div">
-              <form class="voucher-form" action="{% url 'cart' %}" method="post">
-                {% csrf_token %}
-                <input type="text" class="voucher-input" name="voucher" value="" placeholder="使用折價券">
-                <button type="submit" class="member-order-check-btn voucher-btn">送出</button>
-              </form>
-              <div class="voucher-added">已使用折價券 <span><i class="fa fa-times" aria-hidden="true"></i></span></div>
-            </div>
-            <div class="member-order-record-info-item total">總金額：<span class="total">{{ cart.total }}</span></div>
-            <button type="button" class="member-order-check-btn" onclick="window.location='{% url "payment" %}';">結帳</button>
-          </div>
-
+        </div>
       </div>
-    </div>
     </div>
   </section>
 </div>
+
 
 {% endblock %}
 
@@ -104,18 +110,21 @@ if ($('span.total').text() == 0) {
   $('.no-item').html("購物車目前沒有物品")
   $('.voucher-div').hide()
   $('.member-order-check-btn').hide()
+  $('div.after-total').hide()
 
 }
 
 if ("{{cart.voucher}}" == 'None') {
   $('form.voucher-form').show()
   $(".voucher-added").hide()
+  $("div.after-total").hide()
 } else {
   $('form.voucher-form').hide()
   $(".voucher-added").show()
   var before = {{ cart.total }}
   var after = {{ cart.total }} - {{ cart.voucher.price }}
-  $('span.total').html('<del>' + before + '</del> ' + after)
+  $('span.after-total').html(after)
+  $("div.after-total").show()
 }
 
 function getCookie(name) {
@@ -200,20 +209,24 @@ $('button.voucher-btn').click(function (event) {
     url: "{% url "cart" %}",
     data: $('form.voucher-form').serialize(),
     success: function(data) {
+
+
       if (data["data"] !== 'error') {
         if ( data["data"] !== "applied") {
+          console.log(data["data"])
           $('.voucher-form').hide()
           $(".voucher-added").show()
           var before = Number($('span.total').text())
           var after = before - data["data"]
-          console.log(after)
-          $('span.total').html('<del>' + before + '</del> ' + after)
+          $('span.after-total').html(after)
 
         } else {
           $('.voucher-input').val('')
           $('.voucher-input').attr("placeholder", "序號已被使用")
         }
 
+      } else {
+        console.log('error')
       }
     },
     error: function(data) {
@@ -231,7 +244,7 @@ $('.fa-times').click(function () {
       if (data["data"] == "delete_voucher") {
         $('.voucher-form').show()
         $(".voucher-added").hide()
-        $('span.total').text('{{ cart.total }}')
+        $('span.after-total').text('')
       }
     },
     error: function(data) {
