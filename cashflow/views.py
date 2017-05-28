@@ -179,7 +179,7 @@ def cancel_ordering(request):
         if request.POST.get("username", '') == request.user.username:
             ordering = get_object_or_404(Ordering, user=request.user, pk=int(request.POST.get("ordering", '')))
             ordering.delete()
-            return HttpResponseRedirect(reverse('user_profile'))
+            return HttpResponseRedirect(reverse('profile'))
 
     context = {
         "ordering": ordering,

@@ -21,15 +21,24 @@ from django.contrib import admin
 from . import views
 
 urlpatterns = [
-    url(r'^about/$', views.about, name="about"),
-    url(r'^join/$', views.join, name="join"),
-    url(r'^BingSiteAuth.xml$', views.seo, name="seo"),
     url(r'^system_admin/', admin.site.urls),
-    url(r'^accounts/', include('allauth.urls')),
+
     url(r'^', include('ecommerce.urls')),
     url(r'^cashflow/', include('cashflow.urls')),
     url(r'^cart/', include('cart.urls')),
+    url(r'^userprofile/', include('userprofile.urls')),
+    url(r'^courseorder/', include('courseorder.urls')),
+
+
+    url(r'^about/$', views.about, name="about"),
+    url(r'^join/$', views.join, name="join"),
     url(r'^policy/', include('index.urls')),
+
+
+    url(r'^accounts/', include('allauth.urls')),
     url(r'^markdownx/', include('markdownx.urls')),
+
+
+    url(r'^BingSiteAuth.xml$', views.seo, name="seo"),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

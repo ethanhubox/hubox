@@ -348,9 +348,14 @@ td.day.disabled {
             <div class="modal-body">
                 <div class="course-page-date-collapse-container">
                     <div class="datePicker"><input class="date-input" type="hidden" value=""/></div>
-                    <form class="ordering-form" id="submit-form" action="{% url "cart" %}" method="post">
+                    <form class="ordering-form" id="submit-form" action="{% url "course_check_out" %}" method="post">
 
                       {% csrf_token %}
+                      {% if messages %}
+                          {% for message in messages %}
+                            <p>{{ message }}</p>
+                          {% endfor %}
+                      {% endif %}
                       {{ form.non_field_errors }}
                       {% for field in form %}
                       {{ field.errors }}
@@ -539,69 +544,69 @@ td.day.disabled {
 
   })
 
-
-  function getCookie(name) {
-      var cookieValue = null;
-      if (document.cookie && document.cookie !== '') {
-          var cookies = document.cookie.split(';');
-          for (var i = 0; i < cookies.length; i++) {
-              var cookie = jQuery.trim(cookies[i]);
-              // Does this cookie string begin with the name we want?
-              if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                  cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                  break;
-              }
-          }
-      }
-      return cookieValue;
-  }
-  var csrftoken = getCookie('csrftoken');
-
-  function csrfSafeMethod(method) {
-      // these HTTP methods do not require CSRF protection
-      return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-  }
-  $.ajaxSetup({
-      beforeSend: function(xhr, settings) {
-          if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-              xhr.setRequestHeader("X-CSRFToken", csrftoken);
-          }
-      }
-  });
-
-  $('input.btn.btn-primary.btn-lg').click(function (event) {
-    event.preventDefault()
-
-    $.ajax({
-      type:"POST",
-      url: "{% url "cart" %}",
-      data: $('.ordering-form').serialize(),
-      success: function(data) {
-        console.log('item added')
-        $('#ModalBuy').modal('hide');
-        var cartItemCount = $('.cart-item-count')
-
-        $.ajax({
-          type:"GET",
-          url: "{% url "cart_item_count" %}",
-          success: function(data) {
-            if (data.count == 0 ){
-              cartItemCount.hide()
-            } else {
-              cartItemCount.text(data.count).show()
-              $('#open-button').html('。<i class="fa fa-bars"></i>')
-            }
-          },
-          error: function(data) {
-            console.log('error')
-          }
-        })
-      },
-      error: function(data) {
-        console.log('error')
-      }
-    })
-  })
+  //
+  // function getCookie(name) {
+  //     var cookieValue = null;
+  //     if (document.cookie && document.cookie !== '') {
+  //         var cookies = document.cookie.split(';');
+  //         for (var i = 0; i < cookies.length; i++) {
+  //             var cookie = jQuery.trim(cookies[i]);
+  //             // Does this cookie string begin with the name we want?
+  //             if (cookie.substring(0, name.length + 1) === (name + '=')) {
+  //                 cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+  //                 break;
+  //             }
+  //         }
+  //     }
+  //     return cookieValue;
+  // }
+  // var csrftoken = getCookie('csrftoken');
+  //
+  // function csrfSafeMethod(method) {
+  //     // these HTTP methods do not require CSRF protection
+  //     return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+  // }
+  // $.ajaxSetup({
+  //     beforeSend: function(xhr, settings) {
+  //         if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+  //             xhr.setRequestHeader("X-CSRFToken", csrftoken);
+  //         }
+  //     }
+  // });
+  //
+  // $('input.btn.btn-primary.btn-lg').click(function (event) {
+  //   event.preventDefault()
+  //
+  //   $.ajax({
+  //     type:"POST",
+  //     url: "{% url "cart" %}",
+  //     data: $('.ordering-form').serialize(),
+  //     success: function(data) {
+  //       console.log('item added')
+  //       $('#ModalBuy').modal('hide');
+  //       var cartItemCount = $('.cart-item-count')
+  //
+  //       $.ajax({
+  //         type:"GET",
+  //         url: "{% url "cart_item_count" %}",
+  //         success: function(data) {
+  //           if (data.count == 0 ){
+  //             cartItemCount.hide()
+  //           } else {
+  //             cartItemCount.text(data.count).show()
+  //             $('#open-button').html('。<i class="fa fa-bars"></i>')
+  //           }
+  //         },
+  //         error: function(data) {
+  //           console.log('error')
+  //         }
+  //       })
+  //     },
+  //     error: function(data) {
+  //       console.log('error')
+  //     }
+  //   })
+  // })
 
 
 

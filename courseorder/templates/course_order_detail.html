@@ -1,0 +1,140 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block meta_description %}{% endblock %}
+{% block author %}{% endblock %}
+
+{% block og_url %}{% endblock %}
+{% block og_title %}{% endblock %}
+{% block og_description %}{% endblock %}
+{% block og_image %}{% endblock %}
+
+{% block title %}{% endblock %}
+
+{% block css %}
+<style>
+.login-background-img {
+    height: 100vh;
+    background-image: url("{% static "img/login-background.jpg" %}");
+    background-size: cover;
+    background-position: center;
+}
+</style>
+{% endblock %}
+
+
+{% block content %}
+
+{% if not course_order.payment_choice %}
+<div class="login-background-img">
+  <div class="login-box-container">
+    <div class="login-box">
+      <div class="login-box-header"><h4>訂單內容</h4></div>
+      <div class="login-box-footer">
+        {% if messages %}
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+
+        <p>訂單編號：{{course_order.order_number}}</p>
+        <p>訂單內容：</p>
+        <hr>
+        <p>{{ course_order.available_time.course.vendor.name }}-{{ course_order.available_time.course.name }}</p>
+        <p>{{ course_order.available_time.date|date:"Y-m-d" }} {{ course_order.available_time.start_time|date:"H:i" }}～{{ course_order.available_time.end_time|date:"H:i" }}</p>
+        <p>參加人數：{{ course_order.participants_number }}</p>
+        <hr>
+        <p>訂單金額：{{ course_order.total_amount }}</p>
+        <form class="add-merchant-form" action="https://core.spgateway.com/MPG/mpg_gateway" method="post">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <button type="submit" class="primaryAction login-btn">前往付款</button>
+        </form>
+          <form class="cancel-order" action="{% url "cancel_course_order" %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="username" value="{{ request.user }}">
+            <input type="hidden" name="course_order" value="{{ course_order.pk }}">
+            <button type="submit" class="primaryAction login-btn">取消訂單</button>
+          </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% else %}
+<div class="login-background-img">
+  <div class="login-box-container">
+    <div class="login-box">
+      <div class="login-box-header"><h4>訂單內容</h4></div>
+      <div class="login-box-footer">
+        {% if messages %}
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+
+        <p>訂單編號：{{course_order.order_number}}</p>
+        <p>訂單內容：</p>
+        <hr>
+        <p>{{ course_order.available_time.course.vendor.name }}-{{ course_order.available_time.course.name }}</p>
+        <p>{{ course_order.available_time.date|date:"Y-m-d" }} {{ course_order.available_time.start_time|date:"H:i" }}～{{ course_order.available_time.end_time|date:"H:i" }}</p>
+        <p>參加人數：{{ course_order.participants_number }}</p>
+        <hr>
+        <p>訂單金額：{{ course_order.total_amount }}</p>
+        <p>繳費方式：{{ course_order.payment_choice }}</p>
+        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#Modal">取消／更改訂單</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endif %}
+
+{% endblock %}
+
+{% block modal %}
+<div class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="Modal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-header-logo"><img src="{% static "img/logo.png" %}"></div>
+            </div>
+            <div class="modal-body">
+                <div class="corporate-form-container">
+                    <form method="POST" action="{% url "course_order_refund" %}">
+                      {% csrf_token %}
+                        <div class="form-group">
+                            <input type="hidden" class="form-control" placeholder="請輸入您的帳號" name="usermane" required value="{{ request.user }}">
+                            <p class="help-block text-danger"></p>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">電子郵件</label>
+                            <input type="email" class="form-control" placeholder="請輸入您的電子郵件" name="email" required value="{{ request.user.email }}">
+                            <p class="help-block text-danger"></p>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">聯絡電話</label>
+                            <input type="tel" class="form-control" placeholder="請輸入您的聯絡電話" name="phone" required value="{{ request.user.userprofile.phone }}">
+                            <p class="help-block text-danger"></p>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">取消原因</label>
+                            <textarea rows="4" class="form-control" placeholder="請告訴我們您為什麼希望取消" name="message"></textarea>
+                            <p class="help-block text-danger"></p>
+                        </div>
+                        <input type="hidden" class="form-control" name="order_number" required value="{{ course_order.order_number }}">
+                        <div class="corporate-submit-btn-holder">
+                            <button type="submit" class="btn btn-primary btn-block">送出</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block js %}{% endblock %}

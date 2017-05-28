@@ -208,10 +208,7 @@ class IndexVendor(models.Model):
     class Meta:
         ordering = ['order',]
 
-PAYMENT_CHOICE = (
-    ('信用卡', '信用卡'),
-    ('超商繳款', '超商繳款'),
-)
+
 
 
 class Voucher(models.Model):
@@ -222,6 +219,11 @@ class Voucher(models.Model):
     def __str__(self):
         return self.serial_number
 
+
+PAYMENT_CHOICE = (
+    ('信用卡', '信用卡'),
+    ('超商繳款', '超商繳款'),
+)
 
 from cart.models import Cart
 class Ordering(models.Model):

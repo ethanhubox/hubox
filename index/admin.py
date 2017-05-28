@@ -4,17 +4,17 @@ from markdownx.widgets import AdminMarkdownxWidget
 from .models import IndexPage, IndexBanner, MemberTerms, PrivacyPolicy, CatagoryPage, FAQ
 # Register your models here.
 
-# class IndexBannerInline(admin.TabularInline):
-#     model = IndexBanner
-#     extra = 0
-#
-#
-# class IndexPageAdmin(admin.ModelAdmin):
-#     inlines = [IndexBannerInline, ]
-#     list_display = ('name',)
-#
-# class IndexBannerAdmin(admin.ModelAdmin):
-#     list_display = ('index', 'banner')
+class IndexBannerInline(admin.TabularInline):
+    model = IndexBanner
+    extra = 0
+
+
+class IndexPageAdmin(admin.ModelAdmin):
+    inlines = [IndexBannerInline, ]
+    list_display = ('name',)
+
+class IndexBannerAdmin(admin.ModelAdmin):
+    list_display = ('index', 'banner')
 
 
 class MemberTermsAdmin(admin.ModelAdmin):
@@ -41,8 +41,8 @@ class CatagoryPageAdmin(admin.ModelAdmin):
     }
     list_display = ('title', )
 
-# admin.site.register(IndexPage, IndexPageAdmin)
-# admin.site.register(IndexBanner, IndexBannerAdmin)
+admin.site.register(IndexPage, IndexPageAdmin)
+admin.site.register(IndexBanner, IndexBannerAdmin)
 admin.site.register(MemberTerms, MemberTermsAdmin)
 admin.site.register(PrivacyPolicy, PrivacyPolicyAdmin)
 admin.site.register(FAQ, FAQAdmin)

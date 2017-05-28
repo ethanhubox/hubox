@@ -279,7 +279,6 @@ $.ajaxSetup({
 
 $('.vendor-page-follow-btn').click(function (event) {
   event.preventDefault()
-  console.log('af');
   $.ajax({
     type: "POST",
     url: "{% url "subscribe_ajax" %}",
@@ -296,7 +295,6 @@ $('.vendor-page-follow-btn').click(function (event) {
 });
 
 var description = $('.vendor-page-intro-container').text()
-console.log(description)
 $("meta[property='og\\:description']").attr("content", description);
 
 

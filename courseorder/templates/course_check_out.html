@@ -1,0 +1,153 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block meta_description %}{% endblock %}
+{% block author %}{% endblock %}
+
+{% block og_url %}{% endblock %}
+{% block og_title %}{% endblock %}
+{% block og_description %}{% endblock %}
+{% block og_image %}{% endblock %}
+
+{% block title %}{% endblock %}
+
+{% block css %}
+<style>
+.login-background-img {
+    height: 100vh;
+    background-image: url("{% static "img/login-background.jpg" %}");
+    background-size: cover;
+    background-position: center;
+}
+
+.check-out input.voucher-input {
+  width:75%;
+}
+
+.check-out .member-order-check-btn {
+  width:20%;
+}
+
+.voucher-added {
+  display: none;
+}
+</style>
+{% endblock %}
+
+
+{% block content %}
+
+
+<div class="login-background-img">
+  <div class="login-box-container">
+    <div class="login-box">
+      <div class="login-box-header"><h4>確認訂單資訊</h4></div>
+      <div class="login-box-header message"><h6></h6></div>
+      <form class="check-out-form" method="POST" action="{% url "create_order" %}">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        <div class="login-box-header"><h6>名字</h6></div>
+        {{ form.name.errors }}
+        {{ form.name }}
+        <div class="login-box-header"><h6>電話</h6></div>
+        {{ form.phone.errors }}
+        {{ form.phone }}
+        <div class="login-box-header"><h6>地址</h6></div>
+        {{ form.address.errors }}
+        {{ form.address }}
+        {{ form.voucher }}
+        {{ form.available_time }}
+        {{ form.participants_number }}
+        <button type="submit" class="primaryAction login-btn">送出</button>
+      </form>
+      <div class="voucher-div">
+        <form class="check-out voucher-form" action="" method="post">
+          {% csrf_token %}
+          <input type="text" class="voucher-input" name="voucher" value="" placeholder="使用折價券">
+          <button type="submit" class="member-order-check-btn voucher-btn">送出</button>
+        </form>
+        <div class="voucher-added">恭喜您，已成功完成折價<span><i class="fa fa-times" aria-hidden="true"></i></span></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}
+
+{% block modal %}{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+  var check = true;
+
+  $('.primaryAction').click(function (event) {
+    event.preventDefault()
+    $('form.check-out-form').find("input:not(#id_voucher)").each(function() {
+      if (this.value == "") {
+        check = false;
+        $('.message').text('請填寫所有資訊')
+      }
+    })
+    console.log(check)
+    if (check == true) {
+      $('form.check-out-form').submit();
+    }
+    check = true;
+
+  })
+
+
+
+
+$('button.voucher-btn').click(function (event) {
+  event.preventDefault()
+  $.ajax({
+    type: "POST",
+    url: "{% url "voucher_check" %}",
+    data: $('form.voucher-form').serialize(),
+    success: function(data) {
+      if (data["status"] == 'ok') {
+        console.log('ok')
+        $('#id_voucher').val(data["voucher"])
+        $('.voucher-form').hide()
+        $(".voucher-added").show()
+      } else if ( data["status"] == 'applied' ) {
+        console.log('applied')
+        $('.voucher-input').val('')
+        $('.voucher-input').attr("placeholder", "序號已被使用")
+      } else if ( data["status"] == '404' ) {
+        console.log('404')
+        $('.voucher-input').val('')
+        $('.voucher-input').attr("placeholder", "序號錯誤")
+      } else if ( data["status"] == 'no_serial' ) {
+        console.log('no_serial')
+        $('.voucher-input').val('')
+        $('.voucher-input').attr("placeholder", "請輸入序號")
+      } else {
+        console.log('dk_error')
+        $('.voucher-input').val('')
+        $('.voucher-input').attr("placeholder", "序號錯誤")
+      }
+      },
+    error: function(data) {
+      console.log('ajax_error')
+    }
+  })
+})
+
+
+$('.fa-times').click(function () {
+  $('.voucher-form').show()
+  $(".voucher-added").hide()
+  $('#id_voucher').val('')
+})
+
+
+</script>
+
+
+
+{% endblock %}

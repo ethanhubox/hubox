@@ -1,0 +1,201 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load i18n %}
+
+{% block meta_description %}{% endblock %}
+{% block author %}{% endblock %}
+
+{% block og_url %}{% endblock %}
+{% block og_title %}{% endblock %}
+{% block og_description %}{% endblock %}
+{% block og_image %}{% endblock %}
+
+{% block title %}{% endblock %}
+
+{% block css %}
+
+
+    <!-- member page css -->
+    <link href="{% static "css/member.css" %}" rel="stylesheet">
+
+
+    <!-- resposive css -->
+    <link href="{% static "css/responsive-m.css" %}" rel="stylesheet">
+
+{% endblock %}
+
+{% block cover_page %}{% endblock %}
+
+{% block content %}
+<div class="content-wrap member-info-background-img">
+  <section class="member-info-background">
+    <div class="member-info-tab-container">
+      <!-- Tab nav starts here-->
+      <div class="member-info-tab-nav-container">
+          <ul class="nav nav-tabs" id="myTabs" role="tablist">
+              <li role="presentation" class="active">
+                  <a href="#personalInfo" aria-controls="intro" role="tab" data-toggle="tab">個人資訊</a>
+              </li>
+              <li role="presentation">
+                  <a href="#orderInfo" aria-controls="others" role="tab" data-toggle="tab">我的訂單</a>
+              </li>
+              <li role="presentation">
+                  <a href="#trackingList" aria-controls="comments" role="tab" data-toggle="tab">我的追蹤</a>
+              </li>
+          </ul>
+      </div>
+      <!-- Tab nav ends here-->
+      <!-- Tab panes starts here-->
+      <div class="tab-content">
+        <div role="tabpanel" class="tab-pane fade active in" id="personalInfo">
+          <div class="member-profile-holder">
+            {% if user.socialaccount_set.all %}
+            <div class="member-profile-img-holder"><img src="{{ user.socialaccount_set.all.0.get_avatar_url }}"/></div>
+            <div class="member-profile-name">{{ user.socialaccount_set.all.0.extra_data.name }}</div>
+            {% else %}
+            <div class="member-profile-img-holder"><img src="{% static "img/icon2.jpg" %}"/></div>
+            <div class="member-profile-name">{{ user.profile.name }}</div>
+            {% endif %}
+          </div>
+          <div class="member-personal-detail-holder">
+             <div class="member-personal-detail-item">帳號：{{ user.username }}</div>
+             <div class="member-personal-detail-item">電子郵件：{{ user.email }}</div>
+             <div class="member-personal-detail-item">聯絡電話：{{ user.profile.phone }}</div>
+             <div class="member-personal-detail-item">帳單地址：{{ user.profile.address }}</div>
+             <button type="button" class="member-order-comment-btn" onclick="window.location='{% url "account_change_password" %}'"="">修改密碼</button>
+          </div>
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="orderInfo">
+          <div class="member-order-row-container">
+            {% for ordering in ordering %}
+            <div class="member-order-record-row">
+              <div class="member-order-record-img-holder col-md-5">
+                <img src="{{ ordering.cart.cartitem_set.all.0.available_time.course.coursemedia_set.all.0.file.url }}"/>
+              </div>
+              <div class="member-order-record-info-holder col-md-7">
+                <div class="member-order-record-info-title">{{ ordering.course.name }}</div>
+                <div class="member-order-record-info-item">訂購編號：{{ ordering.order_number }}</div>
+                <div class="member-order-record-info-item">訂購日期：{{ ordering.timestamp|date:"Y年m月d日" }}</div>
+                <div class="member-order-record-info-item">訂購金額：{{ ordering.total_amount }}</div>
+                <div class="member-order-record-info-item">繳費方式：{{ ordering.payment_choice }}</div>
+                <div class="member-order-record-info-item">訂單狀態：{% if ordering.payment %}已繳費{% else %}尚未繳費{% endif %}</div>
+                <div class="member-order-record-info-btn">
+                  <button type="submit" class="member-order-check-btn" onclick="window.location='{{ ordering.get_absolute_url }}'">查看</button>
+                  <button type="submit" class="member-order-comment-btn" disabled="">評論</button>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="trackingList">
+          <div class="member-tracking-row-container">
+            {% for subscribe in subscribe %}
+            <div class="member-tracking-record-row">
+              <div class="member-tracking-record-img-holder col-md-4">
+                <a href="{{ subscribe.vendor.get_absolute_url }}"><img src="{{ subscribe.vendor.logo.url }}"/></a>
+              </div>
+              <div class="member-tracking-record-info-holder col-md-8">
+                <div class="member-tracking-record-info-title"><a href="{{ subscribe.vendor.get_absolute_url }}">{{ subscribe.vendor.name }}</a></div>
+                <div class="member-tracking-record-info-item">所有學習：{{ subscribe.vendor.course_set.all|length }}種</div>
+                <div class="member-tracking-record-info-item">追蹤人數：{{ subscribe.vendor.subscribe_number }}人</div>
+                <div class="member-tracking-record-info-item">粉絲評鑑：5則</div>
+                <div class="member-tracking-record-info-btn">
+                  <button type="submit" class="member-tracking-check-btn" onclick="window.location='{{ subscribe.vendor.get_absolute_url }}';">查看最新學習</button>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      <!-- Tab panes ends here-->
+    </div>
+  </section>
+</div>
+
+{% endblock %}
+
+{% block modal %}{% endblock %}
+
+{% block js %}
+
+<script>
+    function init() {
+        window.addEventListener('scroll', function(e) {
+            var distanceY = window.pageYOffset || document.documentElement.scrollTop,
+                shrinkOn = 300,
+                header = document.querySelector(".m-nav-container");
+            if (distanceY > shrinkOn) {
+                classie.add(header, "m-nav-container-onscroll");
+            } else {
+                if (classie.has(header, "m-nav-container-onscroll")) {
+                    classie.remove(header, "m-nav-container-onscroll");
+                }
+            }
+        });
+    }
+    window.onload = init();
+</script>
+
+
+<script type="text/javascript">
+
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+var csrftoken = getCookie('csrftoken');
+
+function csrfSafeMethod(method) {
+    // these HTTP methods do not require CSRF protection
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+$.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+    }
+});
+
+
+
+$('.member-pass-change-btn').click(function (event) {
+  event.preventDefault();
+  console.log('ff')
+  $.ajax({
+    type:"POST",
+    url: "{% url 'account_change_password' %}",
+    data: $('.member-pass-change-form').serialize(),
+    success: function(data) {
+      $(".form-message").text('修改成功，下次請用新密碼登入')
+      $(".member-pass-change-form").hide()
+    },
+    error: function(data) {
+      $(".form-message").text('修改失敗，請再次輸入資料')
+      $('input').val('');
+    }
+  })
+
+})
+</script>
+
+
+{% endblock %}
+
+<p>{{ user }}</p>
+<p>{{ ordering }}</p>
+<p>{{ subscribe }}</p>

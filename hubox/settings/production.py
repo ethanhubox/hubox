@@ -45,6 +45,9 @@ INSTALLED_APPS = [
     'cashflow',
     'cart',
     'index',
+    'userprofile',
+    'courseorder',
+    'itemorder',
 
 
     # django-allauth

@@ -17,6 +17,8 @@ from django.conf import settings
 from hubox.settings import BASE_DIR
 from django.core.mail import send_mail
 
+
+from courseorder.forms import CoursePreOrderForm
 # Create your views here.
 
 def index(request):
@@ -94,25 +96,6 @@ def vendor_detail(request, pk):
 
     return render(request, 'vendor_detail.html', context)
 
-def subscribe_ajax(request):
-    vendor = get_object_or_404(Vendor, pk=request.POST.get("vendor", 0))
-    if request.user.is_authenticated():
-        user = request.user
-        if request.method == "POST" and request.is_ajax():
-            subscribe, created = UserSubscribe.objects.get_or_create(user=user, vendor=vendor)
-            if created == False:
-                subscribe.delete()
-                subscribe = "加入追蹤"
-                vendor.subscribe_number -= 1
-                vendor.save()
-            else:
-                subscribe = "已追蹤"
-                vendor.subscribe_number += 20
-                vendor.save()
-    else:
-        subscribe = "尚未登入"
-    return JsonResponse({'subscribe': subscribe})
-
 def course_list(request):
     catagory = Catagory.objects.all()
     try:
@@ -136,25 +119,9 @@ def course_detail(request, pk):
 
     gte_date = course.availabletime_set.filter(date__gte=datetime.datetime.now())[:3]
 
-    form = CartItemForm()
+    form = CoursePreOrderForm()
     # form.fields['material'].queryset = materials
     form.fields['available_time'].queryset = all_available_time
-
-    if request.method == "POST":
-        form = OrderingForm(request.POST)
-        if form.is_valid():
-            instance = form.save(commit=False)
-            instance.user = request.user
-            instance.vendor = course.vendor
-            instance.course = course
-            instance.total_amount = course.price + material_price
-            instance.save()
-
-            return HttpResponseRedirect(instance.get_absolute_url())
-        else:
-            form = OrderingForm(request.POST)
-            # form.fields['material'].queryset = materials
-            form.fields['available_time'].queryset = all_available_time
 
     context = {
     'course':course,
@@ -217,65 +184,6 @@ def ordering_detail(request, pk):
 
     return render(request, 'ordering_detail.html', context)
 
-@login_required
-def create_user_profile(request):
-    form = UserProfileForm()
-    try:
-        profile = request.user.userprofile
-        if request.GET.get('next',''):
-            return HttpResponseRedirect(request.GET.get('next',''))
-        else:
-            return HttpResponseRedirect(reverse('index'))
-    except:
-        if request.method == "POST":
-            form = UserProfileForm(request.POST)
-            if form.is_valid():
-                instance = form.save(commit=False)
-                instance.user = request.user
-                instance.save()
-                if request.GET.get('next',''):
-                    return HttpResponseRedirect(request.GET.get('next',''))
-                else:
-                    return HttpResponseRedirect(reverse('user_profile'))
-    context = {
-        'form': form,
-    }
-
-    return render(request, 'create_user_profile.html', context)
-
-@login_required
-def edit_user_profile(request):
-    form = UserProfileForm(instance=UserProfile.objects.get(user=request.user))
-    if request.method == "POST":
-        form = UserProfileForm(request.POST, instance=UserProfile.objects.get(user=request.user))
-        if form.is_valid():
-            instance = form.save(commit=False)
-            instance.user = request.user
-            instance.save()
-            return HttpResponseRedirect(request.GET.get('next',''))
-    context = {
-        'form': form,
-    }
-
-    return render(request, 'edit_user_profile.html', context)
-
-@login_required
-def user_profile(request):
-    user = request.user
-    ordering = user.ordering_set.all()
-    subscribe = user.usersubscribe_set.all()
-
-    if not UserProfile.objects.filter(user=user):
-        return HttpResponseRedirect(reverse('create_user_profile'))
-
-
-    context = {
-        'user': user,
-        'ordering': ordering,
-        'subscribe': subscribe,
-    }
-
-    return render(request, 'user_profile.html', context)
 
 def catagory_detail(request, pk):
     catagory = get_object_or_404(Catagory, pk=pk)
