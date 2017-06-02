@@ -41,22 +41,6 @@ def create_profile(request):
 
 @login_required
 def profile(request):
-    from ecommerce.models import Vendor, Catagory, VendorMedia, CourseMedia
-
-    course_media = CourseMedia.objects.all()
-    vendor_media = VendorMedia.objects.all()
-    vendor = Vendor.objects.all()
-    catagory = Catagory.objects.all()
-
-    for c in course_media:
-        c.save()
-    for c in vendor_media:
-        c.save()
-    for c in vendor:
-        c.save()
-    for c in catagory:
-        c.save()
-
     user = request.user
     course_order = user.courseorder_set.all()
     subscribe = user.subscribe_set.all()
