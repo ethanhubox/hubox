@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.db.models.signals import pre_save, post_save, post_delete, pre_delete
 from django.core.mail import send_mail
 from django.conf import settings
+from PIL import Image
 
 
 import datetime
@@ -112,6 +113,14 @@ class CourseMedia(models.Model):
         return str(self.file)
     class Meta:
         ordering = ['course', 'order']
+
+
+def course_media_post_save_receiver(sender, instance, created, *args, **kwargs):
+    image = Image.open(instance.file.path)
+    image.save(instance.file.path, quality=85, optimize=True)
+
+post_save.connect(course_media_post_save_receiver, sender=CourseMedia)
+
 
 class Material(models.Model):
     course = models.ForeignKey(Course)

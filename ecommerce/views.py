@@ -1,6 +1,6 @@
-from django.shortcuts import render, get_object_or_404, HttpResponseRedirect
+from django.shortcuts import render, get_object_or_404, HttpResponseRedirect, HttpResponse
 from django.http import JsonResponse
-from .models import Vendor, Course, Catagory, Ordering, IndexEdit, AvailableTime, UserSubscribe, UserProfile
+from .models import Vendor, Course, Catagory, Ordering, IndexEdit, AvailableTime, UserSubscribe, UserProfile, VendorMedia, CourseMedia
 from index.models import CatagoryPage
 from .forms import UserProfileForm
 from django.conf import settings
@@ -13,6 +13,7 @@ from cart.forms import CartItemForm
 from cashflow.forms import PaymentForm
 from Crypto.Hash import SHA256
 from django.conf import settings
+from PIL import Image
 
 from hubox.settings import BASE_DIR
 from django.core.mail import send_mail
@@ -194,8 +195,32 @@ def catagory_detail(request, pk):
 
     return render(request, 'catagory_detail.html', context)
 
-@login_required
-def certificate(request, pk):
-    ordering = get_object_or_404(Ordering, pk=pk)
-    if request.user != ordering.user:
-        messages.add_message(request, messages.INFO, '你並沒有購買這個課程的憑證')
+# @login_required
+# def certificate(request, pk):
+#     ordering = get_object_or_404(Ordering, pk=pk)
+#     if request.user != ordering.user:
+#         messages.add_message(request, messages.INFO, '你並沒有購買這個課程的憑證')
+
+
+def media_compress(request):
+    course_media = CourseMedia.objects.all()
+    vendor_media = VendorMedia.objects.all()
+    vendor = Vendor.objects.all()
+
+    # for c in course_media:
+    #     image = Image.open(c.file.path)
+    #     image.save(c.file.path, quality=85, optimize=True)
+    #
+    # for v in vendor_media:
+    #     image = Image.open(v.file.path)
+    #     image.save(v.file.path, quality=85, optimize=True)
+
+    for v in vendor:
+        image = Image.open(v.logo.path)
+        image.save(v.logo.path, quality=85, optimize=True)
+
+        image = Image.open(v.banner.path)
+        image.save(v.banner.path, quality=85, optimize=True)
+
+
+    return HttpResponse('success')

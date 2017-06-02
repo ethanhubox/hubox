@@ -8,5 +8,7 @@ urlpatterns = [
     url(r'^voucher_check/$', views.voucher_check, name='voucher_check'),
     url(r'^cancel_course_order/$', views.cancel_course_order, name='cancel_course_order'),
     url(r'^finish_course_order/$', views.finish_course_order, name='finish_course_order'),
-    url(r'^course_order_refund/$', views.course_order_refund, name='course_order_refund'),    
+    url(r'^course_order_refund/$', views.course_order_refund, name='course_order_refund'),
+    url(r'^course_order_detail/(?P<pk>\d+)/eticket/$', views.eticket, name='eticket'),
+    url(r'^copy_order/$', views.copy_order, name='copy_order'),
 ]

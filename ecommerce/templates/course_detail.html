@@ -348,9 +348,7 @@ td.day.disabled {
             <div class="modal-body">
                 <div class="course-page-date-collapse-container">
                     <div class="datePicker"><input class="date-input" type="hidden" value=""/></div>
-                    <form class="ordering-form" id="submit-form" action="{% url "course_check_out" %}" method="post">
-
-                      {% csrf_token %}
+                    <form class="ordering-form" id="submit-form" action="{% url "course_check_out" %}" method="GET">
                       {% if messages %}
                           {% for message in messages %}
                             <p>{{ message }}</p>

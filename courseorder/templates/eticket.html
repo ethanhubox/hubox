@@ -1,0 +1,68 @@
+{% load static %}
+
+
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<table width="615" height="880" border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<td colspan="7">
+					<img src="https://{{ host_name }}{% static "eticket/eticket_01.jpg" %}" width="615" height="131" alt=""></td>
+			</tr>
+			<tr>
+				<td style="padding:0px 30px 20px 30px;font-weight:700;font-size:19px;" colspan="7">
+					<p>訂單編號：{{ course_order.order_number }}
+						<br>課程日期：{{ course_order.available_time.date|date:"Y-m-d" }}
+						<br>課程時間：{{ course_order.available_time.start_time|date:"H:i" }} - {{ course_order.available_time.end_time|date:"H:i" }}
+						<br>課程內容：{{ course_order.available_time.course }}
+						<br>課程價格：NTD.{{ course_order.available_time.course.price }}
+						<br>訂購人數：{{ course_order.participants_number }}人
+						<br>課程地點：{{ course_order.available_time.course.address }}
+						<br>交通資訊：{{ course_order.available_time.course.mrt }}
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<img src="https://{{ host_name }}{% static "eticket/eticket_03.jpg" %}" width="93" height="29" alt=""></td>
+				<td colspan="5" style="padding:0px 5px;font-family:Comic Sans MS,cursive,ans-serif;font-weight:700;color:#736f6c;">{{ course_order.user }},</td>
+			</tr>
+			<tr>
+				<td colspan="7">
+					<img src="https://{{ host_name }}{% static "eticket/eticket_05.jpg" %}" width="615" height="279" alt=""></td>
+			</tr>
+			<tr>
+				<td colspan="6">
+					<img src="https://{{ host_name }}{% static "eticket/eticket_06.jpg" %}" width="400" height="28" alt=""></td>
+				<td rowspan="2">
+					<img src="https://{{ host_name }}{% static "eticket/eticket_07.jpg" %}" width="215" height="131" alt=""></td>
+			</tr>
+			<tr>
+				<td>
+					<img src="https://{{ host_name }}{% static "eticket/eticket_08.jpg" %}" width="32" height="103" alt=""></td>
+				<td colspan="2">
+					<a href="https://www.facebook.com/hubox.life/">
+						<img src="https://{{ host_name }}{% static "eticket/eticket_09.jpg" %}" width="77" height="103" border="0" alt=""></a>
+				</td>
+				<td>
+					<a href="https://www.instagram.com/hubox.life/">
+						<img src="https://{{ host_name }}{% static "eticket/eticket_10.jpg" %}" width="64" height="103" border="0" alt=""></a>
+				</td>
+				<td>
+					<a href="https://www.youtube.com/channel/UC4Emf5_O0w3J7T9aWyBKtzw">
+						<img src="https://{{ host_name }}{% static "eticket/eticket_11.jpg" %}" width="79" height="103" border="0" alt=""></a>
+				</td>
+				<td>
+					<img src="https://{{ host_name }}{% static "eticket/eticket_12.jpg" %}" width="148" height="103" alt=""></td>
+			</tr>
+			<tr>
+				<td colspan="7">
+					<img src="https://{{ host_name }}{% static "eticket/eticket_13.jpg" %}" width="615" height="55" alt=""></td>
+			</tr>
+		</table>
+
+	</body>
+</html>

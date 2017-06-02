@@ -81,6 +81,9 @@
         <p>{{ course_order.available_time.course.vendor.name }}-{{ course_order.available_time.course.name }}</p>
         <p>{{ course_order.available_time.date|date:"Y-m-d" }} {{ course_order.available_time.start_time|date:"H:i" }}～{{ course_order.available_time.end_time|date:"H:i" }}</p>
         <p>參加人數：{{ course_order.participants_number }}</p>
+        {% if course_order.pay_check %}
+        <p><a href="{% url "eticket" pk=course_order.pk %}">憑證</a></p>
+        {% endif %}
         <hr>
         <p>訂單金額：{{ course_order.total_amount }}</p>
         <p>繳費方式：{{ course_order.payment_choice }}</p>

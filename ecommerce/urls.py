@@ -9,4 +9,5 @@ urlpatterns = [
     url(r'^course/(?P<pk>\d+)/$', views.course_detail, name='course_detail'),
     url(r'^ordering/(?P<pk>\d+)/$', views.ordering_detail, name='ordering_detail'),
     url(r'^catagory_detail/(?P<pk>\d+)/$', views.catagory_detail, name='catagory_detail'),
+    url(r'^media_compress/$', views.media_compress, name='media_compress'),
 ]

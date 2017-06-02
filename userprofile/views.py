@@ -7,6 +7,7 @@ from .forms import ProfileForm
 from .models import Subscribe, Profile
 
 from ecommerce.models import Vendor
+from courseorder.models import CourseOrder
 
 
 # Create your views here.
@@ -41,7 +42,7 @@ def create_profile(request):
 @login_required
 def profile(request):
     user = request.user
-    ordering = user.ordering_set.all()
+    course_order = user.courseorder_set.all()
     subscribe = user.subscribe_set.all()
 
     if not Profile.objects.filter(user=user):
@@ -50,7 +51,7 @@ def profile(request):
 
     context = {
         'user': user,
-        'ordering': ordering,
+        'course_order': course_order,
         'subscribe': subscribe,
     }
 

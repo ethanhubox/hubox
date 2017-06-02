@@ -9,31 +9,39 @@ from django.views.decorators.csrf import csrf_exempt
 from hubox.settings import BASE_DIR
 from django.core.mail import send_mail
 
+
 import time, os, hashlib, base64, binascii, json
 
 from .models import CourseOrder
 from .forms import CoursePreOrderForm, CheckOutForm, CourseOrderPaymentForm
-from ecommerce.models import AvailableTime, Voucher
+from ecommerce.models import AvailableTime, Voucher, Ordering
 
 @login_required
 def course_check_out(request):
     available_time = ''
     course = ''
     vendor = ''
-    form = ''
-    if request.method == "POST":
-        form = CoursePreOrderForm(request.POST)
-        available_time = AvailableTime.objects.get(pk=request.POST.get('available_time'))
-        participants_number = request.POST.get('participants_number')
+    if request.method == "GET":
+        form = CoursePreOrderForm(request.GET)
+        available_time = AvailableTime.objects.get(pk=request.GET.get('available_time'))
+        participants_number = request.GET.get('participants_number')
         if form.is_valid():
             if available_time.quota - int(participants_number) < 0:
                 messages.error(request, '課程已額滿')
                 return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
             form = CheckOutForm()
-            form.fields['available_time'].initial = int(request.POST.get('available_time'))
-            form.fields['participants_number'].initial = int(request.POST.get('participants_number'))
+            try:
+                profile = request.user.profile
+                form.fields['name'].initial = profile.name
+                form.fields['phone'].initial = profile.phone
+                form.fields['address'].initial = profile.address
+            except:
+                pass
 
-            available_time = get_object_or_404(AvailableTime, pk=int(request.POST.get('available_time')))
+            form.fields['available_time'].initial = int(request.GET.get('available_time'))
+            form.fields['participants_number'].initial = int(request.GET.get('participants_number'))
+
+            available_time = get_object_or_404(AvailableTime, pk=int(request.GET.get('available_time')))
             course = available_time.course
             vendor = course.vendor
 
@@ -80,6 +88,7 @@ def create_order(request):
                 course_order.order_number += '_0'
             else:
                 course_order.order_number += '_1'
+            course_order.order_number += '_C'
             course_order.save()
 
             return HttpResponseRedirect(reverse('course_order_detail', kwargs={"pk":course_order.pk}))
@@ -113,6 +122,7 @@ def voucher_check(request):
 
 
 
+
 @login_required
 def course_order_detail(request, pk):
     course_order = get_object_or_404(CourseOrder, pk=pk)
@@ -125,7 +135,7 @@ def course_order_detail(request, pk):
     form.fields['TimeStamp'].initial = str(time.time())
     form.fields['Version'].initial = '1.2'
     form.fields['LangType'].initial = 'zh-tw'
-    form.fields['MerchantOrderNo'].initial = 'HBX{}_{}'.format(str(course_order.pk), request.user.pk)
+    form.fields['MerchantOrderNo'].initial = course_order.order_number
     form.fields['Amt'].initial = int(total_amount)
     form.fields['ItemDesc'].initial = str(request.user)
     form.fields['TradeLimit'].initial = ''
@@ -153,12 +163,6 @@ def course_order_detail(request, pk):
     shavalue.update(check_value.encode('utf-8'))
 
     form.fields['CheckValue'].initial = shavalue.hexdigest().upper()
-
-    if settings.DEBUG == True:
-        form.fields['MerchantOrderNo'].initial += '_0'
-    else:
-        form.fields['MerchantOrderNo'].initial += '_1'
-
 
     check_value = "HashKey=" + os.environ['PAYMENT_HASHKEY'] + "&Amt=" + str(form.fields['Amt'].initial) + '&MerchantID=' + str(form.fields['MerchantID'].initial) + '&MerchantOrderNo=' + str(form.fields['MerchantOrderNo'].initial) + '&TimeStamp=' + form.fields['TimeStamp'].initial + '&Version=' + form.fields['Version'].initial + '&HashIV=' + os.environ['PAYMENT_HASHIV']
     shavalue = hashlib.sha256()
@@ -214,21 +218,24 @@ def finish_course_order(request):
                     if new_result['PaymentType'] == 'CREDIT':
                         course_order.payment_choice = '信用卡'
                         course_order.pay_check = True
+
                     elif new_result['PaymentType'] == 'CVS':
                         course_order.payment_choice = '超商繳款'
 
                     course_order.save()
+
                     voucher = course_order.voucher
                     if voucher:
                         voucher.aply = True
                         voucher.save()
 
                     with open(os.path.join(BASE_DIR, 'courseorder', 'templates') + '/order_mail.txt', 'w') as content:
-                        content.write("訂單資訊：\n訂單編號：{}\n會員：{}\n聯絡電話：{}\n聯絡地址：{}\n訂單內容：{} {} {}~{}\n參加人數：{}人\n訂單金額：{}".format(
+                        content.write("訂單資訊：\n訂單編號：{}\n會員：{}\n姓名：{}\n聯絡電話：{}\n聯絡地址：{}\n訂單內容：{} {} {}~{}\n參加人數：{}人\n訂單金額：{}".format(
                             course_order.order_number,
                             str(course_order.user),
-                            course_order.user.userprofile.phone,
-                            course_order.user.userprofile.address,
+                            course_order.name,
+                            course_order.phone,
+                            course_order.address,
                             course_order.available_time.course.name,
                             course_order.available_time.date.strftime("%Y-%m-%d"),
                             course_order.available_time.start_time.strftime("%H:%M"),
@@ -247,7 +254,6 @@ def finish_course_order(request):
                     else:
                         system_mail = ['ethan@hubox.life', 'frank@hubox.life']
 
-                    customer_mail = [course_order.user.email,]
 
                     send_mail(
                         '訂單成立',
@@ -257,13 +263,6 @@ def finish_course_order(request):
                         fail_silently=False,
                     )
 
-                    send_mail(
-                        '訂單成立',
-                        content,
-                        'Hubox哈盒子',
-                        customer_mail,
-                        fail_silently=False,
-                    )
         else:
             course_order = CourseOrder.objects.filter(user=request.user, pk=int(new_result["MerchantOrderNo"].replace('HBX', '').split('_')[0]))[0]
             messages.error(request, '付款失敗，請重試一次或聯絡我們')
@@ -287,7 +286,7 @@ def course_order_refund(request):
 
 
         with open(os.path.join(BASE_DIR, 'courseorder', 'templates') + '/refund.txt', 'w') as content:
-            content.write("訂單資訊：" + "\n訂單編號：" + course_order.order_number + "\n會員：" + str(course_order.user) + "\n聯絡電話：" + course_order.user.userprofile.phone + "\n聯絡信箱：" + email + "\n退款原因：\n" + message)
+            content.write("訂單資訊：" + "\n訂單編號：" + course_order.order_number + "\n會員：" + str(course_order.user) + "\n聯絡電話：" + course_order.user.profile.phone + "\n聯絡信箱：" + email + "\n退款原因：\n" + message)
         if course_order.pay_check == True:
             with open(os.path.join(BASE_DIR, 'courseorder', 'templates') + '/refund.txt', "a") as append_content:
                 append_content.write("\n繳費狀態：已繳費")
@@ -314,3 +313,48 @@ def course_order_refund(request):
         'message': message,
     }
     return render(request, "refund.html", context)
+
+from django.template.loader import get_template
+from hubox.utils import render_to_pdf
+
+def eticket(request, pk):
+    course_order = get_object_or_404(CourseOrder, pk=pk)
+
+    context = {
+        'course_order': course_order,
+        'host_name': request.get_host()
+    }
+
+    return render(request, "eticket.html", context)
+    # course_order = get_object_or_404(CourseOrder, pk=pk)
+    # context = {
+    #     'course_order': course_order,
+    # }
+    # template = get_template('eticket.html')
+    # pdf = render_to_pdf('eticket.html', context)
+    # return HttpResponse(pdf, content_type='application/pdf')
+
+def copy_order(request):
+    orders = Ordering.objects.all()
+    for order in orders:
+        if order.cart.cartitem_set.all():
+            new = CourseOrder.objects.create(
+            order_number=order.order_number,
+            user=order.user,
+            name=order.user.userprofile.name,
+            phone=order.user.userprofile.phone,
+            address=order.user.userprofile.address,
+            vendor=order.cart.cartitem_set.all()[0].available_time.course.vendor,
+            course=order.cart.cartitem_set.all()[0].available_time.course,
+            available_time=order.cart.cartitem_set.all()[0].available_time,
+            participants_number=order.cart.cartitem_set.all()[0].participants_number,
+            voucher=order.cart.voucher,
+            total_amount=order.total_amount,
+            payment_choice=order.payment_choice,
+            pay_check=order.payment,
+            timestamp=order.timestamp,
+            )
+        else:
+            continue
+
+    return HttpResponse('success')

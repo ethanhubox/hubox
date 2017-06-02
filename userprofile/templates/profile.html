@@ -68,20 +68,20 @@
         </div>
         <div role="tabpanel" class="tab-pane fade" id="orderInfo">
           <div class="member-order-row-container">
-            {% for ordering in ordering %}
+            {% for course_order in course_order %}
             <div class="member-order-record-row">
               <div class="member-order-record-img-holder col-md-5">
-                <img src="{{ ordering.cart.cartitem_set.all.0.available_time.course.coursemedia_set.all.0.file.url }}"/>
+                <img src="{{ course_order.available_time.course.coursemedia_set.all.0.file.url }}"/>
               </div>
               <div class="member-order-record-info-holder col-md-7">
-                <div class="member-order-record-info-title">{{ ordering.course.name }}</div>
-                <div class="member-order-record-info-item">訂購編號：{{ ordering.order_number }}</div>
-                <div class="member-order-record-info-item">訂購日期：{{ ordering.timestamp|date:"Y年m月d日" }}</div>
-                <div class="member-order-record-info-item">訂購金額：{{ ordering.total_amount }}</div>
-                <div class="member-order-record-info-item">繳費方式：{{ ordering.payment_choice }}</div>
-                <div class="member-order-record-info-item">訂單狀態：{% if ordering.payment %}已繳費{% else %}尚未繳費{% endif %}</div>
+                <div class="member-order-record-info-title">{{ course_order.course.name }}</div>
+                <div class="member-order-record-info-item">訂購編號：{{ course_order.order_number }}</div>
+                <div class="member-order-record-info-item">訂購日期：{{ course_order.timestamp|date:"Y年m月d日" }}</div>
+                <div class="member-order-record-info-item">訂購金額：{{ course_order.total_amount }}</div>
+                <div class="member-order-record-info-item">繳費方式：{{ course_order.payment_choice }}</div>
+                <div class="member-order-record-info-item">訂單狀態：{% if course_order.pay_check %}已繳費{% else %}尚未繳費{% endif %}</div>
                 <div class="member-order-record-info-btn">
-                  <button type="submit" class="member-order-check-btn" onclick="window.location='{{ ordering.get_absolute_url }}'">查看</button>
+                  <button type="submit" class="member-order-check-btn" onclick="window.location='{{ course_order.get_absolute_url }}'">查看</button>
                   <button type="submit" class="member-order-comment-btn" disabled="">評論</button>
                 </div>
               </div>
@@ -195,7 +195,3 @@ $('.member-pass-change-btn').click(function (event) {
 
 
 {% endblock %}
-
-<p>{{ user }}</p>
-<p>{{ ordering }}</p>
-<p>{{ subscribe }}</p>

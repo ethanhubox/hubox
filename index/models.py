@@ -1,5 +1,7 @@
 from django.db import models
 
+from ecommerce.models import Vendor
+
 # Create your models here.
 class IndexPage(models.Model):
     name = models.CharField(max_length=50)
@@ -16,6 +18,25 @@ class IndexBanner(models.Model):
 
     def __str__(self):
         return str(self.banner)
+
+
+
+class IndexVendorRole(models.Model):
+    index = models.ForeignKey(IndexPage)
+    order = models.IntegerField(unique=True)
+    vendor = models.ForeignKey(Vendor)
+
+    def __str__(self):
+        return self.vendor.name
+
+    class Meta:
+        ordering = ['order',]
+
+
+
+
+
+
 
 class MemberTerms(models.Model):
     terms = models.TextField()

@@ -1,20 +1,27 @@
 from django.contrib import admin
 from django.db import models
 from markdownx.widgets import AdminMarkdownxWidget
-from .models import IndexPage, IndexBanner, MemberTerms, PrivacyPolicy, CatagoryPage, FAQ
+from .models import IndexPage, IndexBanner, IndexVendorRole, MemberTerms, PrivacyPolicy, CatagoryPage, FAQ
 # Register your models here.
 
 class IndexBannerInline(admin.TabularInline):
     model = IndexBanner
     extra = 0
 
+class IndexVendorRoleInline(admin.TabularInline):
+    model = IndexVendorRole
+    extra = 0
+
 
 class IndexPageAdmin(admin.ModelAdmin):
-    inlines = [IndexBannerInline, ]
+    inlines = [IndexBannerInline, IndexVendorRoleInline, ]
     list_display = ('name',)
 
 class IndexBannerAdmin(admin.ModelAdmin):
     list_display = ('index', 'banner')
+
+class IndexVendorRoleAdmin(admin.ModelAdmin):
+    list_display = ('index', 'order', 'vendor')
 
 
 class MemberTermsAdmin(admin.ModelAdmin):
