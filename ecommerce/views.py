@@ -206,21 +206,15 @@ def media_compress(request):
     course_media = CourseMedia.objects.all()
     vendor_media = VendorMedia.objects.all()
     vendor = Vendor.objects.all()
+    catagory = Catagory.objects.all()
 
     for c in course_media:
-        image = Image.open(c.file.path)
-        image.save(c.file.path, quality=85, optimize=True)
-
-    for v in vendor_media:
-        image = Image.open(v.file.path)
-        image.save(v.file.path, quality=85, optimize=True)
-
-    for v in vendor:
-        image = Image.open(v.logo.path)
-        image.save(v.logo.path, quality=85, optimize=True)
-
-        image = Image.open(v.banner.path)
-        image.save(v.banner.path, quality=85, optimize=True)
-
+        c.save()
+    for c in vendor_media:
+        c.save()
+    for c in vendor:
+        c.save()
+    for c in catagory:
+        c.save()
 
     return HttpResponse('success')

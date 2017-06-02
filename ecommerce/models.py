@@ -39,6 +39,15 @@ class Vendor(models.Model):
         return reverse('vendor_detail', kwargs={'pk':self.pk})
 
 
+def vendor_post_save_receiver(sender, instance, *args, **kwargs):
+    image = Image.open(instance.logo.path)
+    image.save(instance.logo.path, quality=85, optimize=True)
+
+    image = Image.open(instance.banner.path)
+    image.save(instance.banner.path, quality=85, optimize=True)
+
+post_save.connect(vendor_post_save_receiver, sender=Vendor)
+
 
 VENDOE_POSITION_CHOISES = (
 ('剪影', '剪影'),
@@ -60,6 +69,12 @@ class VendorMedia(models.Model):
     class Meta:
         ordering = ['vendor', 'position', 'order']
 
+def vendor_media_post_save_receiver(sender, instance, *args, **kwargs):
+    image = Image.open(instance.file.path)
+    image.save(instance.file.path, quality=85, optimize=True)
+
+post_save.connect(vendor_media_post_save_receiver, sender=VendorMedia)
+
 
 def catagory_upload(instance, filename):
     ext = filename.split('.')[-1]
@@ -75,6 +90,14 @@ class Catagory(models.Model):
 
     def __str__(self):
         return self.name
+
+def caragory_post_save_receiver(sender, instance, *args, **kwargs):
+    image = Image.open(instance.banner.path)
+    image.save(instance.banner.path, quality=85, optimize=True)
+
+post_save.connect(caragory_post_save_receiver, sender=Catagory)
+
+
 
 
 class Course(models.Model):
